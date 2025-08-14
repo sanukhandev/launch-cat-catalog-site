@@ -2,15 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Phone, MapPin, Clock } from "lucide-react";
 import { useConfig } from "../hooks/useConfig";
+import { useCategories } from "../hooks/useCategories";
 import { useI18n } from "../context/I18nContext";
 
 const Footer = () => {
-  const { getBrand, getCompany, getFooter, getCategories } = useConfig();
-  const { t } = useI18n();
+  const { getBrand, getCompany, getFooter } = useConfig();
+  const { categories } = useCategories();
+  const { t, currentLanguage } = useI18n();
   const brand = getBrand();
   const company = getCompany();
   const footer = getFooter();
-  const categories = getCategories();
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -99,19 +100,29 @@ const Footer = () => {
           {/* Product Categories */}
           <div>
             <h3 className="font-heading font-semibold text-lg mb-4">
-              {t("products.categories")}
+              {t("footer.categories")}
             </h3>
             <ul className="space-y-2">
-              {categories.map((category) => (
-                <li key={category.id}>
-                  <Link
-                    to={`/category/${category.slug}`}
-                    className="text-sm opacity-90 hover:opacity-100 hover:underline transition-opacity"
-                  >
-                    {category.name}
-                  </Link>
-                </li>
-              ))}
+              {categories.map((category) => {
+                // Get localized category name
+                const getCategoryName = () => {
+                  if (typeof category.name === 'object') {
+                    return category.name[currentLanguage] || category.name.en || category.name;
+                  }
+                  return category.name;
+                };
+                
+                return (
+                  <li key={category.id}>
+                    <Link
+                      to={`/category/${category.slug}`}
+                      className="text-sm opacity-90 hover:opacity-100 hover:underline transition-opacity"
+                    >
+                      {getCategoryName()}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
