@@ -21,7 +21,8 @@ import {
   CardTitle,
 } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import { useConfig } from "../hooks/useConfig";
+import { useProducts } from "../hooks/useProducts";
+import { useCategories } from "../hooks/useCategories";
 import { useI18n } from "../context/I18nContext";
 
 const Products = () => {
@@ -36,10 +37,17 @@ const Products = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { getProducts, getCategories, getCategoryName } = useConfig();
+  const { products } = useProducts();
+  const { categories } = useCategories();
   const { t, isRTL } = useI18n();
-  const products = getProducts();
-  const categories = getCategories();
+
+  // Helper function to get category name
+  const getCategoryName = (categoryId) => {
+    const category = categories.find((cat) => cat.id === categoryId);
+    return category
+      ? category.translatedName || category.name
+      : "Unknown Category";
+  };
 
   const itemsPerPage = 12;
 

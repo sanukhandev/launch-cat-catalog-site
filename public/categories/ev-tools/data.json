@@ -1,0 +1,34 @@
+{
+    "id": "ev-tools",
+    "name": "EV Tools",
+    "description": "Electric vehicle diagnostic and maintenance tools",
+    "icon": "Zap",
+    "featured": true,
+    "slug": "ev-tools",
+    "image": "/categories/ev-tools/category-image.jpg",
+    "bannerImage": "/categories/ev-tools/banner.jpg",
+    "seo": {
+        "title": "Electric Vehicle Diagnostic Tools | Launch Tech MENA",
+        "description": "Professional electric vehicle diagnostic and maintenance tools. EV battery testing, charging system diagnostics, and electric motor analysis.",
+        "keywords": [
+            "EV tools",
+            "electric vehicle diagnostics",
+            "EV battery tester",
+            "electric car tools"
+        ]
+    },
+    "features": [
+        "EV battery diagnostics",
+        "Charging system analysis",
+        "Electric motor testing",
+        "High voltage safety",
+        "Hybrid system diagnostics",
+        "Energy management analysis"
+    ],
+    "applications": [
+        "EV service centers",
+        "Hybrid specialists",
+        "Electric vehicle dealerships",
+        "Advanced automotive workshops"
+    ]
+}

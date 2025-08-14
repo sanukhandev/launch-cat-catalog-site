@@ -1,0 +1,34 @@
+{
+    "id": "battery-diagnostics",
+    "name": "Battery Diagnostics",
+    "description": "Battery testing, analysis, and maintenance tools for all vehicle types",
+    "icon": "Battery",
+    "featured": true,
+    "slug": "battery-diagnostics",
+    "image": "/categories/battery-diagnostics/category-image.jpg",
+    "bannerImage": "/categories/battery-diagnostics/banner.jpg",
+    "seo": {
+        "title": "Battery Diagnostic Tools & Testers | Launch Tech MENA",
+        "description": "Professional battery diagnostic tools and testers. Battery analyzers, load testers, and maintenance equipment for automotive workshops.",
+        "keywords": [
+            "battery diagnostics",
+            "battery tester",
+            "battery analyzer",
+            "automotive battery tools"
+        ]
+    },
+    "features": [
+        "Battery health analysis",
+        "Load testing capability",
+        "Conductance testing",
+        "Charging system analysis",
+        "Starter system testing",
+        "Digital display and reporting"
+    ],
+    "applications": [
+        "Automotive workshops",
+        "Battery service centers",
+        "Fleet maintenance",
+        "Mobile battery service"
+    ]
+}

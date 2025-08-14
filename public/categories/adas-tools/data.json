@@ -1,0 +1,34 @@
+{
+    "id": "adas-tools",
+    "name": "ADAS Tools",
+    "description": "Advanced Driver Assistance Systems calibration and diagnostic tools",
+    "icon": "Radar",
+    "featured": true,
+    "slug": "adas-tools",
+    "image": "/categories/adas-tools/category-image.jpg",
+    "bannerImage": "/categories/adas-tools/banner.jpg",
+    "seo": {
+        "title": "ADAS Calibration Tools & Equipment | Launch Tech MENA",
+        "description": "Professional ADAS calibration and diagnostic tools. Camera calibration, radar alignment, and advanced driver assistance system service equipment.",
+        "keywords": [
+            "ADAS tools",
+            "camera calibration",
+            "radar calibration",
+            "driver assistance systems"
+        ]
+    },
+    "features": [
+        "Camera calibration",
+        "Radar system alignment",
+        "Sensor calibration",
+        "ADAS system diagnostics",
+        "Static and dynamic calibration",
+        "Multi-brand coverage"
+    ],
+    "applications": [
+        "Collision repair shops",
+        "ADAS service centers",
+        "Car dealerships",
+        "Specialized ADAS workshops"
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "id": "diy-tools",
+    "name": "DIY Tools",
+    "description": "Consumer-grade diagnostic tools for DIY enthusiasts",
+    "icon": "Wrench",
+    "featured": false,
+    "slug": "diy-tools",
+    "image": "/categories/diy-tools/category-image.jpg",
+    "bannerImage": "/categories/diy-tools/banner.jpg",
+    "seo": {
+        "title": "DIY Car Diagnostic Tools | Launch Tech MENA",
+        "description": "Consumer-grade diagnostic tools for DIY car enthusiasts. Easy-to-use OBD scanners and diagnostic equipment for home mechanics.",
+        "keywords": [
+            "DIY tools",
+            "consumer diagnostic tools",
+            "home mechanic tools",
+            "OBD scanner for DIY"
+        ]
+    },
+    "features": [
+        "User-friendly interface",
+        "Basic OBD diagnostics",
+        "Code reading and clearing",
+        "Live data display",
+        "Battery and charging analysis",
+        "Vehicle health reports"
+    ],
+    "applications": [
+        "DIY car enthusiasts",
+        "Home mechanics",
+        "Car owners",
+        "Small repair shops"
+    ]
+}

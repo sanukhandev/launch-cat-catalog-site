@@ -1,0 +1,34 @@
+{
+    "id": "heavy-duty-diagnostics",
+    "name": "Heavy Duty Diagnostics",
+    "description": "Professional diagnostic solutions for trucks, buses, and commercial vehicles",
+    "icon": "Truck",
+    "featured": true,
+    "slug": "heavy-duty-diagnostics",
+    "image": "/categories/heavy-duty-diagnostics/category-image.jpg",
+    "bannerImage": "/categories/heavy-duty-diagnostics/banner.jpg",
+    "seo": {
+        "title": "Heavy Duty Truck Diagnostic Tools | Launch Tech MENA",
+        "description": "Professional heavy duty diagnostic scanners for trucks, buses, and commercial vehicles. Advanced diagnostics for fleet maintenance.",
+        "keywords": [
+            "heavy duty diagnostics",
+            "truck scanner",
+            "commercial vehicle diagnostics",
+            "fleet maintenance"
+        ]
+    },
+    "features": [
+        "Heavy duty vehicle coverage",
+        "Engine diagnostics",
+        "Transmission diagnostics",
+        "ABS and brake systems",
+        "Emission system testing",
+        "DPF regeneration"
+    ],
+    "applications": [
+        "Truck service centers",
+        "Fleet maintenance",
+        "Commercial workshops",
+        "Bus maintenance"
+    ]
+}

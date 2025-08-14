@@ -26,6 +26,7 @@ const CategoryPage = () => {
     categories,
     loading: categoriesLoading,
     getCategoryById,
+    getCategoryBySlug,
     getCategoryProducts,
   } = useCategories();
   const { t, isRTL } = useI18n();
@@ -37,10 +38,11 @@ const CategoryPage = () => {
     const loadCategoryData = () => {
       if (categoriesLoading) return;
 
-      // Find category by slug or id
-      const foundCategory = categories.find(
-        (cat) => cat.slug === categorySlug || cat.id === categorySlug
-      );
+      // Find category by slug first, then by id
+      let foundCategory = getCategoryBySlug(categorySlug);
+      if (!foundCategory) {
+        foundCategory = getCategoryById(categorySlug);
+      }
 
       if (!foundCategory) {
         setLoading(false);
@@ -61,7 +63,13 @@ const CategoryPage = () => {
     };
 
     loadCategoryData();
-  }, [categorySlug, categories, categoriesLoading, getCategoryProducts]);
+  }, [
+    categorySlug,
+    categoriesLoading,
+    getCategoryBySlug,
+    getCategoryById,
+    getCategoryProducts,
+  ]);
 
   // Use translated category data
   const categoryName = category?.translatedName || category?.name || "";

@@ -1,0 +1,34 @@
+{
+    "id": "immo-tools",
+    "name": "IMMO Tools",
+    "description": "Immobilizer programming and key coding solutions",
+    "icon": "Key",
+    "featured": true,
+    "slug": "immo-tools",
+    "image": "/categories/immo-tools/category-image.jpg",
+    "bannerImage": "/categories/immo-tools/banner.jpg",
+    "seo": {
+        "title": "Immobilizer Programming Tools & Key Coding | Launch Tech MENA",
+        "description": "Professional immobilizer programming and key coding tools. IMMO bypass, key programming, and security system tools for locksmiths and workshops.",
+        "keywords": [
+            "IMMO tools",
+            "key programming",
+            "immobilizer bypass",
+            "automotive security tools"
+        ]
+    },
+    "features": [
+        "Key programming",
+        "Immobilizer bypass",
+        "Remote control programming",
+        "Security system diagnostics",
+        "ECU immobilizer reset",
+        "Anti-theft system service"
+    ],
+    "applications": [
+        "Automotive locksmiths",
+        "Security specialists",
+        "Car dealerships",
+        "Independent workshops"
+    ]
+}

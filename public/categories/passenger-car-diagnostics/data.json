@@ -1,0 +1,34 @@
+{
+    "id": "passenger-car-diagnostics",
+    "name": "Passenger Car Diagnostics",
+    "description": "Advanced diagnostic tools for passenger vehicles including OBD scanners, system-specific diagnostics, and multi-brand coverage",
+    "icon": "Car",
+    "featured": true,
+    "slug": "passenger-car-diagnostics",
+    "image": "/categories/passenger-car-diagnostics/category-image.jpg",
+    "bannerImage": "/categories/passenger-car-diagnostics/banner.jpg",
+    "seo": {
+        "title": "Passenger Car Diagnostic Tools | Launch Tech MENA",
+        "description": "Professional passenger car diagnostic scanners and tools. OBD-II scanners, multi-brand coverage, and advanced diagnostics for workshops.",
+        "keywords": [
+            "passenger car diagnostics",
+            "OBD scanner",
+            "car diagnostic tools",
+            "automotive scanner"
+        ]
+    },
+    "features": [
+        "OBD-II and OBD-I compatibility",
+        "Multi-brand vehicle coverage",
+        "Live data streaming",
+        "Code reading and clearing",
+        "System-specific diagnostics",
+        "Bi-directional controls"
+    ],
+    "applications": [
+        "Independent workshops",
+        "Service centers",
+        "Mobile diagnostics",
+        "Fleet maintenance"
+    ]
+}

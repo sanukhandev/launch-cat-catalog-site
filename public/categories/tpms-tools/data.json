@@ -1,0 +1,34 @@
+{
+    "id": "tpms-tools",
+    "name": "TPMS Tools",
+    "description": "Tire Pressure Monitoring System programming and diagnostic equipment",
+    "icon": "Gauge",
+    "featured": true,
+    "slug": "tpms-tools",
+    "image": "/categories/tpms-tools/category-image.jpg",
+    "bannerImage": "/categories/tpms-tools/banner.jpg",
+    "seo": {
+        "title": "TPMS Programming Tools & Equipment | Launch Tech MENA",
+        "description": "Professional TPMS programming and diagnostic tools. Tire pressure sensor programming, TPMS reset, and diagnostic equipment.",
+        "keywords": [
+            "TPMS tools",
+            "tire pressure monitoring",
+            "TPMS programming",
+            "tire sensor tools"
+        ]
+    },
+    "features": [
+        "TPMS sensor programming",
+        "Sensor activation and testing",
+        "TPMS reset procedures",
+        "Multi-frequency support",
+        "OE and universal sensors",
+        "Real-time diagnostics"
+    ],
+    "applications": [
+        "Tire service centers",
+        "Automotive workshops",
+        "Mobile tire services",
+        "Car dealerships"
+    ]
+}

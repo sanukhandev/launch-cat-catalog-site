@@ -1,38 +1,33 @@
 import { useState, useEffect } from 'react';
-import { useConfig } from './useConfig';
+import { useProducts } from './useProducts';
+import { useCategoriesFile } from './useCategoriesFile';
 import { useI18n } from '../context/I18nContext';
 
 export const useCategories = () => {
-    const { getCategories, getProducts } = useConfig();
+    const { products } = useProducts();
+    const {
+        categories,
+        loading,
+        error,
+        getFeaturedCategories: getFileFeaturedCategories,
+        getCategoryById: getFileCategoryById,
+        getCategoryBySlug: getFileCategoryBySlug
+    } = useCategoriesFile();
     const { t } = useI18n();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const categories = getCategories();
-    const products = getProducts();
 
     // Get featured categories with translations
     const getFeaturedCategories = () => {
-        return categories
-            .filter(category => category.featured || true)
-            .map(category => ({
-                ...category,
-                translatedName: t(`categories.${category.id}.name`, category.name),
-                translatedDescription: t(`categories.${category.id}.description`, category.description)
-            }));
+        return getFileFeaturedCategories();
     };
 
     // Get category by ID with translations
     const getCategoryById = (categoryId) => {
-        const category = categories.find(category => category.id === categoryId);
-        if (category) {
-            return {
-                ...category,
-                translatedName: t(`categories.${category.id}.name`, category.name),
-                translatedDescription: t(`categories.${category.id}.description`, category.description)
-            };
-        }
-        return null;
+        return getFileCategoryById(categoryId);
+    };
+
+    // Get category by slug with translations
+    const getCategoryBySlug = (slug) => {
+        return getFileCategoryBySlug(slug);
     };
 
     // Get products for a specific category
@@ -42,11 +37,7 @@ export const useCategories = () => {
 
     // Get all categories with translations
     const getCategoriesWithTranslations = () => {
-        return categories.map(category => ({
-            ...category,
-            translatedName: t(`categories.${category.id}.name`, category.name),
-            translatedDescription: t(`categories.${category.id}.description`, category.description)
-        }));
+        return categories;
     };
 
     return {
@@ -55,6 +46,7 @@ export const useCategories = () => {
         error,
         getFeaturedCategories,
         getCategoryById,
+        getCategoryBySlug,
         getCategoryProducts
     };
 };

@@ -31,7 +31,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "../components/ui/tabs";
-import { useConfig } from "../hooks/useConfig";
+import { useProducts } from "../hooks/useProducts";
 import { useI18n } from "../context/I18nContext";
 
 const ProductDetail = () => {
@@ -40,7 +40,7 @@ const ProductDetail = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [relatedProducts, setRelatedProducts] = useState([]);
 
-  const { getProductBySlug, getProductsByCategory, formatPrice } = useConfig();
+  const { getProductBySlug, getProductsByCategory } = useProducts();
   const { t, formatPrice: i18nFormatPrice, isRTL } = useI18n();
 
   useEffect(() => {
