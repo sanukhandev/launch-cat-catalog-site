@@ -1,10 +1,20 @@
 import { useState, useEffect } from 'react';
 import siteConfig from '../config/siteConfig.json';
+import { useProducts } from './useProducts';
 
 export const useConfig = () => {
   const [config, setConfig] = useState(siteConfig);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Use the new products hook
+  const {
+    products: dynamicProducts,
+    loading: productsLoading,
+    searchProducts: searchDynamicProducts,
+    getProductBySlug: getDynamicProductBySlug,
+    getProductsByCategory: getDynamicProductsByCategory
+  } = useProducts();
 
   // Helper functions to get specific parts of config
   const getBrand = () => config.brand;
@@ -12,14 +22,17 @@ export const useConfig = () => {
   const getNavigation = () => config.navigation;
   const getHero = () => config.hero;
   const getCategories = () => config.categories;
-  const getProducts = () => config.products;
+
+  // Use dynamic products instead of static ones
+  const getProducts = () => dynamicProducts;
+
   const getTestimonials = () => config.testimonials;
   const getAbout = () => config.about;
   const getFooter = () => config.footer;
 
-  // Get product by slug
+  // Get product by slug - use dynamic products
   const getProductBySlug = (slug) => {
-    return config.products.find(product => product.slug === slug);
+    return getDynamicProductBySlug(slug);
   };
 
   // Get category by slug
@@ -27,9 +40,9 @@ export const useConfig = () => {
     return config.categories.find(category => category.slug === slug);
   };
 
-  // Get products by category
+  // Get products by category - use dynamic products
   const getProductsByCategory = (categoryId) => {
-    return config.products.filter(product => product.categoryId === categoryId);
+    return getDynamicProductsByCategory(categoryId);
   };
 
   // Get category name by id
@@ -43,21 +56,14 @@ export const useConfig = () => {
     return `AED ${price.toLocaleString()}`;
   };
 
-  // Search products
+  // Search products - use dynamic search
   const searchProducts = (query) => {
-    if (!query.trim()) return config.products;
-    
-    const lowerQuery = query.toLowerCase();
-    return config.products.filter(product =>
-      product.title.toLowerCase().includes(lowerQuery) ||
-      product.sku.toLowerCase().includes(lowerQuery) ||
-      product.shortDescription.toLowerCase().includes(lowerQuery)
-    );
+    return searchDynamicProducts(query);
   };
 
   return {
     config,
-    loading,
+    loading: loading || productsLoading,
     error,
     getBrand,
     getCompany,

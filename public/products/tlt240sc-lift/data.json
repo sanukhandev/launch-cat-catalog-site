@@ -1,0 +1,63 @@
+{
+    "id": "tlt240sc-lift",
+    "title": "TLT240SC Two Post Lift",
+    "slug": "tlt240sc-lift",
+    "sku": "LT-TLT240SC",
+    "price": 4200,
+    "inStock": true,
+    "categoryId": "two-post-lift",
+    "images": [
+        "/products/tlt240sc-lift/image1.jpg",
+        "/products/tlt240sc-lift/image2.jpg"
+    ],
+    "shortDescription": "Heavy-duty two post lift with 4.0 ton capacity, perfect for professional workshops.",
+    "longDescription": "A robust two-post automotive lift for service centers. With a 4.0-ton capacity and precise engineering, it provides safe and reliable vehicle lifting for maintenance and repair operations.",
+    "specs": [
+        {
+            "label": "Capacity",
+            "value": "4.0 tons"
+        },
+        {
+            "label": "Max Height",
+            "value": "1950mm"
+        },
+        {
+            "label": "Min Height",
+            "value": "150mm"
+        },
+        {
+            "label": "Power",
+            "value": "3.0kW"
+        },
+        {
+            "label": "Voltage",
+            "value": "380V/50Hz"
+        },
+        {
+            "label": "Lifting Time",
+            "value": "45 seconds"
+        },
+        {
+            "label": "Safety Features",
+            "value": "Auto-lock, Emergency stop"
+        },
+        {
+            "label": "Warranty",
+            "value": "2 years"
+        }
+    ],
+    "downloads": [
+        {
+            "name": "Installation Guide",
+            "url": "/products/tlt240sc-lift/installation-guide.pdf"
+        },
+        {
+            "name": "Technical Specs",
+            "url": "/products/tlt240sc-lift/technical-specs.pdf"
+        },
+        {
+            "name": "Safety Manual",
+            "url": "/products/tlt240sc-lift/safety-manual.pdf"
+        }
+    ]
+}

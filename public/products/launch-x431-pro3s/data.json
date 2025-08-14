@@ -1,0 +1,63 @@
+{
+    "id": "launch-x431-pro3s",
+    "title": "Launch X431 PRO3S+",
+    "slug": "launch-x431-pro3s",
+    "sku": "LT-X431-PRO3S",
+    "price": 2850,
+    "inStock": true,
+    "categoryId": "scanners",
+    "images": [
+        "/products/launch-x431-pro3s/image1.jpg",
+        "/products/launch-x431-pro3s/image2.jpg"
+    ],
+    "shortDescription": "Professional automotive diagnostic scanner with comprehensive vehicle coverage and advanced functions.",
+    "longDescription": "The Launch X431 PRO3S+ is a state-of-the-art automotive diagnostic scanner designed for professional workshops. With comprehensive vehicle coverage and advanced functions including fault-code operations, live data, actuation tests, and special functions.",
+    "specs": [
+        {
+            "label": "Weight",
+            "value": "1.2kg"
+        },
+        {
+            "label": "Dimensions",
+            "value": "245x155x35mm"
+        },
+        {
+            "label": "Display",
+            "value": "10.1 inch IPS touchscreen"
+        },
+        {
+            "label": "Operating System",
+            "value": "Android 7.0"
+        },
+        {
+            "label": "Battery",
+            "value": "7000mAh"
+        },
+        {
+            "label": "Vehicle Coverage",
+            "value": "150+ Makes"
+        },
+        {
+            "label": "Languages",
+            "value": "30+ Languages"
+        },
+        {
+            "label": "Connectivity",
+            "value": "Wi-Fi, Bluetooth"
+        }
+    ],
+    "downloads": [
+        {
+            "name": "Product Brochure",
+            "url": "/products/launch-x431-pro3s/brochure.pdf"
+        },
+        {
+            "name": "User Manual",
+            "url": "/products/launch-x431-pro3s/manual.pdf"
+        },
+        {
+            "name": "Vehicle Coverage List",
+            "url": "/products/launch-x431-pro3s/coverage.pdf"
+        }
+    ]
+}

@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import useEmblaCarousel from 'embla-carousel-react';
-import { Button } from './ui/button';
-import { Card, CardContent } from './ui/card';
-import { useConfig } from '../hooks/useConfig';
+import React, { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import useEmblaCarousel from "embla-carousel-react";
+import { Button } from "./ui/button";
+import { Card, CardContent } from "./ui/card";
+import { useConfig } from "../hooks/useConfig";
 
 const Hero = () => {
   const { getProducts } = useConfig();
@@ -12,9 +12,9 @@ const Hero = () => {
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
-    align: 'start',
+    align: "start",
     skipSnaps: false,
-    dragFree: true
+    dragFree: true,
   });
 
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
@@ -46,8 +46,8 @@ const Hero = () => {
   useEffect(() => {
     if (!emblaApi) return;
     onSelect();
-    emblaApi.on('select', onSelect);
-    emblaApi.on('reInit', onSelect);
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
 
     // Auto-scroll functionality
     const autoScroll = setInterval(() => {
@@ -61,14 +61,14 @@ const Hero = () => {
     if (emblaContainer) {
       const handleMouseEnter = () => setIsUserInteracting(true);
       const handleMouseLeave = () => setIsUserInteracting(false);
-      
-      emblaContainer.addEventListener('mouseenter', handleMouseEnter);
-      emblaContainer.addEventListener('mouseleave', handleMouseLeave);
-      
+
+      emblaContainer.addEventListener("mouseenter", handleMouseEnter);
+      emblaContainer.addEventListener("mouseleave", handleMouseLeave);
+
       return () => {
         clearInterval(autoScroll);
-        emblaContainer.removeEventListener('mouseenter', handleMouseEnter);
-        emblaContainer.removeEventListener('mouseleave', handleMouseLeave);
+        emblaContainer.removeEventListener("mouseenter", handleMouseEnter);
+        emblaContainer.removeEventListener("mouseleave", handleMouseLeave);
       };
     }
 
@@ -81,14 +81,14 @@ const Hero = () => {
     <section className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-8 lg:py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          
           {/* Section Header */}
           <div className="text-center mb-8">
             <h2 className="font-heading font-bold text-2xl lg:text-3xl text-foreground mb-3">
               Featured <span className="text-primary">Products</span>
             </h2>
             <p className="text-base text-muted max-w-2xl mx-auto leading-relaxed">
-              Professional automotive diagnostic solutions and equipment for workshops and service centers
+              Professional automotive diagnostic solutions and equipment for
+              workshops and service centers
             </p>
           </div>
 
@@ -117,18 +117,28 @@ const Hero = () => {
                           )}
                         </div>
                         <div className="p-4">
-                          <h3 className="font-semibold text-lg mb-2 truncate">{product.title}</h3>
-                          <p className="text-muted text-sm mb-3 overflow-hidden" style={{
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical'
-                          }}>{product.shortDescription}</p>
+                          <h3 className="font-semibold text-lg mb-2 truncate">
+                            {product.title}
+                          </h3>
+                          <p
+                            className="text-muted text-sm mb-3 overflow-hidden"
+                            style={{
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                            }}
+                          >
+                            {product.shortDescription}
+                          </p>
                           <div className="flex items-center justify-between">
                             <div className="text-xl font-bold text-primary">
                               ${product.price}
                             </div>
                             <Link to={`/products/${product.slug}`}>
-                              <Button size="sm" className="bg-primary hover:bg-primary-dark text-white">
+                              <Button
+                                size="sm"
+                                className="bg-primary hover:bg-primary-dark text-white"
+                              >
                                 View Details
                                 <ArrowRight className="w-3 h-3 ml-1" />
                               </Button>
@@ -167,8 +177,8 @@ const Hero = () => {
           <div className="text-center mt-8">
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/products">
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-primary hover:bg-primary-dark text-primary-foreground font-ui font-semibold text-sm uppercase tracking-wide px-6 py-2 h-auto group"
                 >
                   Browse All Products
@@ -176,7 +186,7 @@ const Hero = () => {
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button 
+                <Button
                   variant="secondary"
                   size="lg"
                   className="bg-accent hover:bg-accent-dark text-white font-ui font-semibold text-sm uppercase tracking-wide px-6 py-2 h-auto"

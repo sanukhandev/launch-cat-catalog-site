@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Menu, X, Phone } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -10,7 +10,8 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
-  const { getBrand, getCompany, getNavigation } = useConfig();
+  const navigate = useNavigate();
+  const { getBrand, getCompany, getNavigation, searchProducts } = useConfig();
 
   const brand = getBrand();
   const company = getCompany();
@@ -25,9 +26,10 @@ const Header = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Mock search functionality - would navigate to search results
-      console.log("Searching for:", searchQuery);
+      // Navigate to products page with search query
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery("");
+      setIsMenuOpen(false); // Close mobile menu if open
     }
   };
 
