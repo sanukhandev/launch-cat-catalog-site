@@ -64,6 +64,18 @@ export const CURRENCIES = {
     name: "Euro",
     rate: 0.85,
   },
+  INR: {
+    code: "INR",
+    symbol: "₹",
+    name: "Indian Rupee",
+    rate: 83.0,
+  },
+  CNY: {
+    code: "CNY",
+    symbol: "¥",
+    name: "Chinese Yuan",
+    rate: 7.2,
+  },
 };
 
 // Country to language/currency mapping
