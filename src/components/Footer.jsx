@@ -106,12 +106,16 @@ const Footer = () => {
               {categories.map((category) => {
                 // Get localized category name
                 const getCategoryName = () => {
-                  if (typeof category.name === 'object') {
-                    return category.name[currentLanguage] || category.name.en || category.name;
+                  if (typeof category.name === "object") {
+                    return (
+                      category.name[currentLanguage] ||
+                      category.name.en ||
+                      category.name
+                    );
                   }
                   return category.name;
                 };
-                
+
                 return (
                   <li key={category.id}>
                     <Link

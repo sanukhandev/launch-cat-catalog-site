@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Download, MessageCircle, Share2, CheckCircle, XCircle } from 'lucide-react';
+import { ArrowLeft, Download, MessageCircle, Share2, CheckCircle, XCircle, Phone, BookOpen, Mail } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
@@ -9,6 +9,7 @@ import { Badge } from '../components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { useConfig } from '../hooks/useConfig';
+import { useI18n } from '../context/I18nContext';
 
 const ProductDetail = () => {
   const { slug } = useParams();
@@ -17,6 +18,7 @@ const ProductDetail = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   
   const { getProductBySlug, getProductsByCategory, formatPrice } = useConfig();
+  const { t, formatPrice: i18nFormatPrice, isRTL } = useI18n();
 
   useEffect(() => {
     // Find product by slug
@@ -48,8 +50,18 @@ const ProductDetail = () => {
   }
 
   const handleEnquiry = () => {
-    // Mock enquiry functionality
-    alert(`Enquiry sent for ${product.title}. We'll contact you soon!`);
+    // Open contact form or navigate to contact page
+    window.open(`/contact?product=${product.sku}`, '_blank');
+  };
+
+  const handleContact = () => {
+    // Open contact page
+    window.open('/contact', '_blank');
+  };
+
+  const handleTraining = () => {
+    // Open training inquiry
+    window.open(`/contact?training=${product.sku}`, '_blank');
   };
 
   const handleDownload = (download) => {
@@ -134,7 +146,7 @@ const ProductDetail = () => {
                   ) : (
                     <XCircle className="w-3 h-3" />
                   )}
-                  {product.inStock ? "In Stock" : "Out of Stock"}
+                  {product.inStock ? t('common.inStock', 'In Stock') : t('common.outOfStock', 'Out of Stock')}
                 </div>
               </Badge>
               
@@ -146,7 +158,7 @@ const ProductDetail = () => {
 
             <div className="mb-6">
               <div className="font-heading font-bold text-4xl text-primary mb-4">
-                {formatPrice(product.price)}
+                {i18nFormatPrice(product.price)}
               </div>
               <p className="text-lg text-foreground leading-relaxed">
                 {product.shortDescription}
@@ -160,8 +172,8 @@ const ProductDetail = () => {
                 onClick={handleEnquiry}
                 className="bg-primary hover:bg-primary-dark text-primary-foreground font-ui font-semibold text-sm uppercase tracking-wide flex-1"
               >
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Enquire Now
+                <MessageCircle className={`w-5 h-5 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+                {t('common.enquireNow', 'Enquire Now')}
               </Button>
               
               {product.downloads && product.downloads.length > 0 && (
@@ -171,15 +183,45 @@ const ProductDetail = () => {
                   onClick={() => handleDownload(product.downloads[0])}
                   className="bg-accent hover:bg-accent-dark text-white font-ui font-semibold text-sm uppercase tracking-wide"
                 >
-                  <Download className="w-5 h-5 mr-2" />
-                  Download Brochure
+                  <Download className={`w-5 h-5 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+                  {t('common.downloadBrochure', 'Download Brochure')}
                 </Button>
               )}
             </div>
 
+            {/* Additional Action Buttons */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <Button 
+                variant="outline"
+                onClick={handleContact}
+                className="h-16 flex flex-col items-center justify-center gap-2 hover:bg-primary hover:text-white transition-colors"
+              >
+                <Phone className="w-5 h-5" />
+                <span className="text-sm font-semibold">{t('common.contactNow', 'Contact Now')}</span>
+              </Button>
+              
+              <Button 
+                variant="outline"
+                onClick={handleEnquiry}
+                className="h-16 flex flex-col items-center justify-center gap-2 hover:bg-primary hover:text-white transition-colors"
+              >
+                <Mail className="w-5 h-5" />
+                <span className="text-sm font-semibold">{t('common.getQuote', 'Get Quote')}</span>
+              </Button>
+              
+              <Button 
+                variant="outline"
+                onClick={handleTraining}
+                className="h-16 flex flex-col items-center justify-center gap-2 hover:bg-primary hover:text-white transition-colors"
+              >
+                <BookOpen className="w-5 h-5" />
+                <span className="text-sm font-semibold">{t('common.bookTraining', 'Book Training')}</span>
+              </Button>
+            </div>
+
             {/* Share */}
             <div className="flex items-center gap-2 pt-4 border-t border-border">
-              <span className="text-sm text-muted">Share:</span>
+              <span className="text-sm text-muted">{t('common.share', 'Share')}:</span>
               <Button variant="ghost" size="sm">
                 <Share2 className="w-4 h-4" />
               </Button>
@@ -190,74 +232,108 @@ const ProductDetail = () => {
         {/* Product Details Tabs */}
         <div className="mb-16">
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
-              <TabsTrigger value="overview" className="font-ui font-semibold">Overview</TabsTrigger>
-              <TabsTrigger value="specifications" className="font-ui font-semibold">Specifications</TabsTrigger>
-              <TabsTrigger value="downloads" className="font-ui font-semibold">Downloads</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3 mb-8 h-12 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+              <TabsTrigger 
+                value="overview" 
+                className="font-ui font-semibold text-sm h-10 rounded-md data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm dark:data-[state=active]:bg-gray-700"
+              >
+                {t('products.overview', 'Overview')}
+              </TabsTrigger>
+              <TabsTrigger 
+                value="specifications" 
+                className="font-ui font-semibold text-sm h-10 rounded-md data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm dark:data-[state=active]:bg-gray-700"
+              >
+                {t('products.specifications', 'Specifications')}
+              </TabsTrigger>
+              <TabsTrigger 
+                value="downloads" 
+                className="font-ui font-semibold text-sm h-10 rounded-md data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm dark:data-[state=active]:bg-gray-700"
+              >
+                {t('products.downloads', 'Downloads')}
+              </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="overview">
-              <Card className="dark:bg-gray-800">
-                <CardHeader>
-                  <CardTitle className="font-heading font-semibold">Product Overview</CardTitle>
+            <TabsContent value="overview" className="mt-6">
+              <Card className="border border-gray-200 dark:border-gray-700 dark:bg-gray-800 shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="font-heading font-semibold text-xl text-foreground">
+                    {t('products.productOverview', 'Product Overview')}
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-foreground leading-relaxed mb-4">
-                    {product.longDescription || product.shortDescription}
-                  </p>
-                  <p className="text-muted leading-relaxed">
-                    This professional-grade diagnostic equipment is designed for automotive workshops and service centers 
-                    requiring reliable, accurate diagnostic capabilities. Built with Launch's renowned quality and backed 
-                    by comprehensive technical support from Candour Auto Tech.
-                  </p>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="specifications">
-              <Card className="dark:bg-gray-800">
-                <CardHeader>
-                  <CardTitle className="font-heading font-semibold">Technical Specifications</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {product.specs && product.specs.map((spec, index) => (
-                      <div key={index} className="flex justify-between py-2 border-b border-border last:border-b-0">
-                        <span className="font-ui font-semibold text-foreground">{spec.label}</span>
-                        <span className="text-muted">{spec.value}</span>
-                      </div>
-                    ))}
+                <CardContent className="pt-0">
+                  <div className="prose dark:prose-invert max-w-none">
+                    <p className="text-foreground leading-relaxed mb-4 text-base">
+                      {product.longDescription || product.shortDescription}
+                    </p>
+                    <p className="text-muted-foreground leading-relaxed text-sm">
+                      {t('products.professionalGrade', 'This professional-grade diagnostic equipment is designed for automotive workshops and service centers requiring reliable, accurate diagnostic capabilities. Built with Launch\'s renowned quality and backed by comprehensive technical support from Candour Auto Tech.')}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
             
-            <TabsContent value="downloads">
-              <Card className="dark:bg-gray-800">
-                <CardHeader>
-                  <CardTitle className="font-heading font-semibold">Downloads</CardTitle>
+            <TabsContent value="specifications" className="mt-6">
+              <Card className="border border-gray-200 dark:border-gray-700 dark:bg-gray-800 shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="font-heading font-semibold text-xl text-foreground">
+                    {t('products.technicalSpecifications', 'Technical Specifications')}
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-0">
+                  {product.specs && product.specs.length > 0 ? (
+                    <div className="space-y-4">
+                      {product.specs.map((spec, index) => (
+                        <div key={index} className="flex flex-col sm:flex-row sm:justify-between py-3 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
+                          <span className="font-ui font-semibold text-foreground mb-1 sm:mb-0 text-sm">
+                            {spec.label}
+                          </span>
+                          <span className="text-muted-foreground text-sm break-words sm:max-w-[60%] sm:text-right">
+                            {spec.value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground text-center py-8">
+                      {t('products.noSpecifications', 'No specifications available for this product.')}
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="downloads" className="mt-6">
+              <Card className="border border-gray-200 dark:border-gray-700 dark:bg-gray-800 shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="font-heading font-semibold text-xl text-foreground">
+                    {t('products.downloads', 'Downloads')}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
                   {product.downloads && product.downloads.length > 0 ? (
                     <div className="space-y-3">
                       {product.downloads.map((download, index) => (
-                        <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
+                        <div key={index} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                           <div className="flex items-center gap-3">
-                            <Download className="w-5 h-5 text-primary" />
+                            <Download className="w-5 h-5 text-primary flex-shrink-0" />
                             <span className="font-ui font-semibold text-foreground">{download.name}</span>
                           </div>
                           <Button 
                             variant="outline"
                             size="sm"
                             onClick={() => handleDownload(download)}
+                            className="flex-shrink-0"
                           >
-                            Download
+                            {t('common.download', 'Download')}
                           </Button>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-muted">No downloads available for this product.</p>
+                    <p className="text-muted-foreground text-center py-8">
+                      {t('products.noDownloads', 'No downloads available for this product.')}
+                    </p>
                   )}
                 </CardContent>
               </Card>
@@ -269,7 +345,7 @@ const ProductDetail = () => {
         {relatedProducts.length > 0 && (
           <section>
             <h2 className="font-heading font-semibold text-2xl lg:text-3xl text-foreground mb-8">
-              You Might Also Like
+              {t('products.youMightAlsoLike', 'You Might Also Like')}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((product) => (
