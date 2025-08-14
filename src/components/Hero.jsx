@@ -114,7 +114,9 @@ const Hero = () => {
               </div>
             ) : error ? (
               <div className="text-center py-8">
-                <p className="text-red-500 mb-4">{t("common.errorLoadingProducts", "Error loading products")}</p>
+                <p className="text-red-500 mb-4">
+                  {t("common.errorLoadingProducts", "Error loading products")}
+                </p>
                 <Button onClick={() => window.location.reload()}>
                   {t("common.retry", "Retry")}
                 </Button>
@@ -123,64 +125,64 @@ const Hero = () => {
               <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex gap-4">
                   {displayProducts.map((product) => (
-                  <div key={product.id} className="flex-none w-72 md:w-80">
-                    <Card className="h-full hover:shadow-lg transition-shadow duration-300 group">
-                      <CardContent className="p-0">
-                        <div className="relative overflow-hidden rounded-t-lg">
-                          <img
-                            src={product.images[0]}
-                            alt={product.title}
-                            className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          {product.inStock ? (
-                            <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                              In Stock
-                            </div>
-                          ) : (
-                            <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                              Out of Stock
-                            </div>
-                          )}
-                        </div>
-                        <div className="p-4">
-                          <h3 className="font-semibold text-lg mb-2 truncate">
-                            {product.title}
-                          </h3>
-                          <p
-                            className="text-muted text-sm mb-3 overflow-hidden"
-                            style={{
-                              display: "-webkit-box",
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: "vertical",
-                            }}
-                          >
-                            {product.shortDescription}
-                          </p>
-                          <div className="flex items-center justify-between">
-                            <div className="text-xl font-bold text-primary">
-                              {formatPrice(product.price)}
-                            </div>
-                            <Link to={`/products/${product.slug}`}>
-                              <Button
-                                size="sm"
-                                className="bg-primary hover:bg-primary-dark text-white"
-                              >
-                                {t("common.viewDetails")}
-                                <ArrowRight
-                                  className={`w-3 h-3 ${
-                                    isRTL ? "mr-1" : "ml-1"
-                                  }`}
-                                />
-                              </Button>
-                            </Link>
+                    <div key={product.id} className="flex-none w-72 md:w-80">
+                      <Card className="h-full hover:shadow-lg transition-shadow duration-300 group">
+                        <CardContent className="p-0">
+                          <div className="relative overflow-hidden rounded-t-lg">
+                            <img
+                              src={product.images[0]}
+                              alt={product.title}
+                              className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            {product.inStock ? (
+                              <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                                In Stock
+                              </div>
+                            ) : (
+                              <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                                Out of Stock
+                              </div>
+                            )}
                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
+                          <div className="p-4">
+                            <h3 className="font-semibold text-lg mb-2 truncate">
+                              {product.title}
+                            </h3>
+                            <p
+                              className="text-muted text-sm mb-3 overflow-hidden"
+                              style={{
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                              }}
+                            >
+                              {product.shortDescription}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <div className="text-xl font-bold text-primary">
+                                {formatPrice(product.price)}
+                              </div>
+                              <Link to={`/products/${product.slug}`}>
+                                <Button
+                                  size="sm"
+                                  className="bg-primary hover:bg-primary-dark text-white"
+                                >
+                                  {t("common.viewDetails")}
+                                  <ArrowRight
+                                    className={`w-3 h-3 ${
+                                      isRTL ? "mr-1" : "ml-1"
+                                    }`}
+                                  />
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
             )}
 
             {/* Navigation Buttons */}
