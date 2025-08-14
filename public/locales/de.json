@@ -1,0 +1,155 @@
+{
+    "common": {
+        "loading": "Wird geladen…",
+        "error": "Fehler",
+        "search": "Produkte, SKUs suchen…",
+        "searchProducts": "Produkte suchen",
+        "viewDetails": "Details anzeigen",
+        "enquireNow": "Jetzt anfragen",
+        "contactSales": "Vertrieb kontaktieren",
+        "browseAllProducts": "Alle Produkte durchsuchen",
+        "inStock": "Auf Lager",
+        "outOfStock": "Nicht auf Lager",
+        "currency": "Währung",
+        "language": "Sprache",
+        "changeLanguage": "Sprache ändern",
+        "errorLoadingProducts": "Fehler beim Laden der Produkte",
+        "retry": "Erneut versuchen"
+    },
+    "brand": {
+        "name": "Launch Tech | MENA",
+        "distributor": "Candour Auto Tech",
+        "tagline": "Autorisierter LAUNCH-Händler & Trainingspartner",
+        "logoText": "LAUNCH"
+    },
+    "company": {
+        "name": "Candour Auto Tech",
+        "workingHours": "Mo–Sa 10:00–19:00"
+    },
+    "navigation": {
+        "products": "Produkte",
+        "about": "Über uns",
+        "contact": "Kontakt"
+    },
+    "hero": {
+        "title": "Candour Auto Tech",
+        "subtitle": "Autorisierter LAUNCH-Händler & Trainingspartner",
+        "description": "Professionelle Lösungen und Geräte für die Fahrzeugdiagnose für Werkstätten und Servicecenter in der gesamten Region",
+        "featuredProducts": "Empfohlene Produkte",
+        "badges": {
+            "genuineProducts": "Originale LAUNCH-Produkte",
+            "technicalTraining": "Technische Schulungen & Support",
+            "professionalEquipment": "Profi-Ausrüstung"
+        },
+        "stats": {
+            "yearsExperience": "Jahre Erfahrung",
+            "workshopPartners": "Werkstattpartner",
+            "technicalSupport": "Technischer Support"
+        },
+        "ctaPrimary": "Katalog durchsuchen",
+        "ctaSecondary": "Vertrieb kontaktieren"
+    },
+    "products": {
+        "allProducts": "Alle Produkte",
+        "categories": "Kategorien",
+        "priceRange": "Preisspanne",
+        "stockStatus": "Verfügbarkeitsstatus",
+        "sortBy": "Sortieren nach",
+        "filters": "Filter",
+        "showFilters": "Filter anzeigen",
+        "hideFilters": "Filter ausblenden",
+        "noProductsFound": "Keine Produkte gefunden",
+        "resultsFound": "Ergebnisse gefunden",
+        "page": "Seite",
+        "of": "von",
+        "availability": "Verfügbarkeit",
+        "allPrices": "Alle Preise",
+        "all": "Alle",
+        "newest": "Neueste zuerst",
+        "oldest": "Älteste zuerst",
+        "priceLowToHigh": "Preis: aufsteigend",
+        "priceHighToLow": "Preis: absteigend",
+        "nameAZ": "Name: A–Z",
+        "nameZA": "Name: Z–A",
+        "clearAllFilters": "Alle Filter löschen",
+        "searchPlaceholder": "Nach Name, SKU suchen …",
+        "selectPriceRange": "Preisspanne auswählen"
+    },
+    "about": {
+        "heading": "Über Candour Auto Tech",
+        "description": "Ein Team leidenschaftlicher Automobilingenieure für Schulungen, Beratung, Wartung und Reparaturen an modernen Fahrzeugen – mit dem Anspruch: 'Hohe Qualität, verlässlicher Service. Im Budget.'",
+        "features": {
+            "authorisedDealer": {
+                "title": "Autorisierter Händler",
+                "description": "Autorisierter LAUNCH-Scanner-Händler & Trainingspartner"
+            },
+            "expertTraining": {
+                "title": "Experten-Schulungen",
+                "description": "Professionelle Trainings- und Zertifizierungsprogramme"
+            },
+            "technicalSupport": {
+                "title": "Technischer Support",
+                "description": "Umfassender After-Sales-Service und Support"
+            },
+            "genuineProducts": {
+                "title": "Originalprodukte",
+                "description": "100 % authentische LAUNCH-Diagnoselösungen"
+            }
+        }
+    },
+    "home": {
+        "featuredCategories": {
+            "title": "Empfohlene Kategorien",
+            "description": "Entdecken Sie unser umfassendes Sortiment an professioneller Fahrzeugdiagnosetechnik und Werkstattausrüstung"
+        },
+        "distributor": {
+            "title": "Ihr autorisierter Vertriebspartner",
+            "description": "Vertrieb, Schulungen und After-Sales-Support für LAUNCH-Diagnoselösungen in den VAE und der MENA-Region"
+        },
+        "showroom": {
+            "title": "Besuchen Sie unseren Showroom",
+            "description": "Erleben Sie unsere Produkte live in unserem modernen Showroom"
+        }
+    },
+    "contact": {
+        "title": "Kontakt",
+        "getInTouch": "Kontakt aufnehmen",
+        "contactForm": "Kontaktformular",
+        "name": "Name",
+        "email": "E-Mail",
+        "phone": "Telefon",
+        "company": "Unternehmen",
+        "message": "Nachricht",
+        "subject": "Betreff",
+        "send": "Senden",
+        "sending": "Wird gesendet…",
+        "thankYou": "Vielen Dank für Ihre Kontaktaufnahme",
+        "responseTime": "Wir melden uns innerhalb von 24 Stunden.",
+        "mainOffice": "Hauptsitz",
+        "showroom": "Showroom",
+        "address": "Adresse",
+        "workingHours": "Öffnungszeiten",
+        "hours": "Stunden"
+    },
+    "footer": {
+        "description": "Professionelle Fahrzeugdiagnoselösungen, Schulungen und technischer Support für Werkstätten und Servicecenter in den VAE und der MENA-Region.",
+        "quickLinks": "Schnelllinks",
+        "contactInfo": "Kontaktinformationen",
+        "links": {
+            "about": "Über uns",
+            "products": "Produkte",
+            "accessories": "Zubehör",
+            "training": "Schulungen",
+            "support": "Support",
+            "contact": "Kontakt"
+        },
+        "legalLinks": {
+            "privacy": "Datenschutz",
+            "terms": "Nutzungsbedingungen"
+        },
+        "copyright": "© 2025 Launch / Candour Auto Tech. Alle Rechte vorbehalten."
+    },
+    "testimonials": {
+        "heading": "Das sagen unsere Kunden"
+    }
+}

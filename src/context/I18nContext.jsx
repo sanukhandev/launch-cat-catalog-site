@@ -16,6 +16,13 @@ export const LANGUAGES = {
     dir: "rtl",
     flag: "🇸🇦",
   },
+  de: {
+    code: "de",
+    name: "German",
+    nativeName: "Deutsch",
+    dir: "ltr",
+    flag: "🇩🇪",
+  },
 };
 
 export const CURRENCIES = {
