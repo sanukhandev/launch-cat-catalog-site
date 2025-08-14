@@ -1,0 +1,594 @@
+{
+  "brand": {
+    "name": "Launch Tech | MENA",
+    "distributor": "Candour Auto Tech",
+    "tagline": "Authorised LAUNCH Dealers & Training Partner",
+    "primaryColor": "#b91c3c",
+    "logoText": "LAUNCH"
+  },
+  "company": {
+    "name": "Candour Auto Tech",
+    "hq": "VP II/1148, Nettayam Road, Peroorkada, Thiruvananthapuram, Kerala 695005, India",
+    "phone": "+971 58 523 0900",
+    "workingHours": [
+      "Mon–Sat 10:00–19:00"
+    ],
+    "showroom": {
+      "address": "Warehouse No. 09, Al Jurf Industrial Area 1, Ajman, UAE",
+      "phone": "+971 58 523 0900",
+      "hours": [
+        "Mon–Sat 10:00–19:00"
+      ]
+    }
+  },
+  "navigation": {
+    "menu": [
+      {
+        "name": "Products",
+        "path": "/products"
+      },
+      {
+        "name": "Accessories",
+        "path": "/accessories"
+      },
+      {
+        "name": "Training",
+        "path": "/training"
+      },
+      {
+        "name": "Support",
+        "path": "/support"
+      },
+      {
+        "name": "About",
+        "path": "/about"
+      },
+      {
+        "name": "Contact",
+        "path": "/contact"
+      }
+    ]
+  },
+  "hero": {
+    "title": "Candour Auto Tech",
+    "subtitle": "Authorised LAUNCH Dealers & Training Partner",
+    "description": "Professional automotive diagnostic solutions and equipment for workshops and service centers across the region",
+    "badges": [
+      {
+        "icon": "CheckCircle",
+        "text": "Genuine Launch Products"
+      },
+      {
+        "icon": "Award",
+        "text": "Technical Training & Support"
+      },
+      {
+        "icon": "Wrench",
+        "text": "Professional Grade Equipment"
+      }
+    ],
+    "stats": [
+      {
+        "value": "15+",
+        "label": "Years Experience"
+      },
+      {
+        "value": "1000+",
+        "label": "Workshop Partners"
+      },
+      {
+        "value": "24/7",
+        "label": "Technical Support"
+      }
+    ],
+    "ctaPrimary": "Browse Catalog",
+    "ctaSecondary": "Contact Sales"
+  },
+  "categories": [
+    {
+      "id": "scanners",
+      "name": "Scanners",
+      "slug": "scanners",
+      "image": "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
+      "description": "Professional automotive diagnostic scanners for comprehensive vehicle analysis"
+    },
+    {
+      "id": "two-post-lift",
+      "name": "Two Post Lift",
+      "slug": "two-post-lift",
+      "image": "https://images.unsplash.com/photo-1486753484717-3036a71ea0ce?w=400&h=300&fit=crop&crop=center",
+      "description": "Heavy-duty two post lifts for professional automotive workshops"
+    },
+    {
+      "id": "diy-c-readers",
+      "name": "DIY C-Readers",
+      "slug": "diy-c-readers",
+      "image": "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop&crop=center",
+      "description": "Easy-to-use diagnostic code readers for basic vehicle diagnostics"
+    },
+    {
+      "id": "injector-cleaner",
+      "name": "Injector Cleaner",
+      "slug": "injector-cleaner",
+      "image": "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=400&h=300&fit=crop&crop=center",
+      "description": "Professional fuel injector cleaning and testing equipment"
+    },
+    {
+      "id": "tpms",
+      "name": "TPMS",
+      "slug": "tpms",
+      "image": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop&crop=center",
+      "description": "Tire Pressure Monitoring System diagnostic and programming tools"
+    },
+    {
+      "id": "paintbooth",
+      "name": "Paintbooth",
+      "slug": "paintbooth",
+      "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400&h=300&fit=crop&crop=center",
+      "description": "Professional paint booth equipment for automotive refinishing"
+    },
+    {
+      "id": "wheel-equipments",
+      "name": "Wheel Equipments",
+      "slug": "wheel-equipments",
+      "image": "https://images.unsplash.com/photo-1558985212-92c2ff0b56c8?w=400&h=300&fit=crop&crop=center",
+      "description": "Complete wheel service equipment for tire and wheel maintenance"
+    }
+  ],
+  "products": [
+    {
+      "id": "launch-x431-pro3s",
+      "title": "Launch X431 PRO3S+",
+      "slug": "launch-x431-pro3s",
+      "sku": "LT-X431-PRO3S",
+      "price": 2850,
+      "inStock": true,
+      "categoryId": "scanners",
+      "images": [
+        "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=400&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop&crop=center"
+      ],
+      "shortDescription": "Professional automotive diagnostic scanner with comprehensive vehicle coverage and advanced functions.",
+      "longDescription": "The Launch X431 PRO3S+ is a state-of-the-art automotive diagnostic scanner designed for professional workshops. With comprehensive vehicle coverage and advanced functions including fault-code operations, live data, actuation tests, and special functions.",
+      "specs": [
+        {
+          "label": "Weight",
+          "value": "1.2kg"
+        },
+        {
+          "label": "Dimensions",
+          "value": "245x155x35mm"
+        },
+        {
+          "label": "Display",
+          "value": "10.1 inch IPS touchscreen"
+        },
+        {
+          "label": "Operating System",
+          "value": "Android 7.0"
+        },
+        {
+          "label": "Battery",
+          "value": "7000mAh"
+        },
+        {
+          "label": "Vehicle Coverage",
+          "value": "150+ Makes"
+        },
+        {
+          "label": "Languages",
+          "value": "30+ Languages"
+        },
+        {
+          "label": "Connectivity",
+          "value": "Wi-Fi, Bluetooth"
+        }
+      ],
+      "downloads": [
+        {
+          "name": "Product Brochure",
+          "url": "/downloads/x431-pro3s-brochure.pdf"
+        },
+        {
+          "name": "User Manual",
+          "url": "/downloads/x431-pro3s-manual.pdf"
+        },
+        {
+          "name": "Vehicle Coverage List",
+          "url": "/downloads/x431-coverage.pdf"
+        }
+      ]
+    },
+    {
+      "id": "tlt240sc-lift",
+      "title": "TLT240SC Two Post Lift",
+      "slug": "tlt240sc-lift",
+      "sku": "LT-TLT240SC",
+      "price": 4200,
+      "inStock": true,
+      "categoryId": "two-post-lift",
+      "images": [
+        "https://images.unsplash.com/photo-1486753484717-3036a71ea0ce?w=600&h=400&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=400&fit=crop&crop=center"
+      ],
+      "shortDescription": "Heavy-duty two post lift with 4.0 ton capacity, perfect for professional workshops.",
+      "longDescription": "A robust two-post automotive lift for service centers. With a 4.0-ton capacity and precise engineering, it provides safe and reliable vehicle lifting for maintenance and repair operations.",
+      "specs": [
+        {
+          "label": "Capacity",
+          "value": "4.0 tons"
+        },
+        {
+          "label": "Max Height",
+          "value": "1950mm"
+        },
+        {
+          "label": "Min Height",
+          "value": "150mm"
+        },
+        {
+          "label": "Power",
+          "value": "3.0kW"
+        },
+        {
+          "label": "Voltage",
+          "value": "380V/50Hz"
+        },
+        {
+          "label": "Lifting Time",
+          "value": "45 seconds"
+        },
+        {
+          "label": "Safety Features",
+          "value": "Auto-lock, Emergency stop"
+        },
+        {
+          "label": "Warranty",
+          "value": "2 years"
+        }
+      ],
+      "downloads": [
+        {
+          "name": "Installation Guide",
+          "url": "/downloads/tlt240sc-installation.pdf"
+        },
+        {
+          "name": "Technical Specs",
+          "url": "/downloads/tlt240sc-specs.pdf"
+        },
+        {
+          "name": "Safety Manual",
+          "url": "/downloads/tlt240sc-safety.pdf"
+        }
+      ]
+    },
+    {
+      "id": "creader-3008",
+      "title": "CReader 3008",
+      "slug": "creader-3008",
+      "sku": "LT-CR3008",
+      "price": 185,
+      "inStock": true,
+      "categoryId": "diy-c-readers",
+      "images": [
+        "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=400&fit=crop&crop=center"
+      ],
+      "shortDescription": "DIY OBD2 code reader for basic diagnostics and code clearing.",
+      "longDescription": "A user-friendly OBD2 diagnostic code reader for DIY enthusiasts and small workshops. Provides essential functions including reading/clearing codes, live data, and emission readiness.",
+      "specs": [
+        {
+          "label": "Weight",
+          "value": "320g"
+        },
+        {
+          "label": "Dimensions",
+          "value": "180x90x32mm"
+        },
+        {
+          "label": "Display",
+          "value": "2.8 inch color LCD"
+        },
+        {
+          "label": "Protocols",
+          "value": "OBD2/EOBD"
+        },
+        {
+          "label": "Languages",
+          "value": "15 languages"
+        },
+        {
+          "label": "Vehicle Coverage",
+          "value": "2001+ vehicles"
+        },
+        {
+          "label": "Functions",
+          "value": "Read/Clear codes, Live data"
+        },
+        {
+          "label": "Power",
+          "value": "12V from vehicle"
+        }
+      ],
+      "downloads": [
+        {
+          "name": "Quick Start Guide",
+          "url": "/downloads/cr3008-quick-start.pdf"
+        },
+        {
+          "name": "User Manual",
+          "url": "/downloads/cr3008-manual.pdf"
+        }
+      ]
+    },
+    {
+      "id": "cnc602a-injector",
+      "title": "CNC602A Injector Cleaner",
+      "slug": "cnc602a-injector",
+      "sku": "LT-CNC602A",
+      "price": 890,
+      "inStock": false,
+      "categoryId": "injector-cleaner",
+      "images": [
+        "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=600&h=400&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=400&fit=crop&crop=center"
+      ],
+      "shortDescription": "Professional fuel injector cleaner and tester for gasoline vehicles.",
+      "longDescription": "Comprehensive fuel injector cleaning and testing system with ultrasonic cleaning and flow testing to restore injector performance.",
+      "specs": [
+        {
+          "label": "Weight",
+          "value": "25kg"
+        },
+        {
+          "label": "Dimensions",
+          "value": "650x400x550mm"
+        },
+        {
+          "label": "Power",
+          "value": "120W"
+        },
+        {
+          "label": "Pressure Range",
+          "value": "0–6 bar"
+        },
+        {
+          "label": "Tank Capacity",
+          "value": "1.2L"
+        },
+        {
+          "label": "Cleaning Method",
+          "value": "Ultrasonic + Pulse"
+        },
+        {
+          "label": "Test Functions",
+          "value": "Flow, Spray pattern, Leak"
+        },
+        {
+          "label": "Injector Types",
+          "value": "4, 6, 8 cylinder"
+        }
+      ],
+      "downloads": [
+        {
+          "name": "Operation Manual",
+          "url": "/downloads/cnc602a-manual.pdf"
+        },
+        {
+          "name": "Maintenance Guide",
+          "url": "/downloads/cnc602a-maintenance.pdf"
+        }
+      ]
+    },
+    {
+      "id": "tpms-tech-pro",
+      "title": "TPMS Tech PRO",
+      "slug": "tpms-tech-pro",
+      "sku": "LT-TPMS-PRO",
+      "price": 520,
+      "inStock": true,
+      "categoryId": "tpms",
+      "images": [
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1558985212-92c2ff0b56c8?w=600&h=400&fit=crop&crop=center"
+      ],
+      "shortDescription": "Advanced TPMS diagnostic and programming tool with comprehensive vehicle coverage.",
+      "longDescription": "Professional-grade TPMS service tool supporting sensor activation, programming, and relearn procedures across a wide range of vehicles.",
+      "specs": [
+        {
+          "label": "Weight",
+          "value": "0.8kg"
+        },
+        {
+          "label": "Dimensions",
+          "value": "220x140x40mm"
+        },
+        {
+          "label": "Display",
+          "value": "4.3 inch touchscreen"
+        },
+        {
+          "label": "Frequency",
+          "value": "315/433MHz"
+        },
+        {
+          "label": "Battery",
+          "value": "3000mAh"
+        },
+        {
+          "label": "Vehicle Coverage",
+          "value": "98% global coverage"
+        },
+        {
+          "label": "Functions",
+          "value": "Activate, Program, Relearn"
+        },
+        {
+          "label": "Update",
+          "value": "Wi-Fi online updates"
+        }
+      ],
+      "downloads": [
+        {
+          "name": "Vehicle Coverage",
+          "url": "/downloads/tpms-coverage.pdf"
+        },
+        {
+          "name": "Quick Reference",
+          "url": "/downloads/tpms-quick-ref.pdf"
+        }
+      ]
+    },
+    {
+      "id": "wheel-balancer-wb200",
+      "title": "WB200 Wheel Balancer",
+      "slug": "wheel-balancer-wb200",
+      "sku": "LT-WB200",
+      "price": 1250,
+      "inStock": true,
+      "categoryId": "wheel-equipments",
+      "images": [
+        "https://images.unsplash.com/photo-1558985212-92c2ff0b56c8?w=600&h=400&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop&crop=center"
+      ],
+      "shortDescription": "Precision wheel balancer for professional tire service operations.",
+      "longDescription": "High-precision wheel balancer for passenger cars and light trucks, offering accurate dynamic/static balancing and user-friendly operation.",
+      "specs": [
+        {
+          "label": "Wheel Diameter",
+          "value": "10–24 inches"
+        },
+        {
+          "label": "Wheel Width",
+          "value": "1.5–20 inches"
+        },
+        {
+          "label": "Max Weight",
+          "value": "65kg"
+        },
+        {
+          "label": "Accuracy",
+          "value": "±1g"
+        },
+        {
+          "label": "Cycle Time",
+          "value": "8 seconds"
+        },
+        {
+          "label": "Motor Power",
+          "value": "0.25kW"
+        },
+        {
+          "label": "Display",
+          "value": "LED display"
+        },
+        {
+          "label": "Voltage",
+          "value": "220V/50Hz"
+        }
+      ],
+      "downloads": [
+        {
+          "name": "Operation Manual",
+          "url": "/downloads/wb200-manual.pdf"
+        },
+        {
+          "name": "Calibration Guide",
+          "url": "/downloads/wb200-calibration.pdf"
+        }
+      ]
+    }
+  ],
+  "testimonials": [
+    {
+      "id": 1,
+      "name": "Ahmed Al-Mansouri",
+      "company": "Al-Mansouri Auto Workshop",
+      "rating": 5,
+      "text": "Excellent diagnostic tools and great support from Candour Auto Tech. The Launch scanners have improved our workshop efficiency significantly.",
+      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
+    },
+    {
+      "id": 2,
+      "name": "Mohammed Hassan",
+      "company": "Hassan Motors",
+      "rating": 5,
+      "text": "Professional training and after-sales service. The two-post lifts are reliable and well-built for heavy-duty use.",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+    },
+    {
+      "id": 3,
+      "name": "Khalid Ibrahim",
+      "company": "Emirates Auto Center",
+      "rating": 5,
+      "text": "Best diagnostic equipment supplier in UAE. Fast delivery and genuine Launch products with warranty support.",
+      "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face"
+    }
+  ],
+  "about": {
+    "heading": "About Candour Auto Tech",
+    "description": "A team of passionate automobile engineers offering training, consultancy, maintenance and repairs for intelligent automobiles—delivering “High Quality, Dependable Service. Within Budget.”",
+    "features": [
+      {
+        "icon": "Award",
+        "title": "Authorised Dealer",
+        "description": "Authorised LAUNCH scanners dealer & training partner"
+      },
+      {
+        "icon": "Users",
+        "title": "Expert Training",
+        "description": "Professional training and certification programs"
+      },
+      {
+        "icon": "Wrench",
+        "title": "Technical Support",
+        "description": "Comprehensive after-sales support and service"
+      },
+      {
+        "icon": "CheckCircle",
+        "title": "Genuine Products",
+        "description": "100% authentic LAUNCH diagnostic solutions"
+      }
+    ]
+  },
+  "footer": {
+    "description": "Professional automotive diagnostic solutions, training and technical support for workshops and service centers across the UAE and MENA region.",
+    "links": [
+      {
+        "name": "About",
+        "path": "/about"
+      },
+      {
+        "name": "Products",
+        "path": "/products"
+      },
+      {
+        "name": "Accessories",
+        "path": "/accessories"
+      },
+      {
+        "name": "Training",
+        "path": "/training"
+      },
+      {
+        "name": "Support",
+        "path": "/support"
+      },
+      {
+        "name": "Contact",
+        "path": "/contact"
+      }
+    ],
+    "legalLinks": [
+      {
+        "name": "Privacy Policy",
+        "path": "/privacy"
+      },
+      {
+        "name": "Terms of Service",
+        "path": "/terms"
+      }
+    ],
+    "copyright": "© 2025 Launch / Candour Auto Tech. All rights reserved."
+  }
+}
