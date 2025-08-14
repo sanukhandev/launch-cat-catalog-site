@@ -23,7 +23,11 @@ import { useI18n } from "../context/I18nContext";
 
 const Home = () => {
   const { getCompany, getBrand } = useConfig();
-  const { categories, loading: categoriesLoading, getFeaturedCategories } = useCategories();
+  const {
+    categories,
+    loading: categoriesLoading,
+    getFeaturedCategories,
+  } = useCategories();
   const { t, isRTL } = useI18n();
   const company = getCompany();
   const brand = getBrand();
@@ -116,7 +120,7 @@ const Home = () => {
             </p>
           </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
             {categoriesLoading ? (
               <div className="col-span-full flex items-center justify-center py-8">
                 <Loader className="w-8 h-8 animate-spin text-primary" />
@@ -127,7 +131,9 @@ const Home = () => {
               ))
             ) : (
               <div className="col-span-full text-center py-8">
-                <p className="text-muted">{t("home.featuredCategories.noCategories")}</p>
+                <p className="text-muted">
+                  {t("home.featuredCategories.noCategories")}
+                </p>
               </div>
             )}
           </div>
