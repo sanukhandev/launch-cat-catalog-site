@@ -119,7 +119,7 @@ const Header = () => {
                 variant="secondary"
                 className="hidden sm:inline-flex bg-accent text-white hover:bg-accent-dark font-ui font-semibold text-sm uppercase tracking-wide"
               >
-                Enquire Now
+                {t("common.enquireNow")}
               </Button>
 
               {/* Mobile menu button */}
@@ -185,7 +185,7 @@ const Header = () => {
               variant="secondary"
               className="mt-3 w-full bg-accent text-white hover:bg-accent-dark font-ui font-semibold text-sm uppercase tracking-wide"
             >
-              Enquire Now
+              {t("common.enquireNow")}
             </Button>
           </div>
         )}
