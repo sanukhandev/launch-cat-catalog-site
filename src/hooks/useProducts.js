@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useI18n } from '../context/I18nContext';
 
 export const useProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { currentLanguage } = useI18n();
 
     // Function to get list of product folders
     const getProductFolders = async () => {
@@ -65,12 +67,32 @@ export const useProducts = () => {
         }
     };
 
-    // Search products
+    // Get translated product data
+    const getTranslatedProduct = (product) => {
+        if (!product || !product.translations) return product;
+
+        const translation = product.translations[currentLanguage] || product.translations['en'] || {};
+
+        return {
+            ...product,
+            title: translation.title || product.title,
+            shortDescription: translation.shortDescription || product.shortDescription,
+            longDescription: translation.longDescription || product.longDescription
+        };
+    };
+
+    // Get all products with translations
+    const getProductsWithTranslations = () => {
+        return products.map(product => getTranslatedProduct(product));
+    };
+
+    // Search products with translations
     const searchProducts = (query) => {
-        if (!query.trim()) return products;
+        const translatedProducts = getProductsWithTranslations();
+        if (!query.trim()) return translatedProducts;
 
         const searchTerm = query.toLowerCase();
-        return products.filter(product =>
+        return translatedProducts.filter(product =>
             product.title.toLowerCase().includes(searchTerm) ||
             product.shortDescription.toLowerCase().includes(searchTerm) ||
             product.sku.toLowerCase().includes(searchTerm) ||
@@ -78,14 +100,16 @@ export const useProducts = () => {
         );
     };
 
-    // Get product by slug
+    // Get product by slug with translations
     const getProductBySlug = (slug) => {
-        return products.find(product => product.slug === slug);
+        const product = products.find(product => product.slug === slug);
+        return product ? getTranslatedProduct(product) : null;
     };
 
-    // Get products by category
+    // Get products by category with translations
     const getProductsByCategory = (categoryId) => {
-        return products.filter(product => product.categoryId === categoryId);
+        const categoryProducts = products.filter(product => product.categoryId === categoryId);
+        return categoryProducts.map(product => getTranslatedProduct(product));
     };
 
     // Load products on mount
@@ -94,7 +118,7 @@ export const useProducts = () => {
     }, []);
 
     return {
-        products,
+        products: getProductsWithTranslations(),
         loading,
         error,
         searchProducts,
