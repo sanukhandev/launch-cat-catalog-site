@@ -7,11 +7,12 @@ import { useI18n } from "../context/I18nContext";
 
 const Footer = () => {
   const { getBrand, getCompany, getFooter } = useConfig();
-  const { categories } = useCategories();
+  const { getFeaturedCategories } = useCategories();
   const { t, currentLanguage } = useI18n();
   const brand = getBrand();
   const company = getCompany();
   const footer = getFooter();
+  const categories = getFeaturedCategories();
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -103,18 +104,9 @@ const Footer = () => {
               {t("footer.categories")}
             </h3>
             <ul className="space-y-2">
-              {categories.map((category) => {
-                // Get localized category name
-                const getCategoryName = () => {
-                  if (typeof category.name === "object") {
-                    return (
-                      category.name[currentLanguage] ||
-                      category.name.en ||
-                      category.name
-                    );
-                  }
-                  return category.name;
-                };
+              {categories.slice(0, 6).map((category) => {
+                // Use translated category name from useCategories hook
+                const categoryName = category.translatedName || category.name;
 
                 return (
                   <li key={category.id}>
@@ -122,7 +114,7 @@ const Footer = () => {
                       to={`/category/${category.slug}`}
                       className="text-sm opacity-90 hover:opacity-100 hover:underline transition-opacity"
                     >
-                      {getCategoryName()}
+                      {categoryName}
                     </Link>
                   </li>
                 );

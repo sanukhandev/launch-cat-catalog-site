@@ -1,98 +1,60 @@
 import { useState, useEffect } from 'react';
+import { useConfig } from './useConfig';
+import { useI18n } from '../context/I18nContext';
 
 export const useCategories = () => {
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { getCategories, getProducts } = useConfig();
+    const { t } = useI18n();
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const loadCategories = async () => {
-            try {
-                setLoading(true);
-                setError(null);
+    const categories = getCategories();
+    const products = getProducts();
 
-                // Load categories manifest
-                const manifestResponse = await fetch('/products/categories/manifest.json');
-                if (!manifestResponse.ok) {
-                    throw new Error(`Failed to load categories manifest: ${manifestResponse.status}`);
-                }
-                const manifest = await manifestResponse.json();
-
-                // Load each category's data
-                const categoryPromises = manifest.categories.map(async (categoryId) => {
-                    try {
-                        const response = await fetch(`/products/categories/${categoryId}/data.json`);
-                        if (!response.ok) {
-                            console.warn(`Failed to load category ${categoryId}: ${response.status}`);
-                            return null;
-                        }
-                        return await response.json();
-                    } catch (err) {
-                        console.warn(`Error loading category ${categoryId}:`, err);
-                        return null;
-                    }
-                });
-
-                const categoryData = await Promise.all(categoryPromises);
-                const validCategories = categoryData.filter(Boolean);
-
-                setCategories(validCategories);
-            } catch (err) {
-                console.error('Error loading categories:', err);
-                setError(err.message);
-                setCategories([]);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadCategories();
-    }, []);
-
-    const getCategoryById = (categoryId) => {
-        return categories.find(category => category.id === categoryId);
-    };
-
+    // Get featured categories with translations
     const getFeaturedCategories = () => {
-        return categories.filter(category => category.featured);
+        return categories
+            .filter(category => category.featured || true)
+            .map(category => ({
+                ...category,
+                translatedName: t(`categories.${category.id}.name`, category.name),
+                translatedDescription: t(`categories.${category.id}.description`, category.description)
+            }));
     };
 
-    const getCategoryProducts = async (categoryId) => {
-        try {
-            const category = getCategoryById(categoryId);
-            if (!category || !category.products?.length) {
-                return [];
-            }
-
-            // Load product data for each product in the category
-            const productPromises = category.products.map(async (productId) => {
-                try {
-                    const response = await fetch(`/products/${productId}/data.json`);
-                    if (!response.ok) {
-                        console.warn(`Failed to load product ${productId}: ${response.status}`);
-                        return null;
-                    }
-                    return await response.json();
-                } catch (err) {
-                    console.warn(`Error loading product ${productId}:`, err);
-                    return null;
-                }
-            });
-
-            const products = await Promise.all(productPromises);
-            return products.filter(Boolean);
-        } catch (err) {
-            console.error('Error loading category products:', err);
-            return [];
+    // Get category by ID with translations
+    const getCategoryById = (categoryId) => {
+        const category = categories.find(category => category.id === categoryId);
+        if (category) {
+            return {
+                ...category,
+                translatedName: t(`categories.${category.id}.name`, category.name),
+                translatedDescription: t(`categories.${category.id}.description`, category.description)
+            };
         }
+        return null;
+    };
+
+    // Get products for a specific category
+    const getCategoryProducts = (categoryId) => {
+        return products.filter(product => product.categoryId === categoryId);
+    };
+
+    // Get all categories with translations
+    const getCategoriesWithTranslations = () => {
+        return categories.map(category => ({
+            ...category,
+            translatedName: t(`categories.${category.id}.name`, category.name),
+            translatedDescription: t(`categories.${category.id}.description`, category.description)
+        }));
     };
 
     return {
-        categories,
+        categories: getCategoriesWithTranslations(),
         loading,
         error,
-        getCategoryById,
         getFeaturedCategories,
+        getCategoryById,
         getCategoryProducts
     };
 };

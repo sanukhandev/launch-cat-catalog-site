@@ -16,6 +16,7 @@
         "downloadBrochure": "Broschüre herunterladen",
         "browseAllProducts": "Alle Produkte durchsuchen",
         "backToHome": "Zurück zur Startseite",
+        "backToProducts": "Zurück zu den Produkten",
         "categoryNotFound": "Kategorie nicht gefunden",
         "inStock": "Auf Lager",
         "outOfStock": "Nicht auf Lager",
@@ -163,10 +164,44 @@
         "workingHours": "Öffnungszeiten",
         "hours": "Stunden"
     },
+    "categories": {
+        "passenger-car-diagnostics": {
+            "name": "PKW-Diagnose",
+            "description": "Fortschrittliche Diagnosewerkzeuge für Personenfahrzeuge einschließlich OBD-Scanner, systemspezifische Diagnose und markenübergreifende Abdeckung"
+        },
+        "heavy-duty-diagnostics": {
+            "name": "Nutzfahrzeug-Diagnose",
+            "description": "Professionelle Diagnoselösungen für LKW, Busse und Nutzfahrzeuge"
+        },
+        "battery-diagnostics": {
+            "name": "Batterie-Diagnose",
+            "description": "Batterietest-, Analyse- und Wartungstools für alle Fahrzeugtypen"
+        },
+        "immo-tools": {
+            "name": "IMMO-Tools",
+            "description": "Wegfahrsperre-Programmierung und Schlüsselcodierung"
+        },
+        "adas-tools": {
+            "name": "ADAS-Tools",
+            "description": "Kalibrierungs- und Diagnosewerkzeuge für erweiterte Fahrerassistenzsysteme"
+        },
+        "tpms-tools": {
+            "name": "TPMS-Tools",
+            "description": "Programmier- und Diagnosegeräte für Reifendrucküberwachungssysteme"
+        },
+        "ev-tools": {
+            "name": "Elektrofahrzeug-Tools",
+            "description": "Diagnose- und Wartungstools für Elektrofahrzeuge"
+        },
+        "diy-tools": {
+            "name": "DIY-Tools",
+            "description": "Verbraucher-Diagnosewerkzeuge für Heimwerker"
+        }
+    },
     "footer": {
         "description": "Professionelle Fahrzeugdiagnoselösungen, Schulungen und technischer Support für Werkstätten und Servicecenter in den VAE und der MENA-Region.",
         "quickLinks": "Schnelllinks",
-        "categories": "Kategorien",
+        "categories": "Produktkategorien",
         "contactInfo": "Kontaktinformationen",
         "links": {
             "about": "Über uns",

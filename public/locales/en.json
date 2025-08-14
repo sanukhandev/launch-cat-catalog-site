@@ -164,10 +164,44 @@
         "workingHours": "Working Hours",
         "hours": "Hours"
     },
+    "categories": {
+        "passenger-car-diagnostics": {
+            "name": "Passenger Car Diagnostics",
+            "description": "Advanced diagnostic tools for passenger vehicles including OBD scanners, system-specific diagnostics, and multi-brand coverage"
+        },
+        "heavy-duty-diagnostics": {
+            "name": "Heavy Duty Diagnostics",
+            "description": "Professional diagnostic solutions for trucks, buses, and commercial vehicles"
+        },
+        "battery-diagnostics": {
+            "name": "Battery Diagnostics",
+            "description": "Battery testing, analysis, and maintenance tools for all vehicle types"
+        },
+        "immo-tools": {
+            "name": "IMMO Tools",
+            "description": "Immobilizer programming and key coding solutions"
+        },
+        "adas-tools": {
+            "name": "ADAS Tools",
+            "description": "Advanced Driver Assistance Systems calibration and diagnostic tools"
+        },
+        "tpms-tools": {
+            "name": "TPMS Tools",
+            "description": "Tire Pressure Monitoring System programming and diagnostic equipment"
+        },
+        "ev-tools": {
+            "name": "EV Tools",
+            "description": "Electric vehicle diagnostic and maintenance tools"
+        },
+        "diy-tools": {
+            "name": "DIY Tools",
+            "description": "Consumer-grade diagnostic tools for DIY enthusiasts"
+        }
+    },
     "footer": {
         "description": "Professional automotive diagnostic solutions, training and technical support for workshops and service centers across the UAE and MENA region.",
         "quickLinks": "Quick Links",
-        "categories": "Categories",
+        "categories": "Product Categories",
         "contactInfo": "Contact Information",
         "links": {
             "about": "About",

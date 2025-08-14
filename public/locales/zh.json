@@ -10,6 +10,7 @@
         "contactSales": "联系销售",
         "browseAllProducts": "浏览全部产品",
         "backToHome": "返回首页",
+        "backToProducts": "返回产品",
         "categoryNotFound": "未找到分类",
         "inStock": "有货",
         "outOfStock": "无货",
@@ -158,10 +159,44 @@
         "workingHours": "营业时间",
         "hours": "小时"
     },
+    "categories": {
+        "passenger-car-diagnostics": {
+            "name": "乘用车诊断",
+            "description": "乘用车高级诊断工具，包括 OBD 扫描仪、系统专用诊断和多品牌覆盖"
+        },
+        "heavy-duty-diagnostics": {
+            "name": "重型车辆诊断",
+            "description": "卡车、公交车和商用车的专业诊断解决方案"
+        },
+        "battery-diagnostics": {
+            "name": "电池诊断",
+            "description": "适用于所有车型的电池测试、分析和维护工具"
+        },
+        "immo-tools": {
+            "name": "防盗器工具",
+            "description": "防盗器编程和钥匙编码解决方案"
+        },
+        "adas-tools": {
+            "name": "ADAS 工具",
+            "description": "高级驾驶辅助系统校准和诊断工具"
+        },
+        "tpms-tools": {
+            "name": "TPMS 工具",
+            "description": "胎压监测系统编程和诊断设备"
+        },
+        "ev-tools": {
+            "name": "电动车工具",
+            "description": "电动车诊断和维护工具"
+        },
+        "diy-tools": {
+            "name": "DIY 工具",
+            "description": "面向 DIY 爱好者的消费级诊断工具"
+        }
+    },
     "footer": {
         "description": "为阿联酋及中东和北非地区的维修车间与服务中心提供专业汽车诊断解决方案、培训与技术支持。",
         "quickLinks": "快速链接",
-        "categories": "分类",
+        "categories": "产品分类",
         "contactInfo": "联系信息",
         "links": {
             "about": "关于我们",

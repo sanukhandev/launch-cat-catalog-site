@@ -74,53 +74,68 @@
   },
   "categories": [
     {
-      "id": "scanners",
-      "name": "Scanners",
-      "slug": "scanners",
-      "image": "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop&crop=center",
-      "description": "Professional automotive diagnostic scanners for comprehensive vehicle analysis"
+      "id": "passenger-car-diagnostics",
+      "name": "Passenger Car Diagnostics",
+      "description": "Advanced diagnostic tools for passenger vehicles including OBD scanners, system-specific diagnostics, and multi-brand coverage",
+      "icon": "Car",
+      "featured": true,
+      "slug": "passenger-car-diagnostics"
     },
     {
-      "id": "two-post-lift",
-      "name": "Two Post Lift",
-      "slug": "two-post-lift",
-      "image": "https://images.unsplash.com/photo-1486753484717-3036a71ea0ce?w=400&h=300&fit=crop&crop=center",
-      "description": "Heavy-duty two post lifts for professional automotive workshops"
+      "id": "heavy-duty-diagnostics",
+      "name": "Heavy Duty Diagnostics",
+      "description": "Professional diagnostic solutions for trucks, buses, and commercial vehicles",
+      "icon": "Truck",
+      "featured": true,
+      "slug": "heavy-duty-diagnostics"
     },
     {
-      "id": "diy-c-readers",
-      "name": "DIY C-Readers",
-      "slug": "diy-c-readers",
-      "image": "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&h=300&fit=crop&crop=center",
-      "description": "Easy-to-use diagnostic code readers for basic vehicle diagnostics"
+      "id": "battery-diagnostics",
+      "name": "Battery Diagnostics",
+      "description": "Battery testing, analysis, and maintenance tools for all vehicle types",
+      "icon": "Battery",
+      "featured": true,
+      "slug": "battery-diagnostics"
     },
     {
-      "id": "injector-cleaner",
-      "name": "Injector Cleaner",
-      "slug": "injector-cleaner",
-      "image": "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=400&h=300&fit=crop&crop=center",
-      "description": "Professional fuel injector cleaning and testing equipment"
+      "id": "immo-tools",
+      "name": "IMMO Tools",
+      "description": "Immobilizer programming and key coding solutions",
+      "icon": "Key",
+      "featured": true,
+      "slug": "immo-tools"
     },
     {
-      "id": "tpms",
-      "name": "TPMS",
-      "slug": "tpms",
-      "image": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop&crop=center",
-      "description": "Tire Pressure Monitoring System diagnostic and programming tools"
+      "id": "adas-tools",
+      "name": "ADAS Tools",
+      "description": "Advanced Driver Assistance Systems calibration and diagnostic tools",
+      "icon": "Radar",
+      "featured": true,
+      "slug": "adas-tools"
     },
     {
-      "id": "paintbooth",
-      "name": "Paintbooth",
-      "slug": "paintbooth",
-      "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400&h=300&fit=crop&crop=center",
-      "description": "Professional paint booth equipment for automotive refinishing"
+      "id": "tpms-tools",
+      "name": "TPMS Tools",
+      "description": "Tire Pressure Monitoring System programming and diagnostic equipment",
+      "icon": "Gauge",
+      "featured": true,
+      "slug": "tpms-tools"
     },
     {
-      "id": "wheel-equipments",
-      "name": "Wheel Equipments",
-      "slug": "wheel-equipments",
-      "image": "https://images.unsplash.com/photo-1558985212-92c2ff0b56c8?w=400&h=300&fit=crop&crop=center",
-      "description": "Complete wheel service equipment for tire and wheel maintenance"
+      "id": "ev-tools",
+      "name": "EV Tools",
+      "description": "Electric vehicle diagnostic and maintenance tools",
+      "icon": "Zap",
+      "featured": true,
+      "slug": "ev-tools"
+    },
+    {
+      "id": "diy-tools",
+      "name": "DIY Tools",
+      "description": "Consumer-grade diagnostic tools for DIY enthusiasts",
+      "icon": "Wrench",
+      "featured": false,
+      "slug": "diy-tools"
     }
   ],
   "products": [
@@ -131,7 +146,7 @@
       "sku": "LT-X431-PRO3S",
       "price": 2850,
       "inStock": true,
-      "categoryId": "scanners",
+      "categoryId": "passenger-car-diagnostics",
       "images": [
         "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=400&fit=crop&crop=center",
         "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop&crop=center"
@@ -194,7 +209,7 @@
       "sku": "LT-TLT240SC",
       "price": 4200,
       "inStock": true,
-      "categoryId": "two-post-lift",
+      "categoryId": "heavy-duty-diagnostics",
       "images": [
         "https://images.unsplash.com/photo-1486753484717-3036a71ea0ce?w=600&h=400&fit=crop&crop=center",
         "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=400&fit=crop&crop=center"
@@ -257,7 +272,7 @@
       "sku": "LT-CR3008",
       "price": 185,
       "inStock": true,
-      "categoryId": "diy-c-readers",
+      "categoryId": "diy-tools",
       "images": [
         "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop&crop=center",
         "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=400&fit=crop&crop=center"
@@ -316,7 +331,7 @@
       "sku": "LT-CNC602A",
       "price": 890,
       "inStock": false,
-      "categoryId": "injector-cleaner",
+      "categoryId": "battery-diagnostics",
       "images": [
         "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=600&h=400&fit=crop&crop=center",
         "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=400&fit=crop&crop=center"
@@ -375,7 +390,7 @@
       "sku": "LT-TPMS-PRO",
       "price": 520,
       "inStock": true,
-      "categoryId": "tpms",
+      "categoryId": "tpms-tools",
       "images": [
         "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop&crop=center",
         "https://images.unsplash.com/photo-1558985212-92c2ff0b56c8?w=600&h=400&fit=crop&crop=center"
@@ -434,7 +449,7 @@
       "sku": "LT-WB200",
       "price": 1250,
       "inStock": true,
-      "categoryId": "wheel-equipments",
+      "categoryId": "diy-tools",
       "images": [
         "https://images.unsplash.com/photo-1558985212-92c2ff0b56c8?w=600&h=400&fit=crop&crop=center",
         "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop&crop=center"

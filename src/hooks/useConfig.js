@@ -1,20 +1,10 @@
 import { useState, useEffect } from 'react';
 import siteConfig from '../config/siteConfig.json';
-import { useProducts } from './useProducts';
 
 export const useConfig = () => {
   const [config, setConfig] = useState(siteConfig);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  // Use the new products hook
-  const {
-    products: dynamicProducts,
-    loading: productsLoading,
-    searchProducts: searchDynamicProducts,
-    getProductBySlug: getDynamicProductBySlug,
-    getProductsByCategory: getDynamicProductsByCategory
-  } = useProducts();
 
   // Helper functions to get specific parts of config
   const getBrand = () => config.brand;
@@ -22,17 +12,14 @@ export const useConfig = () => {
   const getNavigation = () => config.navigation;
   const getHero = () => config.hero;
   const getCategories = () => config.categories;
-
-  // Use dynamic products instead of static ones
-  const getProducts = () => dynamicProducts;
-
+  const getProducts = () => config.products;
   const getTestimonials = () => config.testimonials;
   const getAbout = () => config.about;
   const getFooter = () => config.footer;
 
-  // Get product by slug - use dynamic products
+  // Get product by slug
   const getProductBySlug = (slug) => {
-    return getDynamicProductBySlug(slug);
+    return config.products.find(product => product.slug === slug);
   };
 
   // Get category by slug
@@ -40,9 +27,9 @@ export const useConfig = () => {
     return config.categories.find(category => category.slug === slug);
   };
 
-  // Get products by category - use dynamic products
+  // Get products by category
   const getProductsByCategory = (categoryId) => {
-    return getDynamicProductsByCategory(categoryId);
+    return config.products.filter(product => product.categoryId === categoryId);
   };
 
   // Get category name by id
@@ -56,14 +43,22 @@ export const useConfig = () => {
     return `AED ${price.toLocaleString()}`;
   };
 
-  // Search products - use dynamic search
+  // Search products
   const searchProducts = (query) => {
-    return searchDynamicProducts(query);
+    if (!query.trim()) return config.products;
+
+    const searchTerm = query.toLowerCase();
+    return config.products.filter(product =>
+      product.title.toLowerCase().includes(searchTerm) ||
+      product.shortDescription.toLowerCase().includes(searchTerm) ||
+      product.sku.toLowerCase().includes(searchTerm) ||
+      product.categoryId.toLowerCase().includes(searchTerm)
+    );
   };
 
   return {
     config,
-    loading: loading || productsLoading,
+    loading,
     error,
     getBrand,
     getCompany,

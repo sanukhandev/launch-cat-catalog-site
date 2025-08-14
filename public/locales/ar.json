@@ -16,6 +16,7 @@
         "downloadBrochure": "تحميل الكتيب",
         "browseAllProducts": "تصفح جميع المنتجات",
         "backToHome": "العودة للرئيسية",
+        "backToProducts": "العودة للمنتجات",
         "categoryNotFound": "الفئة غير موجودة",
         "inStock": "متوفر",
         "outOfStock": "غير متوفر",
@@ -164,9 +165,43 @@
         "workingHours": "ساعات العمل",
         "hours": "الساعات"
     },
+    "categories": {
+        "passenger-car-diagnostics": {
+            "name": "تشخيص السيارات الشخصية",
+            "description": "أدوات تشخيص متقدمة للمركبات الشخصية تشمل قارئات OBD والتشخيص الخاص بالأنظمة وتغطية متعددة العلامات التجارية"
+        },
+        "heavy-duty-diagnostics": {
+            "name": "تشخيص الأحمال الثقيلة",
+            "description": "حلول تشخيص مهنية للشاحنات والحافلات والمركبات التجارية"
+        },
+        "battery-diagnostics": {
+            "name": "تشخيص البطاريات",
+            "description": "أدوات اختبار وتحليل وصيانة البطاريات لجميع أنواع المركبات"
+        },
+        "immo-tools": {
+            "name": "أدوات IMMO",
+            "description": "حلول برمجة منع الحركة وترميز المفاتيح"
+        },
+        "adas-tools": {
+            "name": "أدوات ADAS",
+            "description": "أدوات معايرة وتشخيص أنظمة مساعدة السائق المتقدمة"
+        },
+        "tpms-tools": {
+            "name": "أدوات TPMS",
+            "description": "معدات برمجة وتشخيص نظام مراقبة ضغط الإطارات"
+        },
+        "ev-tools": {
+            "name": "أدوات السيارات الكهربائية",
+            "description": "أدوات تشخيص وصيانة السيارات الكهربائية"
+        },
+        "diy-tools": {
+            "name": "أدوات DIY",
+            "description": "أدوات تشخيص للمستهلكين وهواة الصيانة الذاتية"
+        }
+    },
     "footer": {
         "quickLinks": "روابط سريعة",
-        "categories": "الفئات",
+        "categories": "فئات المنتجات",
         "contactInfo": "معلومات التواصل",
         "followUs": "تابعنا",
         "privacyPolicy": "سياسة الخصوصية",
