@@ -1,31 +1,33 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X, Phone } from 'lucide-react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import ThemeToggle from './ThemeToggle';
-import { useConfig } from '../hooks/useConfig';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Search, Menu, X, Phone } from "lucide-react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import ThemeToggle from "./ThemeToggle";
+import { useConfig } from "../hooks/useConfig";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const { getBrand, getCompany, getNavigation } = useConfig();
-  
+
   const brand = getBrand();
   const company = getCompany();
   const navigation = getNavigation();
 
   const isActiveLink = (path) => {
-    return location.pathname === path || location.pathname.startsWith(path + '/');
+    return (
+      location.pathname === path || location.pathname.startsWith(path + "/")
+    );
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       // Mock search functionality - would navigate to search results
-      console.log('Searching for:', searchQuery);
-      setSearchQuery('');
+      console.log("Searching for:", searchQuery);
+      setSearchQuery("");
     }
   };
 
@@ -40,11 +42,11 @@ const Header = () => {
                 <Phone className="w-3 h-3" />
                 <span>{company.phone}</span>
               </div>
-              <span className="hidden sm:block">{company.workingHours.join(' | ')}</span>
+              <span className="hidden sm:block">
+                {company.workingHours.join(" | ")}
+              </span>
             </div>
-            <div className="text-xs opacity-90">
-              {brand.tagline}
-            </div>
+            <div className="text-xs opacity-90">{brand.tagline}</div>
           </div>
         </div>
 
@@ -53,13 +55,11 @@ const Header = () => {
           <div className="flex items-center justify-between gap-4">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3">
-              <div className="bg-white rounded-lg p-2">
-                <div className="text-primary font-bold text-lg">{brand.logoText}</div>
-              </div>
-              <div>
-                <div className="font-heading font-bold text-xl">{brand.distributor}</div>
-                <div className="text-xs opacity-90">Launch MENA Distributor</div>
-              </div>
+              <img
+                src="/images/logo.png"
+                alt={brand.logoText}
+                className="h-8 w-auto"
+              />
             </Link>
 
             {/* Desktop Navigation */}
@@ -70,8 +70,8 @@ const Header = () => {
                   to={item.path}
                   className={`px-4 py-2 rounded-md font-ui font-semibold text-sm uppercase tracking-wide transition-colors ${
                     isActiveLink(item.path)
-                      ? 'bg-white/20 text-white'
-                      : 'hover:bg-white/10'
+                      ? "bg-white/20 text-white"
+                      : "hover:bg-white/10"
                   }`}
                 >
                   {item.name}
@@ -83,9 +83,12 @@ const Header = () => {
             <div className="flex items-center gap-3">
               {/* Theme Toggle */}
               <ThemeToggle variant="ghost" />
-              
+
               {/* Search */}
-              <form onSubmit={handleSearch} className="hidden md:flex items-center relative">
+              <form
+                onSubmit={handleSearch}
+                className="hidden md:flex items-center relative"
+              >
                 <Input
                   type="text"
                   placeholder="Search products, SKUs…"
@@ -118,7 +121,11 @@ const Header = () => {
                 className="lg:hidden text-white hover:bg-white/10"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {isMenuOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
               </Button>
             </div>
           </div>
@@ -134,8 +141,8 @@ const Header = () => {
                   to={item.path}
                   className={`px-4 py-3 rounded-md font-ui font-semibold text-sm uppercase tracking-wide transition-colors ${
                     isActiveLink(item.path)
-                      ? 'bg-white/20 text-white'
-                      : 'hover:bg-white/10'
+                      ? "bg-white/20 text-white"
+                      : "hover:bg-white/10"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -143,9 +150,12 @@ const Header = () => {
                 </Link>
               ))}
             </nav>
-            
+
             {/* Mobile search */}
-            <form onSubmit={handleSearch} className="mt-4 flex items-center relative">
+            <form
+              onSubmit={handleSearch}
+              className="mt-4 flex items-center relative"
+            >
               <Input
                 type="text"
                 placeholder="Search products, SKUs…"
