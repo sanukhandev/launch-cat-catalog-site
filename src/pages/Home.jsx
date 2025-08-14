@@ -9,6 +9,7 @@ import {
   Users,
   Wrench,
   Clock,
+  Loader,
 } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -17,14 +18,16 @@ import CategoryCard from "../components/CategoryCard";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { useConfig } from "../hooks/useConfig";
+import { useCategories } from "../hooks/useCategories";
 import { useI18n } from "../context/I18nContext";
 
 const Home = () => {
-  const { getCategories, getCompany, getBrand } = useConfig();
+  const { getCompany, getBrand } = useConfig();
+  const { categories, loading: categoriesLoading, getFeaturedCategories } = useCategories();
   const { t, isRTL } = useI18n();
-  const categories = getCategories();
   const company = getCompany();
   const brand = getBrand();
+  const featuredCategories = getFeaturedCategories();
 
   const iconMap = {
     Award,
@@ -113,10 +116,20 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-            {categories.slice(0, 7).map((category) => (
-              <CategoryCard key={category.id} category={category} />
-            ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+            {categoriesLoading ? (
+              <div className="col-span-full flex items-center justify-center py-8">
+                <Loader className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            ) : featuredCategories.length > 0 ? (
+              featuredCategories.map((category) => (
+                <CategoryCard key={category.id} category={category} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-muted">{t("home.featuredCategories.noCategories")}</p>
+              </div>
+            )}
           </div>
 
           <div className="text-center">

@@ -5,9 +5,12 @@
         "search": "البحث عن المنتجات، رقم المنتج...",
         "searchProducts": "البحث عن المنتجات",
         "viewDetails": "عرض التفاصيل",
+        "viewProducts": "عرض المنتجات",
         "enquireNow": "استعلم الآن",
         "contactSales": "تواصل مع المبيعات",
         "browseAllProducts": "تصفح جميع المنتجات",
+        "backToHome": "العودة للرئيسية",
+        "categoryNotFound": "الفئة غير موجودة",
         "inStock": "متوفر",
         "outOfStock": "غير متوفر",
         "currency": "العملة",
@@ -100,7 +103,8 @@
     "home": {
         "featuredCategories": {
             "title": "الفئات المميزة",
-            "description": "استكشف مجموعتنا الشاملة من معدات التشخيص الاحترافية للسيارات وأدوات الورش"
+            "description": "استكشف مجموعتنا الشاملة من معدات التشخيص الاحترافية للسيارات وأدوات الورش",
+            "noCategories": "لا توجد فئات متاحة"
         },
         "distributor": {
             "title": "الموزع المعتمد",
@@ -110,6 +114,11 @@
             "title": "زر صالة العرض",
             "description": "اختبر منتجاتنا بنفسك في منشأة صالة العرض المتطورة"
         }
+    },
+    "category": {
+        "productsCount": "{{count}} منتج متاح",
+        "noProducts": "لا توجد منتجات متاحة",
+        "noProductsDescription": "ستكون المنتجات في هذه الفئة متاحة قريباً."
     },
     "contact": {
         "title": "اتصل بنا",

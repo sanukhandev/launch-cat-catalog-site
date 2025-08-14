@@ -5,9 +5,12 @@
         "search": "Search products, SKUs…",
         "searchProducts": "Search Products",
         "viewDetails": "View Details",
+        "viewProducts": "View Products",
         "enquireNow": "Enquire Now",
         "contactSales": "Contact Sales",
         "browseAllProducts": "Browse All Products",
+        "backToHome": "Back to Home",
+        "categoryNotFound": "Category not found",
         "inStock": "In Stock",
         "outOfStock": "Out of Stock",
         "currency": "Currency",
@@ -100,7 +103,8 @@
     "home": {
         "featuredCategories": {
             "title": "Featured Categories",
-            "description": "Explore our comprehensive range of professional automotive diagnostic equipment and workshop tools"
+            "description": "Explore our comprehensive range of professional automotive diagnostic equipment and workshop tools",
+            "noCategories": "No categories available"
         },
         "distributor": {
             "title": "Your Authorized Distributor",
@@ -110,6 +114,11 @@
             "title": "Visit Our Showroom",
             "description": "Experience our products firsthand at our state-of-the-art showroom facility"
         }
+    },
+    "category": {
+        "productsCount": "{{count}} products available",
+        "noProducts": "No products available",
+        "noProductsDescription": "Products in this category will be available soon."
     },
     "contact": {
         "title": "Contact Us",

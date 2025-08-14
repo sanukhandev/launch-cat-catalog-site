@@ -1,0 +1,164 @@
+{
+    "common": {
+        "loading": "加载中…",
+        "error": "错误",
+        "search": "搜索产品、SKU…",
+        "searchProducts": "搜索产品",
+        "viewDetails": "查看详情",
+        "viewProducts": "查看产品",
+        "enquireNow": "立即咨询",
+        "contactSales": "联系销售",
+        "browseAllProducts": "浏览全部产品",
+        "backToHome": "返回首页",
+        "categoryNotFound": "未找到分类",
+        "inStock": "有货",
+        "outOfStock": "无货",
+        "currency": "货币",
+        "language": "语言",
+        "changeLanguage": "切换语言",
+        "errorLoadingProducts": "加载产品时出错",
+        "retry": "重试"
+    },
+    "brand": {
+        "name": "Launch Tech | MENA",
+        "distributor": "Candour Auto Tech",
+        "tagline": "授权的 LAUNCH 经销商与培训合作伙伴",
+        "logoText": "LAUNCH"
+    },
+    "company": {
+        "name": "Candour Auto Tech",
+        "workingHours": "周一–周六 10:00–19:00"
+    },
+    "navigation": {
+        "products": "产品",
+        "about": "关于我们",
+        "contact": "联系我们"
+    },
+    "hero": {
+        "title": "Candour Auto Tech",
+        "subtitle": "授权的 LAUNCH 经销商与培训合作伙伴",
+        "description": "为维修车间和服务中心提供专业汽车诊断解决方案与设备，覆盖整个地区",
+        "featuredProducts": "精选产品",
+        "badges": {
+            "genuineProducts": "原装 LAUNCH 产品",
+            "technicalTraining": "技术培训与支持",
+            "professionalEquipment": "专业级设备"
+        },
+        "stats": {
+            "yearsExperience": "年经验",
+            "workshopPartners": "合作维修站",
+            "technicalSupport": "技术支持"
+        },
+        "ctaPrimary": "浏览目录",
+        "ctaSecondary": "联系销售"
+    },
+    "products": {
+        "allProducts": "全部产品",
+        "categories": "分类",
+        "priceRange": "价格区间",
+        "stockStatus": "库存状态",
+        "sortBy": "排序方式",
+        "filters": "筛选",
+        "showFilters": "显示筛选",
+        "hideFilters": "隐藏筛选",
+        "noProductsFound": "未找到产品",
+        "resultsFound": "个结果",
+        "page": "第",
+        "of": "页，共",
+        "availability": "可用性",
+        "allPrices": "全部价格",
+        "all": "全部",
+        "newest": "最新",
+        "oldest": "最早",
+        "priceLowToHigh": "价格：从低到高",
+        "priceHighToLow": "价格：从高到低",
+        "nameAZ": "名称：A–Z",
+        "nameZA": "名称：Z–A",
+        "clearAllFilters": "清除所有筛选",
+        "searchPlaceholder": "按名称、SKU 搜索…",
+        "selectPriceRange": "选择价格区间"
+    },
+    "about": {
+        "heading": "关于 Candour Auto Tech",
+        "description": "一支充满热情的汽车工程师团队，提供智能汽车的培训、咨询、维护与维修——我们的承诺：‘高品质，可靠服务。预算内。’",
+        "features": {
+            "authorisedDealer": {
+                "title": "授权经销商",
+                "description": "授权的 LAUNCH 扫描仪经销商与培训合作伙伴"
+            },
+            "expertTraining": {
+                "title": "专家培训",
+                "description": "专业培训与认证项目"
+            },
+            "technicalSupport": {
+                "title": "技术支持",
+                "description": "完善的售后服务与支持"
+            },
+            "genuineProducts": {
+                "title": "正品保障",
+                "description": "100% 原装 LAUNCH 诊断方案"
+            }
+        }
+    },
+    "home": {
+        "featuredCategories": {
+            "title": "精选分类",
+            "description": "探索我们全面的专业汽车诊断设备与车间工具",
+            "noCategories": "无可用分类"
+        },
+        "distributor": {
+            "title": "您的授权分销商",
+            "description": "为阿联酋及中东和北非地区提供 Launch 诊断解决方案的销售、培训与售后支持"
+        },
+        "showroom": {
+            "title": "参观我们的展厅",
+            "description": "在我们先进的展厅亲身体验产品"
+        }
+    },
+    "category": {
+        "productsCount": "{{count}} 个可用产品",
+        "noProducts": "无可用产品",
+        "noProductsDescription": "此分类中的产品即将推出。"
+    },
+    "contact": {
+        "title": "联系我们",
+        "getInTouch": "取得联系",
+        "contactForm": "联系表单",
+        "name": "姓名",
+        "email": "邮箱",
+        "phone": "电话",
+        "company": "公司",
+        "message": "留言",
+        "subject": "主题",
+        "send": "发送",
+        "sending": "正在发送…",
+        "thankYou": "感谢您的联系",
+        "responseTime": "我们将在 24 小时内回复",
+        "mainOffice": "总部",
+        "showroom": "展厅",
+        "address": "地址",
+        "workingHours": "营业时间",
+        "hours": "小时"
+    },
+    "footer": {
+        "description": "为阿联酋及中东和北非地区的维修车间与服务中心提供专业汽车诊断解决方案、培训与技术支持。",
+        "quickLinks": "快速链接",
+        "contactInfo": "联系信息",
+        "links": {
+            "about": "关于我们",
+            "products": "产品",
+            "accessories": "配件",
+            "training": "培训",
+            "support": "支持",
+            "contact": "联系我们"
+        },
+        "legalLinks": {
+            "privacy": "隐私政策",
+            "terms": "服务条款"
+        },
+        "copyright": "© 2025 Launch / Candour Auto Tech. 保留所有权利。"
+    },
+    "testimonials": {
+        "heading": "客户评价"
+    }
+}

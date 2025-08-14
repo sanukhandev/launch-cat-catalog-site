@@ -5,9 +5,12 @@
         "search": "Produkte, SKUs suchen…",
         "searchProducts": "Produkte suchen",
         "viewDetails": "Details anzeigen",
+        "viewProducts": "Produkte anzeigen",
         "enquireNow": "Jetzt anfragen",
         "contactSales": "Vertrieb kontaktieren",
         "browseAllProducts": "Alle Produkte durchsuchen",
+        "backToHome": "Zurück zur Startseite",
+        "categoryNotFound": "Kategorie nicht gefunden",
         "inStock": "Auf Lager",
         "outOfStock": "Nicht auf Lager",
         "currency": "Währung",
@@ -110,6 +113,11 @@
             "title": "Besuchen Sie unseren Showroom",
             "description": "Erleben Sie unsere Produkte live in unserem modernen Showroom"
         }
+    },
+    "category": {
+        "productsCount": "{{count}} Produkte verfügbar",
+        "noProducts": "Keine Produkte verfügbar",
+        "noProductsDescription": "Produkte in dieser Kategorie werden bald verfügbar sein."
     },
     "contact": {
         "title": "Kontakt",

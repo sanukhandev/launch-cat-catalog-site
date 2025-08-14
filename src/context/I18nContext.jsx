@@ -23,6 +23,20 @@ export const LANGUAGES = {
     dir: "ltr",
     flag: "🇩🇪",
   },
+  hi: {
+    code: "hi",
+    name: "Hindi",
+    nativeName: "हिन्दी",
+    dir: "ltr",
+    flag: "🇮🇳",
+  },
+  zh: {
+    code: "zh",
+    name: "Chinese",
+    nativeName: "中文",
+    dir: "ltr",
+    flag: "🇨🇳",
+  },
 };
 
 export const CURRENCIES = {
@@ -58,7 +72,7 @@ export const COUNTRY_MAPPINGS = {
   SA: { language: "ar", currency: "SAR" }, // Saudi Arabia
   US: { language: "en", currency: "USD" }, // USA
   GB: { language: "en", currency: "USD" }, // UK
-  DE: { language: "en", currency: "EUR" }, // Germany
+  DE: { language: "de", currency: "EUR" }, // Germany
 };
 
 const I18nContext = createContext();

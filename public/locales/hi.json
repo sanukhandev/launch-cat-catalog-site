@@ -1,0 +1,164 @@
+{
+    "common": {
+        "loading": "लोड हो रहा है…",
+        "error": "त्रुटि",
+        "search": "उत्पाद, SKU खोजें…",
+        "searchProducts": "उत्पाद खोजें",
+        "viewDetails": "विवरण देखें",
+        "viewProducts": "उत्पाद देखें",
+        "enquireNow": "अभी पूछताछ करें",
+        "contactSales": "सेल्स से संपर्क करें",
+        "browseAllProducts": "सभी उत्पाद देखें",
+        "backToHome": "होम पर वापस जाएं",
+        "categoryNotFound": "श्रेणी नहीं मिली",
+        "inStock": "स्टॉक में",
+        "outOfStock": "स्टॉक में नहीं",
+        "currency": "मुद्रा",
+        "language": "भाषा",
+        "changeLanguage": "भाषा बदलें",
+        "errorLoadingProducts": "उत्पाद लोड करने में त्रुटि",
+        "retry": "फिर से प्रयास करें"
+    },
+    "brand": {
+        "name": "Launch Tech | MENA",
+        "distributor": "Candour Auto Tech",
+        "tagline": "अधिकृत LAUNCH डीलर और प्रशिक्षण भागीदार",
+        "logoText": "LAUNCH"
+    },
+    "company": {
+        "name": "Candour Auto Tech",
+        "workingHours": "सोम–शनि 10:00–19:00"
+    },
+    "navigation": {
+        "products": "उत्पाद",
+        "about": "हमारे बारे में",
+        "contact": "संपर्क"
+    },
+    "hero": {
+        "title": "Candour Auto Tech",
+        "subtitle": "अधिकृत LAUNCH डीलर और प्रशिक्षण भागीदार",
+        "description": "कार्यशालाओं और सेवा केंद्रों के लिए पेशेवर वाहन-निदान समाधान और उपकरण",
+        "featuredProducts": "विशेष उत्पाद",
+        "badges": {
+            "genuineProducts": "मूल LAUNCH उत्पाद",
+            "technicalTraining": "तकनीकी प्रशिक्षण व सहायता",
+            "professionalEquipment": "पेशेवर-ग्रेड उपकरण"
+        },
+        "stats": {
+            "yearsExperience": "वर्षों का अनुभव",
+            "workshopPartners": "वर्कशॉप पार्टनर",
+            "technicalSupport": "तकनीकी सहायता"
+        },
+        "ctaPrimary": "कैटलॉग देखें",
+        "ctaSecondary": "सेल्स से संपर्क करें"
+    },
+    "products": {
+        "allProducts": "सभी उत्पाद",
+        "categories": "श्रेणियाँ",
+        "priceRange": "मूल्य सीमा",
+        "stockStatus": "स्टॉक स्थिति",
+        "sortBy": "क्रमबद्ध करें",
+        "filters": "फ़िल्टर",
+        "showFilters": "फ़िल्टर दिखाएँ",
+        "hideFilters": "फ़िल्टर छिपाएँ",
+        "noProductsFound": "कोई उत्पाद नहीं मिला",
+        "resultsFound": "परिणाम मिले",
+        "page": "पृष्ठ",
+        "of": "में से",
+        "availability": "उपलब्धता",
+        "allPrices": "सभी मूल्य",
+        "all": "सभी",
+        "newest": "नवीनतम",
+        "oldest": "सबसे पुराने",
+        "priceLowToHigh": "कीमत: कम से अधिक",
+        "priceHighToLow": "कीमत: अधिक से कम",
+        "nameAZ": "नाम: A–Z",
+        "nameZA": "नाम: Z–A",
+        "clearAllFilters": "सभी फ़िल्टर साफ़ करें",
+        "searchPlaceholder": "नाम, SKU द्वारा खोजें…",
+        "selectPriceRange": "मूल्य सीमा चुनें"
+    },
+    "about": {
+        "heading": "Candour Auto Tech के बारे में",
+        "description": "उत्साही ऑटोमोबाइल इंजीनियरों की टीम जो बुद्धिमान वाहनों के लिए प्रशिक्षण, परामर्श, रखरखाव और मरम्मत प्रदान करती है—हमारा वादा: ‘उच्च गुणवत्ता, विश्वसनीय सेवा. बजट के भीतर.’",
+        "features": {
+            "authorisedDealer": {
+                "title": "अधिकृत डीलर",
+                "description": "अधिकृत LAUNCH स्कैनर डीलर और प्रशिक्षण भागीदार"
+            },
+            "expertTraining": {
+                "title": "विशेषज्ञ प्रशिक्षण",
+                "description": "व्यावसायिक प्रशिक्षण और प्रमाणन कार्यक्रम"
+            },
+            "technicalSupport": {
+                "title": "तकनीकी सहायता",
+                "description": "समग्र आफ्टर-सेल्स सेवा और सपोर्ट"
+            },
+            "genuineProducts": {
+                "title": "मूल उत्पाद",
+                "description": "100% प्रामाणिक LAUNCH निदान समाधान"
+            }
+        }
+    },
+    "home": {
+        "featuredCategories": {
+            "title": "विशेष श्रेणियाँ",
+            "description": "पेशेवर वाहन-निदान उपकरण और वर्कशॉप टूल्स की हमारी व्यापक श्रृंखला का अन्वेषण करें",
+            "noCategories": "कोई श्रेणियाँ उपलब्ध नहीं"
+        },
+        "distributor": {
+            "title": "आपका अधिकृत वितरक",
+            "description": "यूएई और MENA क्षेत्र में Launch निदान समाधानों के लिए बिक्री, प्रशिक्षण और आफ्टर-सेल्स सपोर्ट"
+        },
+        "showroom": {
+            "title": "हमारे शोरूम में आएँ",
+            "description": "हमारी अत्याधुनिक शोरूम सुविधा में उत्पादों का प्रत्यक्ष अनुभव लें"
+        }
+    },
+    "category": {
+        "productsCount": "{{count}} उत्पाद उपलब्ध",
+        "noProducts": "कोई उत्पाद उपलब्ध नहीं",
+        "noProductsDescription": "इस श्रेणी में उत्पाद जल्द ही उपलब्ध होंगे।"
+    },
+    "contact": {
+        "title": "संपर्क करें",
+        "getInTouch": "संपर्क में आएँ",
+        "contactForm": "संपर्क फ़ॉर्म",
+        "name": "नाम",
+        "email": "ईमेल",
+        "phone": "फ़ोन",
+        "company": "कंपनी",
+        "message": "संदेश",
+        "subject": "विषय",
+        "send": "भेजें",
+        "sending": "भेजा जा रहा है…",
+        "thankYou": "हमसे संपर्क करने के लिए धन्यवाद",
+        "responseTime": "हम 24 घंटों के भीतर उत्तर देंगे",
+        "mainOffice": "मुख्य कार्यालय",
+        "showroom": "शोरूम",
+        "address": "पता",
+        "workingHours": "कार्य समय",
+        "hours": "घंटे"
+    },
+    "footer": {
+        "description": "यूएई और MENA क्षेत्र की कार्यशालाओं व सेवा केंद्रों के लिए पेशेवर वाहन-निदान समाधान, प्रशिक्षण और तकनीकी सहायता।",
+        "quickLinks": "त्वरित लिंक",
+        "contactInfo": "संपर्क जानकारी",
+        "links": {
+            "about": "हमारे बारे में",
+            "products": "उत्पाद",
+            "accessories": "सहायक उपकरण",
+            "training": "प्रशिक्षण",
+            "support": "समर्थन",
+            "contact": "संपर्क"
+        },
+        "legalLinks": {
+            "privacy": "गोपनीयता नीति",
+            "terms": "सेवा की शर्तें"
+        },
+        "copyright": "© 2025 Launch / Candour Auto Tech. सर्वाधिकार सुरक्षित."
+    },
+    "testimonials": {
+        "heading": "हमारे ग्राहक क्या कहते हैं"
+    }
+}
