@@ -8,13 +8,14 @@ import CategoryCard from '../components/CategoryCard';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { useConfig } from '../hooks/useConfig';
+import { useI18n } from '../context/I18nContext';
 
 const Home = () => {
-  const { getCategories, getCompany, getBrand, getAbout } = useConfig();
+  const { getCategories, getCompany, getBrand } = useConfig();
+  const { t, isRTL } = useI18n();
   const categories = getCategories();
   const company = getCompany();
   const brand = getBrand();
-  const about = getAbout();
 
   const iconMap = {
     Award,
@@ -35,26 +36,42 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="font-heading font-semibold text-3xl lg:text-4xl text-foreground mb-4">
-              {about.heading}
+              {t("about.heading")}
             </h2>
             <p className="text-lg text-muted leading-relaxed mb-6">
-              {about.description}
+              {t("about.description")}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {about.features.map((feature, index) => {
-              const IconComponent = iconMap[feature.icon];
-              return (
-                <Card key={index} className="text-center p-6 border border-border hover:shadow-md transition-shadow dark:bg-gray-800">
-                  <CardContent className="p-0">
-                    {IconComponent && <IconComponent className="w-12 h-12 text-primary mx-auto mb-4" />}
-                    <h3 className="font-heading font-semibold text-lg mb-2">{feature.title}</h3>
-                    <p className="text-muted text-sm">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            <Card className="text-center p-6 border border-border hover:shadow-md transition-shadow dark:bg-gray-800">
+              <CardContent className="p-0">
+                <Award className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h3 className="font-heading font-semibold text-lg mb-2">{t("about.features.authorisedDealer.title")}</h3>
+                <p className="text-muted text-sm">{t("about.features.authorisedDealer.description")}</p>
+              </CardContent>
+            </Card>
+            <Card className="text-center p-6 border border-border hover:shadow-md transition-shadow dark:bg-gray-800">
+              <CardContent className="p-0">
+                <Users className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h3 className="font-heading font-semibold text-lg mb-2">{t("about.features.expertTraining.title")}</h3>
+                <p className="text-muted text-sm">{t("about.features.expertTraining.description")}</p>
+              </CardContent>
+            </Card>
+            <Card className="text-center p-6 border border-border hover:shadow-md transition-shadow dark:bg-gray-800">
+              <CardContent className="p-0">
+                <Wrench className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h3 className="font-heading font-semibold text-lg mb-2">{t("about.features.technicalSupport.title")}</h3>
+                <p className="text-muted text-sm">{t("about.features.technicalSupport.description")}</p>
+              </CardContent>
+            </Card>
+            <Card className="text-center p-6 border border-border hover:shadow-md transition-shadow dark:bg-gray-800">
+              <CardContent className="p-0">
+                <CheckCircle className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h3 className="font-heading font-semibold text-lg mb-2">{t("about.features.genuineProducts.title")}</h3>
+                <p className="text-muted text-sm">{t("about.features.genuineProducts.description")}</p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -64,10 +81,10 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-heading font-semibold text-3xl lg:text-4xl text-foreground mb-4">
-              Featured Categories
+              {t("home.featuredCategories.title")}
             </h2>
             <p className="text-lg text-muted max-w-2xl mx-auto">
-              Explore our comprehensive range of professional automotive diagnostic equipment and workshop tools
+              {t("home.featuredCategories.description")}
             </p>
           </div>
 
@@ -83,8 +100,8 @@ const Home = () => {
                 size="lg"
                 className="bg-primary hover:bg-primary-dark text-primary-foreground font-ui font-semibold text-sm uppercase tracking-wide px-8 py-3 h-auto group"
               >
-                View All Products
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                {t("common.browseAllProducts")}
+                <ArrowRight className={`w-5 h-5 ${isRTL ? "mr-2" : "ml-2"} group-hover:${isRTL ? "-translate-x-1" : "translate-x-1"} transition-transform`} />
               </Button>
             </Link>
           </div>
@@ -96,13 +113,13 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-heading font-semibold text-3xl lg:text-4xl mb-4">
-              Your Authorized Distributor
+              {t("home.distributor.title")}
             </h2>
             <div className="font-heading font-bold text-4xl lg:text-5xl mb-6 text-white">
-              {brand.distributor}
+              {t("brand.distributor")}
             </div>
             <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-              Sales, training and after-sales support for Launch diagnostic solutions across UAE and MENA region
+              {t("home.distributor.description")}
             </p>
             <Link to="/contact">
               <Button 
@@ -110,7 +127,7 @@ const Home = () => {
                 size="lg"
                 className="bg-white text-primary hover:bg-gray-100 font-ui font-semibold text-sm uppercase tracking-wide px-8 py-3 h-auto"
               >
-                Enquire Now
+                {t("common.enquireNow")}
               </Button>
             </Link>
           </div>
@@ -122,10 +139,10 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-heading font-semibold text-3xl lg:text-4xl text-foreground mb-4">
-              Visit Our Showroom
+              {t("home.showroom.title")}
             </h2>
             <p className="text-lg text-muted">
-              Experience our products firsthand at our state-of-the-art showroom facility
+              {t("home.showroom.description")}
             </p>
           </div>
 
@@ -134,19 +151,19 @@ const Home = () => {
             {/* Main Office */}
             <Card className="p-8 border border-border dark:bg-gray-800">
               <CardContent className="p-0">
-                <h3 className="font-heading font-semibold text-xl text-foreground mb-6">Main Office</h3>
+                <h3 className="font-heading font-semibold text-xl text-foreground mb-6">{t("contact.mainOffice")}</h3>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                     <div>
-                      <p className="font-ui font-semibold text-foreground mb-1">Address</p>
+                      <p className="font-ui font-semibold text-foreground mb-1">{t("contact.address")}</p>
                       <p className="text-muted">{company.hq}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Phone className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                     <div>
-                      <p className="font-ui font-semibold text-foreground mb-1">Phone</p>
+                      <p className="font-ui font-semibold text-foreground mb-1">{t("contact.phone")}</p>
                       <a href={`tel:${company.phone}`} className="text-primary hover:underline">
                         {company.phone}
                       </a>
@@ -155,7 +172,7 @@ const Home = () => {
                   <div className="flex items-start gap-3">
                     <Clock className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                     <div>
-                      <p className="font-ui font-semibold text-foreground mb-1">Working Hours</p>
+                      <p className="font-ui font-semibold text-foreground mb-1">{t("contact.workingHours")}</p>
                       <div className="text-muted text-sm">
                         {company.workingHours.map((hours, index) => (
                           <div key={index}>{hours}</div>
@@ -170,19 +187,19 @@ const Home = () => {
             {/* Showroom */}
             <Card className="p-8 border border-border bg-primary-light dark:bg-gray-700">
               <CardContent className="p-0">
-                <h3 className="font-heading font-semibold text-xl text-foreground mb-6">Showroom</h3>
+                <h3 className="font-heading font-semibold text-xl text-foreground mb-6">{t("contact.showroom")}</h3>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                     <div>
-                      <p className="font-ui font-semibold text-foreground mb-1">Address</p>
+                      <p className="font-ui font-semibold text-foreground mb-1">{t("contact.address")}</p>
                       <p className="text-muted">{company.showroom.address}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Phone className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                     <div>
-                      <p className="font-ui font-semibold text-foreground mb-1">Phone</p>
+                      <p className="font-ui font-semibold text-foreground mb-1">{t("contact.phone")}</p>
                       <a href={`tel:${company.showroom.phone}`} className="text-primary hover:underline">
                         {company.showroom.phone}
                       </a>
@@ -191,7 +208,7 @@ const Home = () => {
                   <div className="flex items-start gap-3">
                     <Clock className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                     <div>
-                      <p className="font-ui font-semibold text-foreground mb-1">Hours</p>
+                      <p className="font-ui font-semibold text-foreground mb-1">{t("contact.hours")}</p>
                       <p className="text-muted text-sm">{company.showroom.hours[0]}</p>
                     </div>
                   </div>

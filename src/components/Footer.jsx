@@ -18,22 +18,22 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-white rounded-lg p-2">
-                <div className="text-primary font-bold text-lg">
+            <div className="flex items-center gap-3 mb-6">
+              {/* Main Logo */}
+              <div className="bg-white rounded-lg p-3 shadow-md">
+                <div className="text-primary font-heading font-black text-2xl tracking-wide">
                   {t("brand.logoText")}
                 </div>
               </div>
-              <div>
-                <div className="font-heading font-bold text-lg">
-                  {t("brand.distributor")}
-                </div>
-                <div className="text-xs opacity-90">
-                  Launch MENA Distributor
-                </div>
+            </div>
+            <div className="mb-4">
+              <div className="font-heading font-bold text-xl text-white mb-1">
+                {t("brand.distributor")}
+              </div>
+              <div className="text-sm opacity-90 mb-3">
+                {t("brand.tagline")}
               </div>
             </div>
-            <p className="text-sm opacity-90 mb-4">{t("brand.tagline")}</p>
             <p className="text-sm opacity-75 leading-relaxed">
               {t("footer.description")}
             </p>
@@ -42,7 +42,7 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h3 className="font-heading font-semibold text-lg mb-4">
-              Quick Links
+              {t("footer.quickLinks")}
             </h3>
             <ul className="space-y-2">
               <li>
@@ -118,13 +118,13 @@ const Footer = () => {
           {/* Contact Info */}
           <div>
             <h3 className="font-heading font-semibold text-lg mb-4">
-              {t("navigation.contact")} Information
+              {t("footer.contactInfo")}
             </h3>
             <div className="space-y-3">
               {/* Main Office */}
               <div>
                 <h4 className="font-ui font-semibold text-sm mb-2 opacity-95">
-                  Main Office
+                  {t("contact.mainOffice")}
                 </h4>
                 <div className="space-y-2 text-sm opacity-90">
                   <div className="flex items-start gap-2">
@@ -154,7 +154,7 @@ const Footer = () => {
               {/* Showroom */}
               <div>
                 <h4 className="font-ui font-semibold text-sm mb-2 opacity-95">
-                  Showroom
+                  {t("contact.showroom")}
                 </h4>
                 <div className="space-y-2 text-sm opacity-90">
                   <div className="flex items-start gap-2">

@@ -97,8 +97,44 @@
             }
         }
     },
+    "home": {
+        "featuredCategories": {
+            "title": "Featured Categories",
+            "description": "Explore our comprehensive range of professional automotive diagnostic equipment and workshop tools"
+        },
+        "distributor": {
+            "title": "Your Authorized Distributor",
+            "description": "Sales, training and after-sales support for Launch diagnostic solutions across UAE and MENA region"
+        },
+        "showroom": {
+            "title": "Visit Our Showroom",
+            "description": "Experience our products firsthand at our state-of-the-art showroom facility"
+        }
+    },
+    "contact": {
+        "title": "Contact Us",
+        "getInTouch": "Get in Touch",
+        "contactForm": "Contact Form",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "company": "Company",
+        "message": "Message",
+        "subject": "Subject",
+        "send": "Send",
+        "sending": "Sending...",
+        "thankYou": "Thank you for contacting us",
+        "responseTime": "We'll respond within 24 hours",
+        "mainOffice": "Main Office",
+        "showroom": "Showroom",
+        "address": "Address",
+        "workingHours": "Working Hours",
+        "hours": "Hours"
+    },
     "footer": {
         "description": "Professional automotive diagnostic solutions, training and technical support for workshops and service centers across the UAE and MENA region.",
+        "quickLinks": "Quick Links",
+        "contactInfo": "Contact Information",
         "links": {
             "about": "About",
             "products": "Products",
