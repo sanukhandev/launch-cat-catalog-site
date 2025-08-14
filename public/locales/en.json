@@ -91,7 +91,16 @@
         "professionalGrade": "This professional-grade diagnostic equipment is designed for automotive workshops and service centers requiring reliable, accurate diagnostic capabilities. Built with Launch's renowned quality and backed by comprehensive technical support from Candour Auto Tech.",
         "noSpecifications": "No specifications available for this product.",
         "noDownloads": "No downloads available for this product.",
-        "youMightAlsoLike": "You Might Also Like"
+        "youMightAlsoLike": "You Might Also Like",
+        "paymentMethods": "Payment Methods",
+        "cashOnDelivery": "Cash on Delivery",
+        "codDescription": "Pay when you receive",
+        "onlinePayment": "Online Payment",
+        "onlineDescription": "Card, Bank Transfer",
+        "rentalInstallment": "Rental Installment",
+        "installmentDescription": "Flexible payment plans",
+        "paymentNote": "Payment Options Available",
+        "paymentNoteDescription": "Contact our sales team to discuss payment terms, financing options, and rental plans tailored to your business needs."
     },
     "about": {
         "heading": "About Candour Auto Tech",
