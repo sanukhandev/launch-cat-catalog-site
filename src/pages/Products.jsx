@@ -22,6 +22,7 @@ import {
 } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { useConfig } from "../hooks/useConfig";
+import { useI18n } from "../context/I18nContext";
 
 const Products = () => {
   const [searchParams] = useSearchParams();
@@ -36,6 +37,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { getProducts, getCategories, getCategoryName } = useConfig();
+  const { t, isRTL } = useI18n();
   const products = getProducts();
   const categories = getCategories();
 

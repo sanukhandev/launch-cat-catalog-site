@@ -4,11 +4,13 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
-import { useConfig } from "../hooks/useConfig";
+import { useProducts } from "../hooks/useProducts";
+import { useI18n } from "../context/I18nContext";
 
 const Hero = () => {
-  const { getProducts } = useConfig();
-  const products = getProducts().slice(0, 6); // Show only first 6 products
+  const { products, loading, error } = useProducts();
+  const { t, formatPrice, isRTL } = useI18n();
+  const displayProducts = products.slice(0, 6); // Show only first 6 products
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
@@ -84,19 +86,43 @@ const Hero = () => {
           {/* Section Header */}
           <div className="text-center mb-8">
             <h2 className="font-heading font-bold text-2xl lg:text-3xl text-foreground mb-3">
-              Featured <span className="text-primary">Products</span>
+              {t("hero.featuredProducts")}
             </h2>
             <p className="text-base text-muted max-w-2xl mx-auto leading-relaxed">
-              Professional automotive diagnostic solutions and equipment for
-              workshops and service centers
+              {t("hero.description")}
             </p>
           </div>
 
           {/* Product Carousel */}
           <div className="relative">
-            <div className="overflow-hidden" ref={emblaRef}>
+            {loading ? (
               <div className="flex gap-4">
-                {products.map((product) => (
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <div key={index} className="flex-none w-72 md:w-80">
+                    <Card className="h-full">
+                      <CardContent className="p-0">
+                        <div className="bg-gray-200 h-40 rounded-t-lg animate-pulse"></div>
+                        <div className="p-4 space-y-2">
+                          <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                          <div className="h-3 bg-gray-200 rounded animate-pulse"></div>
+                          <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+            ) : error ? (
+              <div className="text-center py-8">
+                <p className="text-red-500 mb-4">{t("common.errorLoadingProducts", "Error loading products")}</p>
+                <Button onClick={() => window.location.reload()}>
+                  {t("common.retry", "Retry")}
+                </Button>
+              </div>
+            ) : (
+              <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex gap-4">
+                  {displayProducts.map((product) => (
                   <div key={product.id} className="flex-none w-72 md:w-80">
                     <Card className="h-full hover:shadow-lg transition-shadow duration-300 group">
                       <CardContent className="p-0">
@@ -132,15 +158,19 @@ const Hero = () => {
                           </p>
                           <div className="flex items-center justify-between">
                             <div className="text-xl font-bold text-primary">
-                              ${product.price}
+                              {formatPrice(product.price)}
                             </div>
                             <Link to={`/products/${product.slug}`}>
                               <Button
                                 size="sm"
                                 className="bg-primary hover:bg-primary-dark text-white"
                               >
-                                View Details
-                                <ArrowRight className="w-3 h-3 ml-1" />
+                                {t("common.viewDetails")}
+                                <ArrowRight
+                                  className={`w-3 h-3 ${
+                                    isRTL ? "mr-1" : "ml-1"
+                                  }`}
+                                />
                               </Button>
                             </Link>
                           </div>
@@ -151,26 +181,31 @@ const Hero = () => {
                 ))}
               </div>
             </div>
+            )}
 
             {/* Navigation Buttons */}
-            <Button
-              variant="outline"
-              size="sm"
-              className="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl z-10"
-              onClick={scrollPrev}
-              disabled={!prevBtnEnabled}
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl z-10"
-              onClick={scrollNext}
-              disabled={!nextBtnEnabled}
-            >
-              <ChevronRight className="w-4 h-4" />
-            </Button>
+            {!loading && !error && displayProducts.length > 0 && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl z-10"
+                  onClick={scrollPrev}
+                  disabled={!prevBtnEnabled}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl z-10"
+                  onClick={scrollNext}
+                  disabled={!nextBtnEnabled}
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </>
+            )}
           </div>
 
           {/* CTA Section */}
@@ -181,8 +216,14 @@ const Hero = () => {
                   size="lg"
                   className="bg-primary hover:bg-primary-dark text-primary-foreground font-ui font-semibold text-sm uppercase tracking-wide px-6 py-2 h-auto group"
                 >
-                  Browse All Products
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  {t("common.browseAllProducts")}
+                  <ArrowRight
+                    className={`w-4 h-4 ${
+                      isRTL ? "mr-2" : "ml-2"
+                    } group-hover:${
+                      isRTL ? "-translate-x-1" : "translate-x-1"
+                    } transition-transform`}
+                  />
                 </Button>
               </Link>
               <Link to="/contact">
@@ -191,7 +232,7 @@ const Hero = () => {
                   size="lg"
                   className="bg-accent hover:bg-accent-dark text-white font-ui font-semibold text-sm uppercase tracking-wide px-6 py-2 h-auto"
                 >
-                  Contact Sales
+                  {t("common.contactSales")}
                 </Button>
               </Link>
             </div>

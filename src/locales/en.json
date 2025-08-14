@@ -1,0 +1,47 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "search": "Search products, SKUs…",
+        "searchProducts": "Search Products",
+        "viewDetails": "View Details",
+        "enquireNow": "Enquire Now",
+        "contactSales": "Contact Sales",
+        "browseAllProducts": "Browse All Products",
+        "inStock": "In Stock",
+        "outOfStock": "Out of Stock",
+        "currency": "Currency",
+        "language": "Language"
+    },
+    "navigation": {
+        "products": "Products",
+        "accessories": "Accessories",
+        "training": "Training",
+        "support": "Support",
+        "about": "About",
+        "contact": "Contact"
+    },
+    "hero": {
+        "featuredProducts": "Featured Products",
+        "description": "Professional automotive diagnostic solutions and equipment for workshops and service centers"
+    },
+    "products": {
+        "allProducts": "All Products",
+        "categories": "Categories",
+        "priceRange": "Price Range",
+        "stockStatus": "Stock Status",
+        "sortBy": "Sort By",
+        "filters": "Filters",
+        "showFilters": "Show Filters",
+        "hideFilters": "Hide Filters",
+        "noProductsFound": "No products found",
+        "resultsFound": "results found",
+        "page": "Page",
+        "of": "of"
+    },
+    "company": {
+        "name": "Candour Auto Tech",
+        "tagline": "Authorised LAUNCH Dealers & Training Partner",
+        "workingHours": "Mon–Sat 10:00–19:00"
+    }
+}

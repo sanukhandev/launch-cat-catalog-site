@@ -4,7 +4,9 @@ import { Search, Menu, X, Phone } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import ThemeToggle from "./ThemeToggle";
+import LanguageToggle from "./LanguageToggle";
 import { useConfig } from "../hooks/useConfig";
+import { useI18n } from "../context/I18nContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,6 +14,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { getBrand, getCompany, getNavigation, searchProducts } = useConfig();
+  const { t, isRTL } = useI18n();
 
   const brand = getBrand();
   const company = getCompany();
@@ -45,10 +48,10 @@ const Header = () => {
                 <span>{company.phone}</span>
               </div>
               <span className="hidden sm:block">
-                {company.workingHours.join(" | ")}
+                {t("company.workingHours")}
               </span>
             </div>
-            <div className="text-xs opacity-90">{brand.tagline}</div>
+            <div className="text-xs opacity-90">{t("brand.tagline")}</div>
           </div>
         </div>
 
@@ -76,13 +79,16 @@ const Header = () => {
                       : "hover:bg-white/10"
                   }`}
                 >
-                  {item.name}
+                  {t(`navigation.${item.name.toLowerCase()}`, item.name)}
                 </Link>
               ))}
             </nav>
 
             {/* Search & CTA */}
             <div className="flex items-center gap-3">
+              {/* Language Toggle */}
+              <LanguageToggle />
+
               {/* Theme Toggle */}
               <ThemeToggle variant="ghost" />
 
@@ -93,7 +99,7 @@ const Header = () => {
               >
                 <Input
                   type="text"
-                  placeholder="Search products, SKUs…"
+                  placeholder={t("common.search")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-64 bg-white/10 border-white/20 text-white placeholder:text-white/70 focus:bg-white/20"
@@ -148,7 +154,7 @@ const Header = () => {
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.name}
+                  {t(`navigation.${item.name.toLowerCase()}`, item.name)}
                 </Link>
               ))}
             </nav>
@@ -160,7 +166,7 @@ const Header = () => {
             >
               <Input
                 type="text"
-                placeholder="Search products, SKUs…"
+                placeholder={t("common.search")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-white/10 border-white/20 text-white placeholder:text-white/70 focus:bg-white/20"

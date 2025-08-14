@@ -1,0 +1,119 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "search": "Search products, SKUs…",
+        "searchProducts": "Search Products",
+        "viewDetails": "View Details",
+        "enquireNow": "Enquire Now",
+        "contactSales": "Contact Sales",
+        "browseAllProducts": "Browse All Products",
+        "inStock": "In Stock",
+        "outOfStock": "Out of Stock",
+        "currency": "Currency",
+        "language": "Language",
+        "changeLanguage": "Change Language",
+        "errorLoadingProducts": "Error loading products",
+        "retry": "Retry"
+    },
+    "brand": {
+        "name": "Launch Tech | MENA",
+        "distributor": "Candour Auto Tech",
+        "tagline": "Authorised LAUNCH Dealers & Training Partner",
+        "logoText": "LAUNCH"
+    },
+    "company": {
+        "name": "Candour Auto Tech",
+        "workingHours": "Mon–Sat 10:00–19:00"
+    },
+    "navigation": {
+        "products": "Products",
+        "about": "About",
+        "contact": "Contact"
+    },
+    "hero": {
+        "title": "Candour Auto Tech",
+        "subtitle": "Authorised LAUNCH Dealers & Training Partner",
+        "description": "Professional automotive diagnostic solutions and equipment for workshops and service centers across the region",
+        "featuredProducts": "Featured Products",
+        "badges": {
+            "genuineProducts": "Genuine Launch Products",
+            "technicalTraining": "Technical Training & Support",
+            "professionalEquipment": "Professional Grade Equipment"
+        },
+        "stats": {
+            "yearsExperience": "Years Experience",
+            "workshopPartners": "Workshop Partners",
+            "technicalSupport": "Technical Support"
+        },
+        "ctaPrimary": "Browse Catalog",
+        "ctaSecondary": "Contact Sales"
+    },
+    "products": {
+        "allProducts": "All Products",
+        "categories": "Categories",
+        "priceRange": "Price Range",
+        "stockStatus": "Stock Status",
+        "sortBy": "Sort By",
+        "filters": "Filters",
+        "showFilters": "Show Filters",
+        "hideFilters": "Hide Filters",
+        "noProductsFound": "No products found",
+        "resultsFound": "results found",
+        "page": "Page",
+        "of": "of",
+        "availability": "Availability",
+        "allPrices": "All Prices",
+        "all": "All",
+        "newest": "Newest",
+        "oldest": "Oldest",
+        "priceLowToHigh": "Price: Low to High",
+        "priceHighToLow": "Price: High to Low",
+        "nameAZ": "Name: A-Z",
+        "nameZA": "Name: Z-A",
+        "clearAllFilters": "Clear All Filters",
+        "searchPlaceholder": "Search by name, SKU...",
+        "selectPriceRange": "Select price range"
+    },
+    "about": {
+        "heading": "About Candour Auto Tech",
+        "description": "A team of passionate automobile engineers offering training, consultancy, maintenance and repairs for intelligent automobiles—delivering 'High Quality, Dependable Service. Within Budget.'",
+        "features": {
+            "authorisedDealer": {
+                "title": "Authorised Dealer",
+                "description": "Authorised LAUNCH scanners dealer & training partner"
+            },
+            "expertTraining": {
+                "title": "Expert Training",
+                "description": "Professional training and certification programs"
+            },
+            "technicalSupport": {
+                "title": "Technical Support",
+                "description": "Comprehensive after-sales support and service"
+            },
+            "genuineProducts": {
+                "title": "Genuine Products",
+                "description": "100% authentic LAUNCH diagnostic solutions"
+            }
+        }
+    },
+    "footer": {
+        "description": "Professional automotive diagnostic solutions, training and technical support for workshops and service centers across the UAE and MENA region.",
+        "links": {
+            "about": "About",
+            "products": "Products",
+            "accessories": "Accessories",
+            "training": "Training",
+            "support": "Support",
+            "contact": "Contact"
+        },
+        "legalLinks": {
+            "privacy": "Privacy Policy",
+            "terms": "Terms of Service"
+        },
+        "copyright": "© 2025 Launch / Candour Auto Tech. All rights reserved."
+    },
+    "testimonials": {
+        "heading": "What Our Customers Say"
+    }
+}

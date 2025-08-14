@@ -28,18 +28,6 @@
         "path": "/products"
       },
       {
-        "name": "Accessories",
-        "path": "/accessories"
-      },
-      {
-        "name": "Training",
-        "path": "/training"
-      },
-      {
-        "name": "Support",
-        "path": "/support"
-      },
-      {
         "name": "About",
         "path": "/about"
       },

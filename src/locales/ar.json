@@ -1,0 +1,47 @@
+{
+    "common": {
+        "loading": "جاري التحميل...",
+        "error": "خطأ",
+        "search": "البحث عن المنتجات، أرقام المنتجات...",
+        "searchProducts": "البحث عن المنتجات",
+        "viewDetails": "عرض التفاصيل",
+        "enquireNow": "استفسر الآن",
+        "contactSales": "اتصل بالمبيعات",
+        "browseAllProducts": "تصفح جميع المنتجات",
+        "inStock": "متوفر",
+        "outOfStock": "غير متوفر",
+        "currency": "العملة",
+        "language": "اللغة"
+    },
+    "navigation": {
+        "products": "المنتجات",
+        "accessories": "الإكسسوارات",
+        "training": "التدريب",
+        "support": "الدعم",
+        "about": "حول",
+        "contact": "اتصل بنا"
+    },
+    "hero": {
+        "featuredProducts": "المنتجات المميزة",
+        "description": "حلول تشخيص السيارات المهنية والمعدات لورش العمل ومراكز الخدمة"
+    },
+    "products": {
+        "allProducts": "جميع المنتجات",
+        "categories": "الفئات",
+        "priceRange": "نطاق السعر",
+        "stockStatus": "حالة المخزون",
+        "sortBy": "ترتيب حسب",
+        "filters": "المرشحات",
+        "showFilters": "إظهار المرشحات",
+        "hideFilters": "إخفاء المرشحات",
+        "noProductsFound": "لم يتم العثور على منتجات",
+        "resultsFound": "نتيجة موجودة",
+        "page": "صفحة",
+        "of": "من"
+    },
+    "company": {
+        "name": "كاندور أوتو تك",
+        "tagline": "وكلاء ومركز تدريب LAUNCH المعتمدين",
+        "workingHours": "الإثنين-السبت 10:00–19:00"
+    }
+}

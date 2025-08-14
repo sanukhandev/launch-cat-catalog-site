@@ -160,3 +160,54 @@ a {
 .dark ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted));
 }
+
+/* RTL Support */
+html.rtl {
+  direction: rtl;
+}
+
+html.rtl body {
+  font-family: 'Open Sans', 'Noto Sans Arabic', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+}
+
+/* RTL utility classes */
+.rtl .text-left {
+  text-align: right;
+}
+
+.rtl .text-right {
+  text-align: left;
+}
+
+.rtl .ml-auto {
+  margin-left: unset;
+  margin-right: auto;
+}
+
+.rtl .mr-auto {
+  margin-right: unset;
+  margin-left: auto;
+}
+
+.rtl .float-left {
+  float: right;
+}
+
+.rtl .float-right {
+  float: left;
+}
+
+/* RTL Flexbox adjustments */
+.rtl .flex-row {
+  flex-direction: row-reverse;
+}
+
+.rtl .justify-start {
+  justify-content: flex-end;
+}
+
+.rtl .justify-end {
+  justify-content: flex-start;
+}

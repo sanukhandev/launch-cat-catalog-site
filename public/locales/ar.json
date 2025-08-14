@@ -1,0 +1,107 @@
+{
+    "common": {
+        "loading": "جاري التحميل...",
+        "error": "خطأ",
+        "search": "البحث عن المنتجات، رقم المنتج...",
+        "searchProducts": "البحث عن المنتجات",
+        "viewDetails": "عرض التفاصيل",
+        "enquireNow": "استعلم الآن",
+        "contactSales": "تواصل مع المبيعات",
+        "browseAllProducts": "تصفح جميع المنتجات",
+        "inStock": "متوفر",
+        "outOfStock": "غير متوفر",
+        "currency": "العملة",
+        "language": "اللغة",
+        "changeLanguage": "تغيير اللغة",
+        "errorLoadingProducts": "خطأ في تحميل المنتجات",
+        "retry": "إعادة المحاولة"
+    },
+    "brand": {
+        "name": "لونش تك | الشرق الأوسط وشمال أفريقيا",
+        "distributor": "كاندور أوتو تك",
+        "tagline": "وكلاء ومركز تدريب LAUNCH المعتمدين",
+        "logoText": "LAUNCH"
+    },
+    "company": {
+        "name": "كاندور أوتو تك",
+        "workingHours": "الإثنين-السبت 10:00–19:00"
+    },
+    "navigation": {
+        "products": "المنتجات",
+        "about": "حول",
+        "contact": "اتصل بنا"
+    },
+    "hero": {
+        "title": "كاندور أوتو تك",
+        "subtitle": "وكلاء ومركز تدريب LAUNCH المعتمدين",
+        "description": "حلول تشخيص السيارات المهنية والمعدات لورش العمل ومراكز الخدمة في جميع أنحاء المنطقة",
+        "featuredProducts": "المنتجات المميزة",
+        "badges": {
+            "genuineProducts": "منتجات Launch الأصلية",
+            "technicalTraining": "التدريب التقني والدعم",
+            "professionalEquipment": "معدات احترافية"
+        },
+        "stats": {
+            "yearsExperience": "سنوات من الخبرة",
+            "workshopPartners": "شركاء الورش",
+            "technicalSupport": "الدعم التقني"
+        },
+        "ctaPrimary": "تصفح الكتالوج",
+        "ctaSecondary": "اتصل بالمبيعات"
+    },
+    "products": {
+        "allProducts": "جميع المنتجات",
+        "categories": "الفئات",
+        "priceRange": "نطاق السعر",
+        "stockStatus": "حالة المخزون",
+        "sortBy": "ترتيب حسب",
+        "filters": "المرشحات",
+        "showFilters": "إظهار المرشحات",
+        "hideFilters": "إخفاء المرشحات",
+        "noProductsFound": "لم يتم العثور على منتجات",
+        "resultsFound": "نتيجة موجودة",
+        "page": "صفحة",
+        "of": "من",
+        "availability": "التوافر",
+        "allPrices": "جميع الأسعار",
+        "all": "الكل",
+        "newest": "الأحدث",
+        "oldest": "الأقدم",
+        "priceLowToHigh": "السعر: من المنخفض للمرتفع",
+        "priceHighToLow": "السعر: من المرتفع للمنخفض",
+        "nameAZ": "الاسم: أ-ي",
+        "nameZA": "الاسم: ي-أ",
+        "clearAllFilters": "مسح جميع المرشحات",
+        "searchPlaceholder": "البحث بالاسم، رقم المنتج...",
+        "selectPriceRange": "اختر نطاق السعر"
+    },
+    "about": {
+        "title": "حول كاندور أوتو تك",
+        "description": "كاندور أوتو تك هي الموزع المعتمد لمنتجات LAUNCH في منطقة الشرق الأوسط وشمال أفريقيا",
+        "mission": "مهمتنا هي توفير حلول التشخيص المتطورة للسيارات",
+        "vision": "رؤيتنا هي أن نكون الشريك الموثوق لورش العمل في المنطقة"
+    },
+    "footer": {
+        "quickLinks": "روابط سريعة",
+        "contactInfo": "معلومات التواصل",
+        "followUs": "تابعنا",
+        "copyright": "جميع الحقوق محفوظة",
+        "privacyPolicy": "سياسة الخصوصية",
+        "termsOfService": "شروط الخدمة"
+    },
+    "contact": {
+        "title": "اتصل بنا",
+        "getInTouch": "تواصل معنا",
+        "contactForm": "نموذج التواصل",
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "company": "الشركة",
+        "message": "الرسالة",
+        "subject": "الموضوع",
+        "send": "إرسال",
+        "sending": "جاري الإرسال...",
+        "thankYou": "شكراً لتواصلك معنا",
+        "responseTime": "سنرد عليك خلال 24 ساعة"
+    }
+}
