@@ -2,181 +2,181 @@ name: Deploy to cPanel via SSH
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build application
-      run: npm run build
-      env:
-        CI: false
-        GENERATE_SOURCEMAP: false
-        
-    - name: Create deployment archive
-      run: |
-        cd build
-        tar -czf ../deploy.tar.gz .
-        cd ..
-        
-    - name: Deploy to cPanel via SSH
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.CPANEL_HOST }}
-        username: ${{ secrets.CPANEL_USERNAME }}
-        password: ${{ secrets.CPANEL_PASSWORD }}
-        port: ${{ secrets.CPANEL_PORT || 22 }}
-        script: |
-          # Navigate to launchtech.co.in directory
-          cd ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
-          
-          # Create backup of current deployment
-          if [ -d "backup" ]; then
-            rm -rf backup
-          fi
-          mkdir backup
-          
-          # Backup current files (excluding admin directory)
-          find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -exec cp {} backup/ \;
-          find . -maxdepth 1 -type d -not -name "." -not -name ".." -not -name "backup" -not -name "admin" -exec cp -r {} backup/ \;
-          
-          echo "Backup completed"
-          
-          # Remove old files (keep admin directory and other important files)
-          find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -not -name ".htaccess" -delete
-          find . -maxdepth 1 -type d -not -name "." -not -name ".." -not -name "backup" -not -name "admin" -not -name "cgi-bin" -not -name "_logs" -not -name "_errors" -exec rm -rf {} +
-          
-          echo "Old files removed"
-          
-    - name: Upload and extract files
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.CPANEL_HOST }}
-        username: ${{ secrets.CPANEL_USERNAME }}
-        password: ${{ secrets.CPANEL_PASSWORD }}
-        port: ${{ secrets.CPANEL_PORT || 22 }}
-        source: "deploy.tar.gz"
-        target: ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
-        
-    - name: Extract and cleanup
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.CPANEL_HOST }}
-        username: ${{ secrets.CPANEL_USERNAME }}
-        password: ${{ secrets.CPANEL_PASSWORD }}
-        port: ${{ secrets.CPANEL_PORT || 22 }}
-        script: |
-          cd ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
-          
-          # Extract new files
-          tar -xzf deploy.tar.gz
-          
-          # Remove the archive
-          rm deploy.tar.gz
-          
-          # Set proper permissions
-          find . -type f -name "*.html" -exec chmod 644 {} \;
-          find . -type f -name "*.css" -exec chmod 644 {} \;
-          find . -type f -name "*.js" -exec chmod 644 {} \;
-          find . -type f -name "*.json" -exec chmod 644 {} \;
-          find . -type f -name "*.txt" -exec chmod 644 {} \;
-          find . -type f -name "*.xml" -exec chmod 644 {} \;
-          find . -type f -name "*.ico" -exec chmod 644 {} \;
-          find . -type f -name "*.png" -exec chmod 644 {} \;
-          find . -type f -name "*.jpg" -exec chmod 644 {} \;
-          find . -type f -name "*.jpeg" -exec chmod 644 {} \;
-          find . -type f -name "*.gif" -exec chmod 644 {} \;
-          find . -type f -name "*.svg" -exec chmod 644 {} \;
-          find . -type f -name "*.woff*" -exec chmod 644 {} \;
-          find . -type f -name "*.ttf" -exec chmod 644 {} \;
-          find . -type d -exec chmod 755 {} \;
-          
-          # Ensure admin directory has proper permissions if it exists
-          if [ -d "admin" ]; then
-            chmod 755 admin
-            find admin -type f -name "*.php" -exec chmod 644 {} \;
-            find admin -type f -name "*.html" -exec chmod 644 {} \;
-            find admin -type f -name ".htaccess" -exec chmod 644 {} \;
-            find admin -type d -exec chmod 755 {} \;
-            # Make activity.log writable if it exists
-            if [ -f "admin/activity.log" ]; then
-              chmod 666 admin/activity.log
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+        env:
+          CI: false
+          GENERATE_SOURCEMAP: false
+
+      - name: Create deployment archive
+        run: |
+          cd build
+          tar -czf ../deploy.tar.gz .
+          cd ..
+
+      - name: Deploy to cPanel via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          password: ${{ secrets.CPANEL_PASSWORD }}
+          port: ${{ secrets.CPANEL_PORT || 22 }}
+          script: |
+            # Navigate to launchtech.co.in directory
+            cd ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
+
+            # Create backup of current deployment
+            if [ -d "backup" ]; then
+              rm -rf backup
             fi
-          fi
-          
-          echo "Deployment completed successfully"
-          echo "Files deployed: $(date)"
-          
-    - name: Verify deployment
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.CPANEL_HOST }}
-        username: ${{ secrets.CPANEL_USERNAME }}
-        password: ${{ secrets.CPANEL_PASSWORD }}
-        port: ${{ secrets.CPANEL_PORT || 22 }}
-        script: |
-          cd ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
-          echo "=== Deployment Verification ==="
-          echo "Current directory: $(pwd)"
-          echo "Files in root:"
-          ls -la
-          echo ""
-          echo "Build info:"
-          if [ -f "index.html" ]; then
-            echo "✓ index.html exists"
-          else
-            echo "✗ index.html missing"
-          fi
-          
-          if [ -d "static" ]; then
-            echo "✓ static directory exists"
-            echo "Static files count: $(find static -type f | wc -l)"
-          else
-            echo "✗ static directory missing"
-          fi
-          
-          if [ -d "admin" ]; then
-            echo "✓ admin directory preserved"
-          else
-            echo "ℹ admin directory not present"
-          fi
-          
-          echo "Total files deployed: $(find . -type f | wc -l)"
-          echo "=== End Verification ==="
+            mkdir backup
+
+            # Backup current files (excluding admin directory)
+            find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -exec cp {} backup/ \;
+            find . -maxdepth 1 -type d -not -name "." -not -name ".." -not -name "backup" -not -name "admin" -exec cp -r {} backup/ \;
+
+            echo "Backup completed"
+
+            # Remove old files (keep admin directory and other important files)
+            find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -not -name ".htaccess" -delete
+            find . -maxdepth 1 -type d -not -name "." -not -name ".." -not -name "backup" -not -name "admin" -not -name "cgi-bin" -not -name "_logs" -not -name "_errors" -exec rm -rf {} +
+
+            echo "Old files removed"
+
+      - name: Upload and extract files
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          password: ${{ secrets.CPANEL_PASSWORD }}
+          port: ${{ secrets.CPANEL_PORT || 22 }}
+          source: "deploy.tar.gz"
+          target: ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
+
+      - name: Extract and cleanup
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          password: ${{ secrets.CPANEL_PASSWORD }}
+          port: ${{ secrets.CPANEL_PORT || 22 }}
+          script: |
+            cd ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
+
+            # Extract new files
+            tar -xzf deploy.tar.gz
+
+            # Remove the archive
+            rm deploy.tar.gz
+
+            # Set proper permissions
+            find . -type f -name "*.html" -exec chmod 644 {} \;
+            find . -type f -name "*.css" -exec chmod 644 {} \;
+            find . -type f -name "*.js" -exec chmod 644 {} \;
+            find . -type f -name "*.json" -exec chmod 644 {} \;
+            find . -type f -name "*.txt" -exec chmod 644 {} \;
+            find . -type f -name "*.xml" -exec chmod 644 {} \;
+            find . -type f -name "*.ico" -exec chmod 644 {} \;
+            find . -type f -name "*.png" -exec chmod 644 {} \;
+            find . -type f -name "*.jpg" -exec chmod 644 {} \;
+            find . -type f -name "*.jpeg" -exec chmod 644 {} \;
+            find . -type f -name "*.gif" -exec chmod 644 {} \;
+            find . -type f -name "*.svg" -exec chmod 644 {} \;
+            find . -type f -name "*.woff*" -exec chmod 644 {} \;
+            find . -type f -name "*.ttf" -exec chmod 644 {} \;
+            find . -type d -exec chmod 755 {} \;
+
+            # Ensure admin directory has proper permissions if it exists
+            if [ -d "admin" ]; then
+              chmod 755 admin
+              find admin -type f -name "*.php" -exec chmod 644 {} \;
+              find admin -type f -name "*.html" -exec chmod 644 {} \;
+              find admin -type f -name ".htaccess" -exec chmod 644 {} \;
+              find admin -type d -exec chmod 755 {} \;
+              # Make activity.log writable if it exists
+              if [ -f "admin/activity.log" ]; then
+                chmod 666 admin/activity.log
+              fi
+            fi
+
+            echo "Deployment completed successfully"
+            echo "Files deployed: $(date)"
+
+      - name: Verify deployment
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.CPANEL_HOST }}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          password: ${{ secrets.CPANEL_PASSWORD }}
+          port: ${{ secrets.CPANEL_PORT || 22 }}
+          script: |
+            cd ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
+            echo "=== Deployment Verification ==="
+            echo "Current directory: $(pwd)"
+            echo "Files in root:"
+            ls -la
+            echo ""
+            echo "Build info:"
+            if [ -f "index.html" ]; then
+              echo "✓ index.html exists"
+            else
+              echo "✗ index.html missing"
+            fi
+
+            if [ -d "static" ]; then
+              echo "✓ static directory exists"
+              echo "Static files count: $(find static -type f | wc -l)"
+            else
+              echo "✗ static directory missing"
+            fi
+
+            if [ -d "admin" ]; then
+              echo "✓ admin directory preserved"
+            else
+              echo "ℹ admin directory not present"
+            fi
+
+            echo "Total files deployed: $(find . -type f | wc -l)"
+            echo "=== End Verification ==="
 
   # Optional: Health check job
   health-check:
     needs: build-and-deploy
     runs-on: ubuntu-latest
     if: success()
-    
+
     steps:
-    - name: Website Health Check
-      run: |
-        echo "Checking website health..."
-        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.WEBSITE_URL }} || echo "000")
-        echo "HTTP Response Code: $RESPONSE"
-        
-        if [ "$RESPONSE" -eq 200 ]; then
-          echo "✓ Website is accessible and responding correctly"
-        else
-          echo "✗ Website health check failed with code: $RESPONSE"
-          exit 1
-        fi
+      - name: Website Health Check
+        run: |
+          echo "Checking website health..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.WEBSITE_URL }} || echo "000")
+          echo "HTTP Response Code: $RESPONSE"
+
+          if [ "$RESPONSE" -eq 200 ]; then
+            echo "✓ Website is accessible and responding correctly"
+          else
+            echo "✗ Website health check failed with code: $RESPONSE"
+            exit 1
+          fi

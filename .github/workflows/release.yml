@@ -3,242 +3,242 @@ name: Create Release Package
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
   workflow_dispatch:
     inputs:
       version:
-        description: 'Release version (e.g., v1.0.0)'
+        description: "Release version (e.g., v1.0.0)"
         required: true
-        default: 'v1.0.0'
+        default: "v1.0.0"
 
 jobs:
   create-release:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build application
-      run: npm run build
-      env:
-        CI: false
-        GENERATE_SOURCEMAP: false
-        
-    - name: Create deployment package
-      run: |
-        # Create deployment directory
-        mkdir -p deploy-package
-        
-        # Copy build files
-        cp -r build/* deploy-package/
-        
-        # Copy data files
-        if [ -d "public/categories" ]; then
-          mkdir -p deploy-package/categories
-          cp -r public/categories/* deploy-package/categories/
-        fi
-        
-        if [ -d "public/products" ]; then
-          mkdir -p deploy-package/products
-          cp -r public/products/* deploy-package/products/
-        fi
-        
-        # Copy admin panel
-        if [ -d "public/admin" ]; then
-          mkdir -p deploy-package/admin
-          cp -r public/admin/* deploy-package/admin/
-        fi
-        
-        # Create .htaccess
-        cat > deploy-package/.htaccess << 'EOF'
-        Options -MultiViews
-        RewriteEngine On
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteRule ^ index.html [QSA,L]
-        
-        # Security headers
-        <IfModule mod_headers.c>
-            Header always set X-Content-Type-Options nosniff
-            Header always set X-Frame-Options SAMEORIGIN
-            Header always set X-XSS-Protection "1; mode=block"
-            Header always set Referrer-Policy "strict-origin-when-cross-origin"
-        </IfModule>
-        
-        # Cache static assets
-        <IfModule mod_expires.c>
-            ExpiresActive on
-            ExpiresByType text/css "access plus 1 year"
-            ExpiresByType application/javascript "access plus 1 year"
-            ExpiresByType image/png "access plus 1 year"
-            ExpiresByType image/jpg "access plus 1 year"
-            ExpiresByType image/jpeg "access plus 1 year"
-            ExpiresByType image/gif "access plus 1 year"
-            ExpiresByType image/svg+xml "access plus 1 year"
-            ExpiresByType font/woff "access plus 1 year"
-            ExpiresByType font/woff2 "access plus 1 year"
-        </IfModule>
-        
-        # Compress files
-        <IfModule mod_deflate.c>
-            AddOutputFilterByType DEFLATE text/plain
-            AddOutputFilterByType DEFLATE text/html
-            AddOutputFilterByType DEFLATE text/xml
-            AddOutputFilterByType DEFLATE text/css
-            AddOutputFilterByType DEFLATE application/xml
-            AddOutputFilterByType DEFLATE application/xhtml+xml
-            AddOutputFilterByType DEFLATE application/rss+xml
-            AddOutputFilterByType DEFLATE application/javascript
-            AddOutputFilterByType DEFLATE application/x-javascript
-        </IfModule>
-        EOF
-        
-        # Create deployment info
-        cat > deploy-package/DEPLOYMENT_INFO.txt << EOF
-        Launch CAT Website - Deployment Package
-        ======================================
-        
-        Build Date: $(date)
-        Git Commit: ${GITHUB_SHA}
-        Version: ${GITHUB_REF_NAME}
-        
-        Deployment Instructions:
-        1. Upload all files to your web server's root directory (usually public_html)
-        2. Ensure proper file permissions (644 for files, 755 for directories)
-        3. If using admin panel, set admin/activity.log to 666 (writable)
-        4. Update admin password in admin/config.php before going live
-        
-        Directory Structure:
-        - / (root): React application files
-        - /static/: CSS, JS, and media assets
-        - /categories/: Category data files
-        - /products/: Product data files
-        - /admin/: PHP admin panel (if included)
-        - /.htaccess: Apache configuration
-        
-        For support, visit: https://github.com/sanukhandev/launch-cat-catalog-site
-        EOF
-        
-        # Create archives
-        cd deploy-package
-        tar -czf ../launch-cat-website.tar.gz .
-        zip -r ../launch-cat-website.zip .
-        cd ..
-        
-        # Create checksums
-        sha256sum launch-cat-website.tar.gz > launch-cat-website.tar.gz.sha256
-        sha256sum launch-cat-website.zip > launch-cat-website.zip.sha256
-        
-    - name: Get package info
-      id: package-info
-      run: |
-        echo "package-size-tar=$(du -h launch-cat-website.tar.gz | cut -f1)" >> $GITHUB_OUTPUT
-        echo "package-size-zip=$(du -h launch-cat-website.zip | cut -f1)" >> $GITHUB_OUTPUT
-        echo "file-count=$(find deploy-package -type f | wc -l)" >> $GITHUB_OUTPUT
-        echo "build-date=$(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
-        
-    - name: Generate release notes
-      id: release-notes
-      run: |
-        cat > release-notes.md << 'EOF'
-        ## 🚀 Launch CAT Website Release
-        
-        ### 📦 Package Information
-        - **Build Date**: ${{ steps.package-info.outputs.build-date }}
-        - **Total Files**: ${{ steps.package-info.outputs.file-count }}
-        - **TAR.GZ Size**: ${{ steps.package-info.outputs.package-size-tar }}
-        - **ZIP Size**: ${{ steps.package-info.outputs.package-size-zip }}
-        - **Git Commit**: `${GITHUB_SHA:0:7}`
-        
-        ### 📁 What's Included
-        - ✅ Complete React application (built for production)
-        - ✅ Category and product data files
-        - ✅ PHP admin panel for content management
-        - ✅ Apache .htaccess configuration
-        - ✅ Deployment instructions
-        
-        ### 🛠️ Deployment Options
-        
-        **Option 1: Manual Upload**
-        1. Download either the `.tar.gz` or `.zip` file
-        2. Extract to your web server's document root
-        3. Set proper file permissions
-        4. Configure admin panel if needed
-        
-        **Option 2: Automated Deployment**
-        - Use the provided GitHub Actions workflows
-        - Configure SSH secrets for automatic deployment
-        - See `DEPLOYMENT.md` for detailed instructions
-        
-        ### 🔧 Post-Deployment Setup
-        
-        **Admin Panel Configuration**:
-        1. Change default password in `admin/config.php`
-        2. Set `admin/activity.log` to be writable (chmod 666)
-        3. Access admin panel at `/admin/`
-        
-        **Default Admin Credentials**:
-        - Username: `admin`
-        - Password: `LaunchCAT2024!`
-        
-        ⚠️ **Important**: Change the default password before going live!
-        
-        ### 🔒 Security Features
-        - CSRF protection
-        - Rate limiting
-        - Input sanitization
-        - Security headers in .htaccess
-        - Password hashing with bcrypt
-        
-        ### 📚 Documentation
-        - See `DEPLOYMENT.md` for deployment instructions
-        - See `public/admin/README.md` for admin panel documentation
-        - Visit the repository for full documentation
-        
-        ### 🐛 Support
-        If you encounter any issues:
-        1. Check the deployment documentation
-        2. Review server error logs
-        3. Open an issue on GitHub
-        
-        ---
-        
-        **Verification Checksums**:
-        - TAR.GZ: See `launch-cat-website.tar.gz.sha256`
-        - ZIP: See `launch-cat-website.zip.sha256`
-        EOF
-        
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ github.event.inputs.version || github.ref_name }}
-        name: Launch CAT Website ${{ github.event.inputs.version || github.ref_name }}
-        body_path: release-notes.md
-        files: |
-          launch-cat-website.tar.gz
-          launch-cat-website.zip
-          launch-cat-website.tar.gz.sha256
-          launch-cat-website.zip.sha256
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: launch-cat-deployment-package
-        path: |
-          launch-cat-website.tar.gz
-          launch-cat-website.zip
-          deploy-package/
-        retention-days: 30
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+        env:
+          CI: false
+          GENERATE_SOURCEMAP: false
+
+      - name: Create deployment package
+        run: |
+          # Create deployment directory
+          mkdir -p deploy-package
+
+          # Copy build files
+          cp -r build/* deploy-package/
+
+          # Copy data files
+          if [ -d "public/categories" ]; then
+            mkdir -p deploy-package/categories
+            cp -r public/categories/* deploy-package/categories/
+          fi
+
+          if [ -d "public/products" ]; then
+            mkdir -p deploy-package/products
+            cp -r public/products/* deploy-package/products/
+          fi
+
+          # Copy admin panel
+          if [ -d "public/admin" ]; then
+            mkdir -p deploy-package/admin
+            cp -r public/admin/* deploy-package/admin/
+          fi
+
+          # Create .htaccess
+          cat > deploy-package/.htaccess << 'EOF'
+          Options -MultiViews
+          RewriteEngine On
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteRule ^ index.html [QSA,L]
+
+          # Security headers
+          <IfModule mod_headers.c>
+              Header always set X-Content-Type-Options nosniff
+              Header always set X-Frame-Options SAMEORIGIN
+              Header always set X-XSS-Protection "1; mode=block"
+              Header always set Referrer-Policy "strict-origin-when-cross-origin"
+          </IfModule>
+
+          # Cache static assets
+          <IfModule mod_expires.c>
+              ExpiresActive on
+              ExpiresByType text/css "access plus 1 year"
+              ExpiresByType application/javascript "access plus 1 year"
+              ExpiresByType image/png "access plus 1 year"
+              ExpiresByType image/jpg "access plus 1 year"
+              ExpiresByType image/jpeg "access plus 1 year"
+              ExpiresByType image/gif "access plus 1 year"
+              ExpiresByType image/svg+xml "access plus 1 year"
+              ExpiresByType font/woff "access plus 1 year"
+              ExpiresByType font/woff2 "access plus 1 year"
+          </IfModule>
+
+          # Compress files
+          <IfModule mod_deflate.c>
+              AddOutputFilterByType DEFLATE text/plain
+              AddOutputFilterByType DEFLATE text/html
+              AddOutputFilterByType DEFLATE text/xml
+              AddOutputFilterByType DEFLATE text/css
+              AddOutputFilterByType DEFLATE application/xml
+              AddOutputFilterByType DEFLATE application/xhtml+xml
+              AddOutputFilterByType DEFLATE application/rss+xml
+              AddOutputFilterByType DEFLATE application/javascript
+              AddOutputFilterByType DEFLATE application/x-javascript
+          </IfModule>
+          EOF
+
+          # Create deployment info
+          cat > deploy-package/DEPLOYMENT_INFO.txt << EOF
+          Launch CAT Website - Deployment Package
+          ======================================
+
+          Build Date: $(date)
+          Git Commit: ${GITHUB_SHA}
+          Version: ${GITHUB_REF_NAME}
+
+          Deployment Instructions:
+          1. Upload all files to your web server's root directory (usually public_html)
+          2. Ensure proper file permissions (644 for files, 755 for directories)
+          3. If using admin panel, set admin/activity.log to 666 (writable)
+          4. Update admin password in admin/config.php before going live
+
+          Directory Structure:
+          - / (root): React application files
+          - /static/: CSS, JS, and media assets
+          - /categories/: Category data files
+          - /products/: Product data files
+          - /admin/: PHP admin panel (if included)
+          - /.htaccess: Apache configuration
+
+          For support, visit: https://github.com/sanukhandev/launch-cat-catalog-site
+          EOF
+
+          # Create archives
+          cd deploy-package
+          tar -czf ../launch-cat-website.tar.gz .
+          zip -r ../launch-cat-website.zip .
+          cd ..
+
+          # Create checksums
+          sha256sum launch-cat-website.tar.gz > launch-cat-website.tar.gz.sha256
+          sha256sum launch-cat-website.zip > launch-cat-website.zip.sha256
+
+      - name: Get package info
+        id: package-info
+        run: |
+          echo "package-size-tar=$(du -h launch-cat-website.tar.gz | cut -f1)" >> $GITHUB_OUTPUT
+          echo "package-size-zip=$(du -h launch-cat-website.zip | cut -f1)" >> $GITHUB_OUTPUT
+          echo "file-count=$(find deploy-package -type f | wc -l)" >> $GITHUB_OUTPUT
+          echo "build-date=$(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: release-notes
+        run: |
+          cat > release-notes.md << 'EOF'
+          ## 🚀 Launch CAT Website Release
+
+          ### 📦 Package Information
+          - **Build Date**: ${{ steps.package-info.outputs.build-date }}
+          - **Total Files**: ${{ steps.package-info.outputs.file-count }}
+          - **TAR.GZ Size**: ${{ steps.package-info.outputs.package-size-tar }}
+          - **ZIP Size**: ${{ steps.package-info.outputs.package-size-zip }}
+          - **Git Commit**: `${GITHUB_SHA:0:7}`
+
+          ### 📁 What's Included
+          - ✅ Complete React application (built for production)
+          - ✅ Category and product data files
+          - ✅ PHP admin panel for content management
+          - ✅ Apache .htaccess configuration
+          - ✅ Deployment instructions
+
+          ### 🛠️ Deployment Options
+
+          **Option 1: Manual Upload**
+          1. Download either the `.tar.gz` or `.zip` file
+          2. Extract to your web server's document root
+          3. Set proper file permissions
+          4. Configure admin panel if needed
+
+          **Option 2: Automated Deployment**
+          - Use the provided GitHub Actions workflows
+          - Configure SSH secrets for automatic deployment
+          - See `DEPLOYMENT.md` for detailed instructions
+
+          ### 🔧 Post-Deployment Setup
+
+          **Admin Panel Configuration**:
+          1. Change default password in `admin/config.php`
+          2. Set `admin/activity.log` to be writable (chmod 666)
+          3. Access admin panel at `/admin/`
+
+          **Default Admin Credentials**:
+          - Username: `admin`
+          - Password: `LaunchCAT2024!`
+
+          ⚠️ **Important**: Change the default password before going live!
+
+          ### 🔒 Security Features
+          - CSRF protection
+          - Rate limiting
+          - Input sanitization
+          - Security headers in .htaccess
+          - Password hashing with bcrypt
+
+          ### 📚 Documentation
+          - See `DEPLOYMENT.md` for deployment instructions
+          - See `public/admin/README.md` for admin panel documentation
+          - Visit the repository for full documentation
+
+          ### 🐛 Support
+          If you encounter any issues:
+          1. Check the deployment documentation
+          2. Review server error logs
+          3. Open an issue on GitHub
+
+          ---
+
+          **Verification Checksums**:
+          - TAR.GZ: See `launch-cat-website.tar.gz.sha256`
+          - ZIP: See `launch-cat-website.zip.sha256`
+          EOF
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version || github.ref_name }}
+          name: Launch CAT Website ${{ github.event.inputs.version || github.ref_name }}
+          body_path: release-notes.md
+          files: |
+            launch-cat-website.tar.gz
+            launch-cat-website.zip
+            launch-cat-website.tar.gz.sha256
+            launch-cat-website.zip.sha256
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: launch-cat-deployment-package
+          path: |
+            launch-cat-website.tar.gz
+            launch-cat-website.zip
+            deploy-package/
+          retention-days: 30

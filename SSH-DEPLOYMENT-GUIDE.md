@@ -12,14 +12,14 @@ Add these **exact values** to your GitHub repository secrets:
 2. **Click Settings** → **Secrets and variables** → **Actions**
 3. **Add New Repository Secret** for each:
 
-| Secret Name | Value | Notes |
-|-------------|-------|-------|
-| `CPANEL_HOST` | `candourautotech.com` | Your server hostname |
-| `CPANEL_USERNAME` | `a1633kje` | Your SSH username |
-| `CPANEL_PASSWORD` | `[your_actual_password]` | Your SSH/cPanel password |
-| `CPANEL_PORT` | `22` | SSH port (already default) |
-| `CPANEL_TARGET_DIR` | `launchtech.co.in` | Deploy to ~/launchtech.co.in directory |
-| `WEBSITE_URL` | `https://launchtech.co.in` | For health checks |
+| Secret Name         | Value                      | Notes                                  |
+| ------------------- | -------------------------- | -------------------------------------- |
+| `CPANEL_HOST`       | `candourautotech.com`      | Your server hostname                   |
+| `CPANEL_USERNAME`   | `a1633kje`                 | Your SSH username                      |
+| `CPANEL_PASSWORD`   | `[your_actual_password]`   | Your SSH/cPanel password               |
+| `CPANEL_PORT`       | `22`                       | SSH port (already default)             |
+| `CPANEL_TARGET_DIR` | `launchtech.co.in`         | Deploy to ~/launchtech.co.in directory |
+| `WEBSITE_URL`       | `https://launchtech.co.in` | For health checks                      |
 
 ## 🚀 Deployment Process
 
@@ -37,6 +37,7 @@ When you **push to main branch** or **manually trigger**, the workflow will:
 ## 🛡️ What Gets Preserved
 
 The deployment **automatically preserves**:
+
 - ✅ `/admin/` directory (your PHP admin panel)
 - ✅ `.htaccess` files
 - ✅ `/cgi-bin/` directory
@@ -100,6 +101,7 @@ To trigger your first deployment:
 ## 🔍 Monitoring Deployment
 
 Watch the deployment progress:
+
 1. **GitHub** → **Actions tab**
 2. **Click on the running workflow**
 3. **Expand each step** to see detailed logs
@@ -114,6 +116,7 @@ Watch the deployment progress:
 4. **Ensure all secrets are correctly configured**
 
 **Common Issues:**
+
 - **SSH not enabled**: Contact your hosting provider
 - **Wrong directory**: Verify `~/launchtech.co.in` exists
 - **Permission denied**: Check if your user has write access to the directory
@@ -122,6 +125,7 @@ Watch the deployment progress:
 ## 🎯 Success Indicators
 
 After successful deployment, you should see:
+
 - ✅ **React app** accessible at `https://launchtech.co.in`
 - ✅ **Admin panel** working at `https://launchtech.co.in/admin/`
 - ✅ **All product data** preserved and functional

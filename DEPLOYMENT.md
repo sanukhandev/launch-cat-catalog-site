@@ -7,6 +7,7 @@ This repository uses GitHub Actions to automatically build and deploy the React 
 To set up the deployment pipeline, you need to configure the following secrets in your GitHub repository:
 
 ### Navigation to GitHub Secrets
+
 1. Go to your GitHub repository
 2. Click on **Settings** tab
 3. In the left sidebar, click **Secrets and variables** → **Actions**
@@ -14,14 +15,14 @@ To set up the deployment pipeline, you need to configure the following secrets i
 
 ### Required Secrets
 
-| Secret Name | Description | Example |
-|-------------|-------------|---------|
-| `CPANEL_HOST` | Your cPanel server hostname or IP | `yourdomain.com` or `192.168.1.100` |
-| `CPANEL_USERNAME` | Your cPanel username | `cpanel_user` |
-| `CPANEL_PASSWORD` | Your cPanel password | `your_secure_password` |
-| `CPANEL_PORT` | SSH port (usually 22) | `22` |
-| `CPANEL_TARGET_DIR` | Target directory for deployment | `public_html` or `public_html/subdomain` |
-| `WEBSITE_URL` | Your website URL for health checks | `https://yourdomain.com` |
+| Secret Name         | Description                        | Example                                  |
+| ------------------- | ---------------------------------- | ---------------------------------------- |
+| `CPANEL_HOST`       | Your cPanel server hostname or IP  | `yourdomain.com` or `192.168.1.100`      |
+| `CPANEL_USERNAME`   | Your cPanel username               | `cpanel_user`                            |
+| `CPANEL_PASSWORD`   | Your cPanel password               | `your_secure_password`                   |
+| `CPANEL_PORT`       | SSH port (usually 22)              | `22`                                     |
+| `CPANEL_TARGET_DIR` | Target directory for deployment    | `public_html` or `public_html/subdomain` |
+| `WEBSITE_URL`       | Your website URL for health checks | `https://yourdomain.com`                 |
 
 ### Optional Configuration
 
@@ -34,6 +35,7 @@ To set up the deployment pipeline, you need to configure the following secrets i
 The GitHub Actions workflow performs the following steps:
 
 ### 1. Build Process
+
 - Checks out the code
 - Sets up Node.js environment
 - Installs dependencies with `npm ci`
@@ -41,6 +43,7 @@ The GitHub Actions workflow performs the following steps:
 - Creates a compressed archive of the build files
 
 ### 2. Deployment Process
+
 - Connects to your cPanel server via SSH
 - Creates a backup of current files
 - Removes old files (preserves admin directory and important files)
@@ -49,7 +52,9 @@ The GitHub Actions workflow performs the following steps:
 - Verifies the deployment
 
 ### 3. Protected Directories/Files
+
 The deployment script preserves:
+
 - `admin/` directory (your PHP admin panel)
 - `.htaccess` files
 - `cgi-bin/` directory
@@ -59,6 +64,7 @@ The deployment script preserves:
 ## Triggering Deployments
 
 Deployments are automatically triggered when:
+
 - Code is pushed to the `main` branch
 - A pull request is merged to `main`
 - Manual trigger via GitHub Actions interface
@@ -66,13 +72,16 @@ Deployments are automatically triggered when:
 ## Security Features
 
 ### File Permissions
+
 The deployment automatically sets secure file permissions:
+
 - HTML, CSS, JS, JSON files: `644`
 - Directories: `755`
 - Admin PHP files: `644`
 - Admin activity log: `666` (writable)
 
 ### Backup System
+
 - Creates backup of current deployment before updating
 - Stored in `backup/` directory on the server
 - Can be used for quick rollback if needed
@@ -82,21 +91,25 @@ The deployment automatically sets secure file permissions:
 ### Common Issues
 
 **SSH Connection Failed**
+
 - Verify `CPANEL_HOST`, `CPANEL_USERNAME`, and `CPANEL_PASSWORD`
 - Check if SSH is enabled on your cPanel hosting
 - Confirm the SSH port (usually 22, sometimes 2222)
 
 **Permission Denied**
+
 - Ensure your cPanel user has SSH access
 - Verify the target directory path
 - Check if your hosting provider allows SSH connections
 
 **Build Failures**
+
 - Check Node.js version compatibility
 - Verify all dependencies are in `package.json`
 - Review build logs in GitHub Actions tab
 
 **Admin Panel Not Working After Deployment**
+
 - Admin directory is preserved during deployment
 - Check file permissions: `find admin -type f -name "*.php" -exec chmod 644 {} \;`
 - Ensure `activity.log` is writable: `chmod 666 admin/activity.log`
@@ -121,6 +134,7 @@ rm deploy.tar.gz
 ## Health Checks
 
 The workflow includes an optional health check that:
+
 - Sends an HTTP request to your website
 - Verifies the response code is 200
 - Fails the deployment if the site is not accessible
