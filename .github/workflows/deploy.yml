@@ -62,7 +62,7 @@ jobs:
             -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
             deploy.tar.gz "$USER@$HOST:~/${REMOTE_BASENAME}.tar.gz"
 
-      - name: Run remote deploy (timestamped backup, clean, extract, permissions)
+      - name: Run remote deploy (direct replacement)
         run: |
           sshpass -p "$PASS" ssh -p "$PORT" \
             -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
@@ -79,55 +79,25 @@ jobs:
           mkdir -p "$TARGET_DIR"
           cd "$TARGET_DIR"
 
-          # ---- Timestamped backup folder ----
-          TS="$(date +%F_%H-%M-%S)"   # e.g., 2025-08-15_11-07-33
-          BACKUP_DIR="backup_${TS}"
-          mkdir -p "$BACKUP_DIR"
-
-          echo "== Creating backup in: $BACKUP_DIR =="
-          # Backup top-level files (except any previous deploy tar if present)
-          find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -exec cp -a {} "$BACKUP_DIR"/ \;
-          # Backup top-level directories except reserved ones
-          find . -maxdepth 1 -type d \
-            -not -name "." -not -name ".." \
-            -not -name "$BACKUP_DIR" \
-            -not -name "admin" \
-            -not -name "cgi-bin" -not -name "_logs" -not -name "_errors" \
-            -exec cp -a {} "$BACKUP_DIR"/ \;
-
-          # Refresh a convenience symlink to latest backup
-          ln -sfn "$BACKUP_DIR" backup_latest
-          echo "Backup completed"
-
-          echo "== Stage new build =="
-          STAGE="stage_$(date +%s)"
-          mkdir -p "$STAGE"
-
-          # Bring uploaded tar into target and extract to stage
+          echo "== Bring in new build =="
           mv "$REMOTE_TMP" ./deploy.tar.gz
-          tar -xzf deploy.tar.gz -C "$STAGE"
 
-          echo "== Remove old files (preserve important dirs & backups) =="
-          # Keep .htaccess and the tar until swap
+          echo "== Remove old files (preserve admin and system dirs) =="
+          # Remove all top-level files except .htaccess and the new tar
           find . -maxdepth 1 -type f \
             -not -name ".htaccess" \
             -not -name "deploy.tar.gz" \
             -delete
 
-          # Remove old directories except preserved ones and staging/backup
+          # Remove old directories except admin and system directories
           find . -maxdepth 1 -type d \
             -not -name "." -not -name ".." \
-            -not -name "$BACKUP_DIR" -not -name "backup_latest" \
             -not -name "admin" \
             -not -name "cgi-bin" -not -name "_logs" -not -name "_errors" \
-            -not -name "$STAGE" \
             -exec rm -rf {} +
 
-          echo "== Publish new build =="
-          shopt -s dotglob
-          mv "$STAGE"/* .
-          shopt -u dotglob
-          rmdir "$STAGE"
+          echo "== Extract new build =="
+          tar -xzf deploy.tar.gz
 
           echo "== Cleanup =="
           rm -f deploy.tar.gz
@@ -137,24 +107,10 @@ jobs:
           find . -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.json" -o -name "*.txt" -o -name "*.xml" -o -name "*.ico" -o -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif" -o -name "*.svg" -o -name "*.woff*" -o -name "*.ttf" -o -name "*.map" -o -name "*.webmanifest" -o -name ".htaccess" \) -exec chmod 644 {} \;
           # Dirs - ensure all directories are accessible
           find . -type d -exec chmod 755 {} \;
-          
+
           echo "Permissions set for all files and directories"
 
-          # Ensure admin dir stays readable if it exists
-          if [ -d "admin" ]; then
-            chmod 755 admin
-            find admin -type f \( -name "*.php" -o -name "*.html" -o -name ".htaccess" \) -exec chmod 644 {} \;
-            find admin -type d -exec chmod 755 {} \;
-            if [ -f "admin/activity.log" ]; then
-              chmod 666 admin/activity.log
-            fi
-          fi
-
           echo "Deployment completed successfully at $(date)"
-
-          # OPTIONAL: prune old backups, keeping last 5 (uncomment to enable)
-          # echo "== Pruning old backups (keep last 5) =="
-          # ls -1dt backup_* | tail -n +6 | xargs -r rm -rf
           REMOTE
 
       - name: Verify deployment
