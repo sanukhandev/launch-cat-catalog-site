@@ -52,35 +52,28 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          # Capture host key; do not disable host key checking
           ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
-
-      # If you later switch to key auth, comment the two steps above and use:
-      # - name: Start ssh-agent (key auth)
-      #   uses: webfactory/ssh-agent@v0.9.0
-      #   with:
-      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Upload deploy.tar.gz to server (atomic temp path)
         run: |
           REMOTE_TMP="~/deploy_tmp_$(date +%s)"
+          echo "REMOTE_TMP=$REMOTE_TMP" >> $GITHUB_ENV
           sshpass -p "$PASS" scp -P "$PORT" \
             -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
-            deploy.tar.gz "$USER@$HOST:$REMOTE_TMP.tar.gz"
-          echo "REMOTE_TMP=$REMOTE_TMP" >> $GITHUB_ENV
+            deploy.tar.gz "$USER@$HOST:${REMOTE_TMP}.tar.gz"
 
       - name: Run remote deploy (backup, clean, extract, permissions)
         run: |
           sshpass -p "$PASS" ssh -p "$PORT" \
             -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
-            "$USER@$HOST" 'bash -s' << 'REMOTE'
+            "$USER@$HOST" "export TARGET_DIR='${TARGET_DIR}'; export REMOTE_TMP='${REMOTE_TMP}'; bash -s" << 'REMOTE'
           set -euo pipefail
 
-          TARGET_DIR="${TARGET_DIR}"
-          REMOTE_TMP="${REMOTE_TMP}"
+          : "${TARGET_DIR:?TARGET_DIR missing}"
+          : "${REMOTE_TMP:?REMOTE_TMP missing}"
 
-          # 1) Ensure target exists
+          # 1) Ensure target exists and enter it
           mkdir -p "$TARGET_DIR"
           cd "$TARGET_DIR"
 
@@ -95,23 +88,22 @@ jobs:
             -exec cp -a {} backup/ \;
           echo "Backup completed"
 
-          echo "== Swap to temp staging =="
-          # Create staging dir and unpack there first
+          echo "== Stage new build =="
           STAGE="stage_$(date +%s)"
           mkdir -p "$STAGE"
 
-          # Move uploaded tar into target and extract
-          mv "$REMOTE_TMP.tar.gz" ./deploy.tar.gz
+          # Move uploaded tar into target and extract to stage
+          mv "${REMOTE_TMP}.tar.gz" ./deploy.tar.gz
           tar -xzf deploy.tar.gz -C "$STAGE"
 
           echo "== Remove old files (preserve important dirs) =="
-          # Remove old top-level files (keep .htaccess and the tar we just used)
+          # Keep .htaccess and the tar until swap
           find . -maxdepth 1 -type f \
             -not -name ".htaccess" \
             -not -name "deploy.tar.gz" \
             -delete
 
-          # Remove old directories except preserved ones
+          # Remove old directories except preserved ones and staging
           find . -maxdepth 1 -type d \
             -not -name "." -not -name ".." \
             -not -name "backup" -not -name "admin" \
@@ -120,7 +112,6 @@ jobs:
             -exec rm -rf {} +
 
           echo "== Publish new build =="
-          # Move contents from stage to root
           shopt -s dotglob
           mv "$STAGE"/* .
           shopt -u dotglob
@@ -147,17 +138,15 @@ jobs:
 
           echo "Deployment completed successfully at $(date)"
           REMOTE
-        env:
-          TARGET_DIR: ${{ env.TARGET_DIR }}
-          REMOTE_TMP: ${{ env.REMOTE_TMP }}
 
       - name: Verify deployment
         run: |
           sshpass -p "$PASS" ssh -p "$PORT" \
             -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
-            "$USER@$HOST" 'bash -s' << 'REMOTE'
+            "$USER@$HOST" "export TARGET_DIR='${TARGET_DIR}'; bash -s" << 'REMOTE'
           set -euo pipefail
-          cd "${TARGET_DIR}"
+          : "${TARGET_DIR:?TARGET_DIR missing}"
+          cd "$TARGET_DIR"
           echo "=== Deployment Verification ==="
           echo "Current directory: $(pwd)"
           echo "Files in root:"
@@ -183,8 +172,6 @@ jobs:
           echo "Total files deployed: $(find . -type f | wc -l)"
           echo "=== End Verification ==="
           REMOTE
-        env:
-          TARGET_DIR: ${{ env.TARGET_DIR }}
 
   health-check:
     needs: build-and-deploy
