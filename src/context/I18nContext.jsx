@@ -85,7 +85,7 @@ export const COUNTRY_MAPPINGS = {
   US: { language: "en", currency: "USD" }, // USA
   GB: { language: "en", currency: "USD" }, // UK
   DE: { language: "de", currency: "EUR" }, // Germany
-  IN: { language: "hi", currency: "INR" }, // India
+  IN: { language: "en", currency: "INR" }, // India
   CN: { language: "zh", currency: "CNY" }, // China
 };
 

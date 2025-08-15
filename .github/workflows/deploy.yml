@@ -40,8 +40,7 @@ jobs:
       - name: Create deployment archive
         run: |
           cd build
-          # Remove admin directory if it exists in build to prevent conflicts
-          rm -rf admin 2>/dev/null || true
+          # Keep admin directory - it contains the admin panel that should be deployed
           tar -czf ../deploy.tar.gz .
           cd ..
 
@@ -85,22 +84,40 @@ jobs:
           echo "== Bring in new build =="
           mv "$REMOTE_TMP" ./deploy.tar.gz
 
-          echo "== Remove old files (preserve admin and system dirs) =="
+          echo "== Remove old files (preserve admin data and system dirs) =="
+          # Backup existing admin data if it exists
+          if [ -d "admin" ]; then
+            echo "Backing up existing admin data..."
+            mkdir -p admin_backup_tmp
+            # Backup data files but not the PHP scripts
+            find admin -name "*.log" -o -name "*.db" -o -name "*.sqlite" -o -name "data.json" -o -name "*.txt" 2>/dev/null | while read file; do
+              cp "$file" "admin_backup_tmp/" 2>/dev/null || true
+            done
+          fi
+
           # Remove all top-level files except .htaccess and the new tar
           find . -maxdepth 1 -type f \
             -not -name ".htaccess" \
             -not -name "deploy.tar.gz" \
             -delete
 
-          # Remove old directories except admin and system directories
+          # Remove old directories except system directories
           find . -maxdepth 1 -type d \
             -not -name "." -not -name ".." \
-            -not -name "admin" \
+            -not -name "admin_backup_tmp" \
             -not -name "cgi-bin" -not -name "_logs" -not -name "_errors" \
             -exec rm -rf {} +
 
           echo "== Extract new build =="
           tar -xzf deploy.tar.gz
+
+          echo "== Restore admin data if exists =="
+          if [ -d "admin_backup_tmp" ]; then
+            echo "Restoring admin data files..."
+            cp admin_backup_tmp/* admin/ 2>/dev/null || true
+            rm -rf admin_backup_tmp
+            echo "Admin data restored"
+          fi
 
           echo "== Cleanup =="
           rm -f deploy.tar.gz

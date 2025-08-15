@@ -11,13 +11,14 @@
 - Added `PUBLIC_URL: "./"` environment variable in build
 - Updated webpack config to use relative publicPath in production
 
-### 2. Admin Directory Conflicts
+### 2. Admin Directory Deployment
 
-**Problem**: Build generating admin directory that conflicts with existing server admin folder
+**Problem**: Admin panel not being deployed from build
 **Solution**:
 
-- Modified deployment script to remove admin directory from build before packaging
-- Deployment now excludes admin from extraction to preserve existing admin panel
+- Modified deployment script to include admin directory from build
+- Preserves existing admin data files (logs, databases) during deployment
+- Deploys new admin PHP scripts while keeping data intact
 
 ### 3. Shared Hosting Compatibility
 
@@ -51,7 +52,7 @@ if (process.env.NODE_ENV === "production") {
 ### Deploy Workflow
 
 - Added `PUBLIC_URL: "./"` to build environment
-- Remove admin directory from build before packaging
+- Deploy admin panel with data preservation during deployments
 - Preserve existing admin directory on server
 
 ## Common cPanel Issues and Solutions
@@ -128,7 +129,7 @@ ls -la ~/public_html/launchtech.co.in/.htaccess
 ## Build Process Summary
 
 1. **Build with relative paths**: `PUBLIC_URL="./" npm run build`
-2. **Remove admin conflicts**: Remove admin directory from build
+2. **Deploy admin panel**: Include admin directory from build with data preservation
 3. **Deploy preserving server admin**: Exclude admin from extraction
 4. **Set proper permissions**: 644 for files, 755 for directories
 5. **Verify .htaccess**: Ensure React Router and MIME types work
