@@ -1,0 +1,255 @@
+name: Deploy to cPanel via SSH (Key-based)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build application
+      run: npm run build
+      env:
+        CI: false
+        GENERATE_SOURCEMAP: false
+        
+    - name: Create deployment package
+      run: |
+        cd build
+        # Create optimized archive with progress
+        tar -czf ../deploy.tar.gz . --checkpoint=1000 --checkpoint-action=echo
+        cd ..
+        echo "Archive size: $(du -h deploy.tar.gz | cut -f1)"
+        
+    - name: Setup SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.CPANEL_HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Deploy to cPanel via SSH
+      run: |
+        # Upload deployment package
+        scp -P ${{ secrets.CPANEL_PORT || 22 }} deploy.tar.gz ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_HOST }}:${{ secrets.CPANEL_TARGET_DIR || 'public_html' }}/
+        
+        # Execute deployment script
+        ssh -p ${{ secrets.CPANEL_PORT || 22 }} ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_HOST }} << 'EOF'
+        cd ${{ secrets.CPANEL_TARGET_DIR || 'public_html' }}
+        
+        echo "Starting deployment at $(date)"
+        
+        # Create timestamped backup
+        BACKUP_DIR="backup_$(date +%Y%m%d_%H%M%S)"
+        mkdir -p "$BACKUP_DIR"
+        
+        # Backup current files (excluding admin and system directories)
+        for item in *; do
+          if [[ "$item" != "backup_"* && "$item" != "admin" && "$item" != "cgi-bin" && "$item" != "_"* && "$item" != "deploy.tar.gz" ]]; then
+            if [[ -f "$item" || -d "$item" ]]; then
+              cp -r "$item" "$BACKUP_DIR/" 2>/dev/null || echo "Could not backup $item"
+            fi
+          fi
+        done
+        
+        echo "Backup created in $BACKUP_DIR"
+        
+        # Remove old files (keep important directories)
+        for item in *; do
+          if [[ "$item" != "backup_"* && "$item" != "admin" && "$item" != "cgi-bin" && "$item" != "_"* && "$item" != "deploy.tar.gz" && "$item" != ".htaccess" ]]; then
+            rm -rf "$item"
+          fi
+        done
+        
+        echo "Old files removed"
+        
+        # Extract new deployment
+        tar -xzf deploy.tar.gz
+        rm deploy.tar.gz
+        
+        # Set proper permissions
+        find . -maxdepth 1 -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.json" -o -name "*.txt" -o -name "*.xml" -o -name "*.ico" \) -exec chmod 644 {} \;
+        find . -maxdepth 1 -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif" -o -name "*.svg" -o -name "*.woff*" -o -name "*.ttf" \) -exec chmod 644 {} \;
+        find . -type d -name "static" -exec chmod 755 {} \;
+        find . -path "./static/*" -type f -exec chmod 644 {} \;
+        find . -path "./static/*" -type d -exec chmod 755 {} \;
+        
+        # Handle categories and products directories
+        if [[ -d "categories" ]]; then
+          chmod 755 categories
+          find categories -type f -exec chmod 644 {} \;
+          find categories -type d -exec chmod 755 {} \;
+        fi
+        
+        if [[ -d "products" ]]; then
+          chmod 755 products
+          find products -type f -exec chmod 644 {} \;
+          find products -type d -exec chmod 755 {} \;
+        fi
+        
+        # Ensure admin directory permissions if it exists
+        if [[ -d "admin" ]]; then
+          echo "Setting admin directory permissions"
+          chmod 755 admin
+          find admin -type f -name "*.php" -exec chmod 644 {} \;
+          find admin -type f -name ".htaccess" -exec chmod 644 {} \;
+          find admin -type d -exec chmod 755 {} \;
+          
+          # Make log file writable
+          if [[ -f "admin/activity.log" ]]; then
+            chmod 666 admin/activity.log
+          fi
+        fi
+        
+        # Clean up old backups (keep last 5)
+        ls -1t backup_* | tail -n +6 | xargs -r rm -rf
+        
+        echo "Deployment completed successfully at $(date)"
+        echo "Files in root directory:"
+        ls -la
+        
+        EOF
+        
+    - name: Verify deployment
+      run: |
+        ssh -p ${{ secrets.CPANEL_PORT || 22 }} ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_HOST }} << 'EOF'
+        cd ${{ secrets.CPANEL_TARGET_DIR || 'public_html' }}
+        
+        echo "=== Deployment Verification ==="
+        echo "Deployment directory: $(pwd)"
+        echo "Timestamp: $(date)"
+        
+        # Check critical files
+        if [[ -f "index.html" ]]; then
+          echo "✓ index.html exists ($(stat -c%s index.html) bytes)"
+        else
+          echo "✗ index.html missing"
+          exit 1
+        fi
+        
+        if [[ -d "static" ]]; then
+          echo "✓ static directory exists"
+          STATIC_FILES=$(find static -type f | wc -l)
+          echo "  - Static files count: $STATIC_FILES"
+          
+          # Check for key static files
+          if find static -name "*.css" -o -name "*.js" | grep -q .; then
+            echo "  - CSS/JS files found"
+          else
+            echo "  - Warning: No CSS/JS files found in static directory"
+          fi
+        else
+          echo "✗ static directory missing"
+          exit 1
+        fi
+        
+        # Check data directories
+        if [[ -d "categories" ]]; then
+          CATEGORY_COUNT=$(find categories -name "*.json" | wc -l)
+          echo "✓ categories directory exists ($CATEGORY_COUNT JSON files)"
+        fi
+        
+        if [[ -d "products" ]]; then
+          PRODUCT_COUNT=$(find products -name "*.json" | wc -l)
+          echo "✓ products directory exists ($PRODUCT_COUNT JSON files)"
+        fi
+        
+        # Check admin panel
+        if [[ -d "admin" ]]; then
+          echo "✓ admin directory preserved"
+          if [[ -f "admin/index.php" ]]; then
+            echo "  - Admin login page exists"
+          fi
+          if [[ -f "admin/dashboard.php" ]]; then
+            echo "  - Admin dashboard exists"
+          fi
+        fi
+        
+        echo "Total files deployed: $(find . -type f | wc -l)"
+        echo "Disk usage: $(du -sh . | cut -f1)"
+        echo "=== Verification Complete ==="
+        
+        EOF
+        
+    - name: Cleanup SSH
+      if: always()
+      run: |
+        rm -f ~/.ssh/id_rsa
+
+  # Health check with retry logic
+  health-check:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+    - name: Website Health Check with Retry
+      run: |
+        echo "Performing health check on ${{ secrets.WEBSITE_URL }}"
+        
+        # Function to check website
+        check_website() {
+          local url="$1"
+          local response=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "$url" 2>/dev/null || echo "000")
+          echo "$response"
+        }
+        
+        # Retry logic
+        MAX_RETRIES=3
+        RETRY_DELAY=10
+        
+        for i in $(seq 1 $MAX_RETRIES); do
+          echo "Health check attempt $i/$MAX_RETRIES"
+          
+          RESPONSE=$(check_website "${{ secrets.WEBSITE_URL }}")
+          echo "HTTP Response Code: $RESPONSE"
+          
+          if [[ "$RESPONSE" == "200" ]]; then
+            echo "✓ Website is accessible and responding correctly"
+            
+            # Additional checks
+            echo "Performing additional checks..."
+            
+            # Check if it's actually serving the React app
+            CONTENT=$(curl -s --max-time 15 "${{ secrets.WEBSITE_URL }}" | head -20)
+            if echo "$CONTENT" | grep -q "<!doctype html"; then
+              echo "✓ HTML content detected"
+            else
+              echo "⚠ Unexpected content format"
+            fi
+            
+            if echo "$CONTENT" | grep -q "Launch"; then
+              echo "✓ Launch CAT content detected"
+            else
+              echo "⚠ Launch CAT branding not found in initial content"
+            fi
+            
+            exit 0
+          else
+            echo "✗ Health check failed with code: $RESPONSE"
+            if [[ $i -lt $MAX_RETRIES ]]; then
+              echo "Retrying in ${RETRY_DELAY}s..."
+              sleep $RETRY_DELAY
+            fi
+          fi
+        done
+        
+        echo "Health check failed after $MAX_RETRIES attempts"
+        exit 1
