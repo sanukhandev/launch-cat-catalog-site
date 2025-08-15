@@ -35,10 +35,13 @@ jobs:
         env:
           CI: false
           GENERATE_SOURCEMAP: false
+          PUBLIC_URL: "./"
 
       - name: Create deployment archive
         run: |
           cd build
+          # Remove admin directory if it exists in build to prevent conflicts
+          rm -rf admin 2>/dev/null || true
           tar -czf ../deploy.tar.gz .
           cd ..
 
