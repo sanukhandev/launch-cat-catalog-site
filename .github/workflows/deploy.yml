@@ -3,8 +3,6 @@ name: Deploy to cPanel via SSH
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -135,10 +133,12 @@ jobs:
           rm -f deploy.tar.gz
 
           echo "== Set permissions =="
-          # Files
-          find . -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.json" -o -name "*.txt" -o -name "*.xml" -o -name "*.ico" -o -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif" -o -name "*.svg" -o -name "*.woff*" -o -name "*.ttf" \) -exec chmod 644 {} \;
-          # Dirs
+          # Files - ensure all web files are readable
+          find . -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.json" -o -name "*.txt" -o -name "*.xml" -o -name "*.ico" -o -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif" -o -name "*.svg" -o -name "*.woff*" -o -name "*.ttf" -o -name "*.map" -o -name "*.webmanifest" -o -name ".htaccess" \) -exec chmod 644 {} \;
+          # Dirs - ensure all directories are accessible
           find . -type d -exec chmod 755 {} \;
+          
+          echo "Permissions set for all files and directories"
 
           # Ensure admin dir stays readable if it exists
           if [ -d "admin" ]; then
