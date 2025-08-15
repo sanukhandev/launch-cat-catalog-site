@@ -57,56 +57,70 @@ jobs:
 
       - name: Upload deploy.tar.gz to server (atomic temp path)
         run: |
-          REMOTE_TMP="~/deploy_tmp_$(date +%s)"
-          echo "REMOTE_TMP=$REMOTE_TMP" >> $GITHUB_ENV
+          REMOTE_BASENAME="deploy_tmp_$(date +%s)"
+          echo "REMOTE_BASENAME=$REMOTE_BASENAME" >> $GITHUB_ENV
+          # Upload into remote $HOME; ~ expands on remote side
           sshpass -p "$PASS" scp -P "$PORT" \
             -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
-            deploy.tar.gz "$USER@$HOST:${REMOTE_TMP}.tar.gz"
+            deploy.tar.gz "$USER@$HOST:~/${REMOTE_BASENAME}.tar.gz"
 
-      - name: Run remote deploy (backup, clean, extract, permissions)
+      - name: Run remote deploy (timestamped backup, clean, extract, permissions)
         run: |
           sshpass -p "$PASS" ssh -p "$PORT" \
             -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
-            "$USER@$HOST" "export TARGET_DIR='${TARGET_DIR}'; export REMOTE_TMP='${REMOTE_TMP}'; bash -s" << 'REMOTE'
+            "$USER@$HOST" "export TARGET_DIR='${TARGET_DIR}'; export REMOTE_BASENAME='${REMOTE_BASENAME}'; bash -s" << 'REMOTE'
           set -euo pipefail
 
           : "${TARGET_DIR:?TARGET_DIR missing}"
-          : "${REMOTE_TMP:?REMOTE_TMP missing}"
+          : "${REMOTE_BASENAME:?REMOTE_BASENAME missing}"
 
-          # 1) Ensure target exists and enter it
+          # Build absolute path to uploaded tar (no tilde issues)
+          REMOTE_TMP="$HOME/${REMOTE_BASENAME}.tar.gz"
+
+          # Make sure target dir exists
           mkdir -p "$TARGET_DIR"
           cd "$TARGET_DIR"
 
-          echo "== Creating backup =="
-          rm -rf backup && mkdir backup
-          # Backup top-level files (except the incoming tar)
-          find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -exec cp -a {} backup/ \;
+          # ---- Timestamped backup folder ----
+          TS="$(date +%F_%H-%M-%S)"   # e.g., 2025-08-15_11-07-33
+          BACKUP_DIR="backup_${TS}"
+          mkdir -p "$BACKUP_DIR"
+
+          echo "== Creating backup in: $BACKUP_DIR =="
+          # Backup top-level files (except any previous deploy tar if present)
+          find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -exec cp -a {} "$BACKUP_DIR"/ \;
           # Backup top-level directories except reserved ones
           find . -maxdepth 1 -type d \
             -not -name "." -not -name ".." \
-            -not -name "backup" -not -name "admin" \
-            -exec cp -a {} backup/ \;
+            -not -name "$BACKUP_DIR" \
+            -not -name "admin" \
+            -not -name "cgi-bin" -not -name "_logs" -not -name "_errors" \
+            -exec cp -a {} "$BACKUP_DIR"/ \;
+
+          # Refresh a convenience symlink to latest backup
+          ln -sfn "$BACKUP_DIR" backup_latest
           echo "Backup completed"
 
           echo "== Stage new build =="
           STAGE="stage_$(date +%s)"
           mkdir -p "$STAGE"
 
-          # Move uploaded tar into target and extract to stage
-          mv "${REMOTE_TMP}.tar.gz" ./deploy.tar.gz
+          # Bring uploaded tar into target and extract to stage
+          mv "$REMOTE_TMP" ./deploy.tar.gz
           tar -xzf deploy.tar.gz -C "$STAGE"
 
-          echo "== Remove old files (preserve important dirs) =="
+          echo "== Remove old files (preserve important dirs & backups) =="
           # Keep .htaccess and the tar until swap
           find . -maxdepth 1 -type f \
             -not -name ".htaccess" \
             -not -name "deploy.tar.gz" \
             -delete
 
-          # Remove old directories except preserved ones and staging
+          # Remove old directories except preserved ones and staging/backup
           find . -maxdepth 1 -type d \
             -not -name "." -not -name ".." \
-            -not -name "backup" -not -name "admin" \
+            -not -name "$BACKUP_DIR" -not -name "backup_latest" \
+            -not -name "admin" \
             -not -name "cgi-bin" -not -name "_logs" -not -name "_errors" \
             -not -name "$STAGE" \
             -exec rm -rf {} +
@@ -137,6 +151,10 @@ jobs:
           fi
 
           echo "Deployment completed successfully at $(date)"
+
+          # OPTIONAL: prune old backups, keeping last 5 (uncomment to enable)
+          # echo "== Pruning old backups (keep last 5) =="
+          # ls -1dt backup_* | tail -n +6 | xargs -r rm -rf
           REMOTE
 
       - name: Verify deployment
@@ -151,6 +169,10 @@ jobs:
           echo "Current directory: $(pwd)"
           echo "Files in root:"
           ls -la
+          echo ""
+          echo "Backups present:"
+          ls -1d backup_* 2>/dev/null || echo "(none yet)"
+          echo "backup_latest -> $(readlink -f backup_latest 2>/dev/null || echo 'n/a')"
           echo ""
           echo "Build info:"
           if [ -f "index.html" ]; then
