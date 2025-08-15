@@ -11,6 +11,14 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    env:
+      HOST: ${{ secrets.CPANEL_HOST }}
+      USER: ${{ secrets.CPANEL_USERNAME }}
+      PASS: ${{ secrets.CPANEL_PASSWORD }}
+      PORT: ${{ secrets.CPANEL_PORT || 22 }}
+      TARGET_DIR: ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
+      WEBSITE_URL: ${{ secrets.WEBSITE_URL }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,147 +44,163 @@ jobs:
           tar -czf ../deploy.tar.gz .
           cd ..
 
-      - name: Deploy to cPanel via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USERNAME }}
-          password: ${{ secrets.CPANEL_PASSWORD }}
-          port: ${{ secrets.CPANEL_PORT || 22 }}
-          script: |
-            # Navigate to launchtech.co.in directory
-            cd ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
+      # --- SSH/SCP using OpenSSH with KEX override (password auth) ---
+      - name: Install sshpass (for password auth)
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends sshpass
 
-            # Create backup of current deployment
-            if [ -d "backup" ]; then
-              rm -rf backup
+      - name: Add host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          # Capture host key; do not disable host key checking
+          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      # If you later switch to key auth, comment the two steps above and use:
+      # - name: Start ssh-agent (key auth)
+      #   uses: webfactory/ssh-agent@v0.9.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Upload deploy.tar.gz to server (atomic temp path)
+        run: |
+          REMOTE_TMP="~/deploy_tmp_$(date +%s)"
+          sshpass -p "$PASS" scp -P "$PORT" \
+            -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
+            deploy.tar.gz "$USER@$HOST:$REMOTE_TMP.tar.gz"
+          echo "REMOTE_TMP=$REMOTE_TMP" >> $GITHUB_ENV
+
+      - name: Run remote deploy (backup, clean, extract, permissions)
+        run: |
+          sshpass -p "$PASS" ssh -p "$PORT" \
+            -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
+            "$USER@$HOST" 'bash -s' << 'REMOTE'
+          set -euo pipefail
+
+          TARGET_DIR="${TARGET_DIR}"
+          REMOTE_TMP="${REMOTE_TMP}"
+
+          # 1) Ensure target exists
+          mkdir -p "$TARGET_DIR"
+          cd "$TARGET_DIR"
+
+          echo "== Creating backup =="
+          rm -rf backup && mkdir backup
+          # Backup top-level files (except the incoming tar)
+          find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -exec cp -a {} backup/ \;
+          # Backup top-level directories except reserved ones
+          find . -maxdepth 1 -type d \
+            -not -name "." -not -name ".." \
+            -not -name "backup" -not -name "admin" \
+            -exec cp -a {} backup/ \;
+          echo "Backup completed"
+
+          echo "== Swap to temp staging =="
+          # Create staging dir and unpack there first
+          STAGE="stage_$(date +%s)"
+          mkdir -p "$STAGE"
+
+          # Move uploaded tar into target and extract
+          mv "$REMOTE_TMP.tar.gz" ./deploy.tar.gz
+          tar -xzf deploy.tar.gz -C "$STAGE"
+
+          echo "== Remove old files (preserve important dirs) =="
+          # Remove old top-level files (keep .htaccess and the tar we just used)
+          find . -maxdepth 1 -type f \
+            -not -name ".htaccess" \
+            -not -name "deploy.tar.gz" \
+            -delete
+
+          # Remove old directories except preserved ones
+          find . -maxdepth 1 -type d \
+            -not -name "." -not -name ".." \
+            -not -name "backup" -not -name "admin" \
+            -not -name "cgi-bin" -not -name "_logs" -not -name "_errors" \
+            -not -name "$STAGE" \
+            -exec rm -rf {} +
+
+          echo "== Publish new build =="
+          # Move contents from stage to root
+          shopt -s dotglob
+          mv "$STAGE"/* .
+          shopt -u dotglob
+          rmdir "$STAGE"
+
+          echo "== Cleanup =="
+          rm -f deploy.tar.gz
+
+          echo "== Set permissions =="
+          # Files
+          find . -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.json" -o -name "*.txt" -o -name "*.xml" -o -name "*.ico" -o -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif" -o -name "*.svg" -o -name "*.woff*" -o -name "*.ttf" \) -exec chmod 644 {} \;
+          # Dirs
+          find . -type d -exec chmod 755 {} \;
+
+          # Ensure admin dir stays readable if it exists
+          if [ -d "admin" ]; then
+            chmod 755 admin
+            find admin -type f \( -name "*.php" -o -name "*.html" -o -name ".htaccess" \) -exec chmod 644 {} \;
+            find admin -type d -exec chmod 755 {} \;
+            if [ -f "admin/activity.log" ]; then
+              chmod 666 admin/activity.log
             fi
-            mkdir backup
+          fi
 
-            # Backup current files (excluding admin directory)
-            find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -exec cp {} backup/ \;
-            find . -maxdepth 1 -type d -not -name "." -not -name ".." -not -name "backup" -not -name "admin" -exec cp -r {} backup/ \;
-
-            echo "Backup completed"
-
-            # Remove old files (keep admin directory and other important files)
-            find . -maxdepth 1 -type f -not -name "deploy.tar.gz" -not -name ".htaccess" -delete
-            find . -maxdepth 1 -type d -not -name "." -not -name ".." -not -name "backup" -not -name "admin" -not -name "cgi-bin" -not -name "_logs" -not -name "_errors" -exec rm -rf {} +
-
-            echo "Old files removed"
-
-      - name: Upload and extract files
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USERNAME }}
-          password: ${{ secrets.CPANEL_PASSWORD }}
-          port: ${{ secrets.CPANEL_PORT || 22 }}
-          source: "deploy.tar.gz"
-          target: ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
-
-      - name: Extract and cleanup
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USERNAME }}
-          password: ${{ secrets.CPANEL_PASSWORD }}
-          port: ${{ secrets.CPANEL_PORT || 22 }}
-          script: |
-            cd ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
-
-            # Extract new files
-            tar -xzf deploy.tar.gz
-
-            # Remove the archive
-            rm deploy.tar.gz
-
-            # Set proper permissions
-            find . -type f -name "*.html" -exec chmod 644 {} \;
-            find . -type f -name "*.css" -exec chmod 644 {} \;
-            find . -type f -name "*.js" -exec chmod 644 {} \;
-            find . -type f -name "*.json" -exec chmod 644 {} \;
-            find . -type f -name "*.txt" -exec chmod 644 {} \;
-            find . -type f -name "*.xml" -exec chmod 644 {} \;
-            find . -type f -name "*.ico" -exec chmod 644 {} \;
-            find . -type f -name "*.png" -exec chmod 644 {} \;
-            find . -type f -name "*.jpg" -exec chmod 644 {} \;
-            find . -type f -name "*.jpeg" -exec chmod 644 {} \;
-            find . -type f -name "*.gif" -exec chmod 644 {} \;
-            find . -type f -name "*.svg" -exec chmod 644 {} \;
-            find . -type f -name "*.woff*" -exec chmod 644 {} \;
-            find . -type f -name "*.ttf" -exec chmod 644 {} \;
-            find . -type d -exec chmod 755 {} \;
-
-            # Ensure admin directory has proper permissions if it exists
-            if [ -d "admin" ]; then
-              chmod 755 admin
-              find admin -type f -name "*.php" -exec chmod 644 {} \;
-              find admin -type f -name "*.html" -exec chmod 644 {} \;
-              find admin -type f -name ".htaccess" -exec chmod 644 {} \;
-              find admin -type d -exec chmod 755 {} \;
-              # Make activity.log writable if it exists
-              if [ -f "admin/activity.log" ]; then
-                chmod 666 admin/activity.log
-              fi
-            fi
-
-            echo "Deployment completed successfully"
-            echo "Files deployed: $(date)"
+          echo "Deployment completed successfully at $(date)"
+          REMOTE
+        env:
+          TARGET_DIR: ${{ env.TARGET_DIR }}
+          REMOTE_TMP: ${{ env.REMOTE_TMP }}
 
       - name: Verify deployment
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.CPANEL_HOST }}
-          username: ${{ secrets.CPANEL_USERNAME }}
-          password: ${{ secrets.CPANEL_PASSWORD }}
-          port: ${{ secrets.CPANEL_PORT || 22 }}
-          script: |
-            cd ${{ secrets.CPANEL_TARGET_DIR || 'launchtech.co.in' }}
-            echo "=== Deployment Verification ==="
-            echo "Current directory: $(pwd)"
-            echo "Files in root:"
-            ls -la
-            echo ""
-            echo "Build info:"
-            if [ -f "index.html" ]; then
-              echo "✓ index.html exists"
-            else
-              echo "✗ index.html missing"
-            fi
+        run: |
+          sshpass -p "$PASS" ssh -p "$PORT" \
+            -o KexAlgorithms=+diffie-hellman-group-exchange-sha256 \
+            "$USER@$HOST" 'bash -s' << 'REMOTE'
+          set -euo pipefail
+          cd "${TARGET_DIR}"
+          echo "=== Deployment Verification ==="
+          echo "Current directory: $(pwd)"
+          echo "Files in root:"
+          ls -la
+          echo ""
+          echo "Build info:"
+          if [ -f "index.html" ]; then
+            echo "✓ index.html exists"
+          else
+            echo "✗ index.html missing"
+          fi
+          if [ -d "static" ]; then
+            echo "✓ static directory exists"
+            echo "Static files count: $(find static -type f | wc -l)"
+          else
+            echo "ℹ static directory not present (OK if not applicable)"
+          fi
+          if [ -d "admin" ]; then
+            echo "✓ admin directory preserved"
+          else
+            echo "ℹ admin directory not present"
+          fi
+          echo "Total files deployed: $(find . -type f | wc -l)"
+          echo "=== End Verification ==="
+          REMOTE
+        env:
+          TARGET_DIR: ${{ env.TARGET_DIR }}
 
-            if [ -d "static" ]; then
-              echo "✓ static directory exists"
-              echo "Static files count: $(find static -type f | wc -l)"
-            else
-              echo "✗ static directory missing"
-            fi
-
-            if [ -d "admin" ]; then
-              echo "✓ admin directory preserved"
-            else
-              echo "ℹ admin directory not present"
-            fi
-
-            echo "Total files deployed: $(find . -type f | wc -l)"
-            echo "=== End Verification ==="
-
-  # Optional: Health check job
   health-check:
     needs: build-and-deploy
     runs-on: ubuntu-latest
     if: success()
-
     steps:
       - name: Website Health Check
         run: |
           echo "Checking website health..."
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.WEBSITE_URL }} || echo "000")
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "${{ env.WEBSITE_URL }}" || echo "000")
           echo "HTTP Response Code: $RESPONSE"
-
           if [ "$RESPONSE" -eq 200 ]; then
             echo "✓ Website is accessible and responding correctly"
           else
             echo "✗ Website health check failed with code: $RESPONSE"
             exit 1
           fi
+        env:
+          WEBSITE_URL: ${{ env.WEBSITE_URL }}
