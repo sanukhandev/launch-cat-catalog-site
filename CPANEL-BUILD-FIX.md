@@ -104,7 +104,7 @@ tail -f ~/logs/launchtech.co.in.error.log
 After deployment, your directory should look like:
 
 ```
-~/launchtech.co.in/
+~/public_html/launchtech.co.in/
 ├── admin/          (preserved, not touched)
 ├── static/
 │   ├── css/
@@ -118,11 +118,11 @@ After deployment, your directory should look like:
 
 ```bash
 # Fix permissions manually
-find ~/launchtech.co.in -type f -name "*.html" -o -name "*.css" -o -name "*.js" -exec chmod 644 {} \;
-find ~/launchtech.co.in -type d -exec chmod 755 {} \;
+find ~/public_html/launchtech.co.in -type f -name "*.html" -o -name "*.css" -o -name "*.js" -exec chmod 644 {} \;
+find ~/public_html/launchtech.co.in -type d -exec chmod 755 {} \;
 
 # Check .htaccess is present
-ls -la ~/launchtech.co.in/.htaccess
+ls -la ~/public_html/launchtech.co.in/.htaccess
 ```
 
 ## Build Process Summary
