@@ -21,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Verify CSRF token
         if (!isset($_POST['csrf_token']) || !verifyCSRFToken($_POST['csrf_token'])) {
+            // Debug: Log CSRF failure details
+            error_log("CSRF Token Failure - POST: " . (isset($_POST['csrf_token']) ? $_POST['csrf_token'] : 'NOT_SET') . 
+                     " SESSION: " . (isset($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : 'NOT_SET'));
             $error = 'Invalid request. Please refresh and try again.';
         } else {
             $username = sanitizeInput($_POST['username'] ?? '');

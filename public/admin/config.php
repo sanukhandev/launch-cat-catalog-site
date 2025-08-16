@@ -1,7 +1,7 @@
 <?php
 // Admin Configuration
 define('ADMIN_USERNAME', 'admin');
-define('ADMIN_PASSWORD_HASH', ''); // Default: admin123
+define('ADMIN_PASSWORD_HASH', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); // Password: Zk9#mP2vN8qR5xL!
 define('SESSION_TIMEOUT', 3600); // 1 hour
 define('MAX_LOGIN_ATTEMPTS', 5);
 define('LOCKOUT_TIME', 1800); // 30 minutes
