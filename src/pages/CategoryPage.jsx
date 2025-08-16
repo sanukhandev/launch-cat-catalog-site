@@ -19,6 +19,11 @@ import { useI18n } from "../context/I18nContext";
 import ProductCard from "../components/ProductCard";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import SEO from "../components/SEO";
+import {
+  generateCategoryStructuredData,
+  generateBreadcrumbStructuredData,
+} from "../utils/structuredData";
 
 const CategoryPage = () => {
   const { categorySlug } = useParams();
@@ -126,8 +131,35 @@ const CategoryPage = () => {
     );
   }
 
+  // Generate structured data and breadcrumbs
+  const categoryStructuredData = category
+    ? generateCategoryStructuredData(category, products)
+    : null;
+  const breadcrumbs = [
+    { name: "Home", url: "https://launchtech.co.in" },
+    { name: "Products", url: "https://launchtech.co.in/products" },
+    {
+      name: category?.name || "Category",
+      url: `https://launchtech.co.in/category/${category?.slug}`,
+    },
+  ];
+  const breadcrumbStructuredData =
+    generateBreadcrumbStructuredData(breadcrumbs);
+  const combinedStructuredData = [
+    categoryStructuredData,
+    breadcrumbStructuredData,
+  ].filter(Boolean);
+
   return (
     <div className="min-h-screen bg-background">
+      {category && (
+        <SEO
+          category={category}
+          structuredData={combinedStructuredData}
+          ogImage={category.image}
+          ogType="website"
+        />
+      )}
       <Header />
 
       {/* Page Header */}

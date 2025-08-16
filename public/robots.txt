@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /build/
+Disallow: /.htaccess
+Disallow: /scripts/
+Disallow: /backup/
+
+# Sitemap location
+Sitemap: https://launchtech.co.in/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Allow search engines to crawl all product and category pages
+Allow: /products/
+Allow: /category/
+Allow: /contact
+Allow: /about

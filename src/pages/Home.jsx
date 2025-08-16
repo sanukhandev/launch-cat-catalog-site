@@ -15,11 +15,16 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import CategoryCard from "../components/CategoryCard";
+import SEO from "../components/SEO";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { useConfig } from "../hooks/useConfig";
 import { useCategories } from "../hooks/useCategories";
 import { useI18n } from "../context/I18nContext";
+import {
+  generateOrganizationStructuredData,
+  generateLocalBusinessStructuredData,
+} from "../utils/structuredData";
 
 const Home = () => {
   const { getCompany, getBrand } = useConfig();
@@ -40,8 +45,20 @@ const Home = () => {
     CheckCircle,
   };
 
+  // Generate structured data for home page
+  const organizationData = generateOrganizationStructuredData();
+  const localBusinessData = generateLocalBusinessStructuredData();
+  const combinedStructuredData = [organizationData, localBusinessData];
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Launch Tech | Candour Auto Tech - Authorized LAUNCH Dealers & Training Partner"
+        description="Candour Auto Tech - Authorized LAUNCH dealers and training partner. Professional automotive diagnostic solutions, equipment and technical support for workshops across UAE and MENA region."
+        keywords="automotive diagnostic tools, LAUNCH scanners, car diagnostic equipment, UAE, MENA, automotive workshops, diagnostic solutions, Launch Tech dealer, automotive training"
+        canonical="https://launchtech.co.in"
+        structuredData={combinedStructuredData}
+      />
       <Header />
 
       {/* Hero Section */}
