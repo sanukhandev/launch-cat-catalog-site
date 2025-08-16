@@ -228,7 +228,7 @@ jobs:
       - name: Website Health Check
         run: |
           echo "Checking website health..."
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "${{ env.WEBSITE_URL }}" || echo "000")
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "${{ 'https://launchtech.co.in' }}" || echo "000")
           echo "HTTP Response Code: $RESPONSE"
           if [ "$RESPONSE" -eq 200 ]; then
             echo "✓ Website is accessible and responding correctly"
