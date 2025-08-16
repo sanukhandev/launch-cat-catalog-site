@@ -28,7 +28,28 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
+
+      - name: Generate sitemap
+        run: node scripts/generate-sitemap.js
+
+      - name: Validate sitemap
+        run: |
+          echo "Validating generated sitemap..."
+          if [ -f "public/sitemap.xml" ]; then
+            URLS_COUNT=$(grep -c '<url>' public/sitemap.xml)
+            echo "✓ Sitemap contains $URLS_COUNT URLs"
+            
+            # Check if sitemap is valid XML
+            if command -v xmllint &> /dev/null; then
+              xmllint --noout public/sitemap.xml && echo "✓ Sitemap XML is valid"
+            else
+              echo "ℹ xmllint not available, skipping XML validation"
+            fi
+          else
+            echo "✗ Sitemap generation failed"
+            exit 1
+          fi
 
       - name: Build application
         run: npm run build
@@ -36,6 +57,34 @@ jobs:
           CI: false
           GENERATE_SOURCEMAP: false
           PUBLIC_URL: "./"
+
+      - name: Verify SEO files
+        run: |
+          echo "Checking for SEO-related files..."
+          if [ -f "public/robots.txt" ]; then
+            echo "✓ robots.txt found"
+            cat public/robots.txt
+          else
+            echo "✗ robots.txt missing"
+          fi
+
+          if [ -f "public/sitemap.xml" ]; then
+            echo "✓ sitemap.xml found"
+            echo "Sitemap contains $(grep -c '<url>' public/sitemap.xml) URLs"
+          else
+            echo "✗ sitemap.xml missing"
+          fi
+
+          echo "Build directory contents:"
+          ls -la build/
+
+          echo "Checking build output for SEO elements..."
+          if [ -f "build/index.html" ]; then
+            echo "Meta description present: $(grep -c 'meta name="description"' build/index.html || echo '0')"
+            echo "Open Graph tags present: $(grep -c 'property="og:' build/index.html || echo '0')"
+            echo "Twitter Card tags present: $(grep -c 'name="twitter:' build/index.html || echo '0')"
+            echo "Structured data present: $(grep -c 'application/ld+json' build/index.html || echo '0')"
+          fi
 
       - name: Create deployment archive
         run: |

@@ -45,7 +45,7 @@ const CategoryCard = ({ category }) => {
   return (
     <Card className="group bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-300 hover:scale-105 border border-border overflow-hidden">
       <div className="aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-700 relative">
-        {category.image ? (
+        {category.image && false ? (
           <img
             src={category.image}
             alt={categoryName}

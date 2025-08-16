@@ -17,6 +17,7 @@ import {
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
+import SEO from "../components/SEO";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import {
@@ -33,6 +34,10 @@ import {
 } from "../components/ui/tabs";
 import { useProducts } from "../hooks/useProducts";
 import { useI18n } from "../context/I18nContext";
+import {
+  generateProductStructuredData,
+  generateBreadcrumbStructuredData,
+} from "../utils/structuredData";
 
 const ProductDetail = () => {
   const { slug } = useParams();
@@ -94,8 +99,35 @@ const ProductDetail = () => {
     alert(`Downloading ${download.name}...`);
   };
 
+  // Generate structured data and breadcrumbs
+  const productStructuredData = product
+    ? generateProductStructuredData(product)
+    : null;
+  const breadcrumbs = [
+    { name: "Home", url: "https://launchtech.co.in" },
+    { name: "Products", url: "https://launchtech.co.in/products" },
+    {
+      name: product?.title || "Product",
+      url: `https://launchtech.co.in/products/${product?.slug}`,
+    },
+  ];
+  const breadcrumbStructuredData =
+    generateBreadcrumbStructuredData(breadcrumbs);
+  const combinedStructuredData = [
+    productStructuredData,
+    breadcrumbStructuredData,
+  ].filter(Boolean);
+
   return (
     <div className="min-h-screen bg-background">
+      {product && (
+        <SEO
+          product={product}
+          structuredData={combinedStructuredData}
+          ogImage={product.images[0]}
+          ogType="product"
+        />
+      )}
       <Header />
 
       {/* Breadcrumb */}

@@ -9,12 +9,12 @@ $messageType = '';
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+    if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
         $message = 'Invalid security token. Please try again.';
         $messageType = 'error';
     } else {
         $action = $_POST['action'] ?? '';
-        
+
         switch ($action) {
             case 'update_product':
                 $productId = sanitizeInput($_POST['product_id'] ?? '');
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'specifications' => array_filter(array_map('trim', explode("\n", $_POST['specifications'] ?? ''))),
                     'translations' => json_decode($_POST['translations'] ?? '{}', true) ?: []
                 ];
-                
+
                 if (saveProductData($productId, $productData)) {
                     logActivity('Product Updated', "Product ID: $productId");
                     $message = 'Product updated successfully!';
@@ -41,16 +41,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $messageType = 'error';
                 }
                 break;
-                
+
             case 'delete_product':
                 $productId = sanitizeInput($_POST['product_id'] ?? '');
-                
+
                 // Remove from manifest
                 $manifest = getProductManifest();
-                $manifest['products'] = array_filter($manifest['products'], function($id) use ($productId) {
+                $manifest['products'] = array_filter($manifest['products'], function ($id) use ($productId) {
                     return $id !== $productId;
                 });
-                
+
                 if (deleteProduct($productId) && saveProductManifest($manifest)) {
                     logActivity('Product Deleted', "Product ID: $productId");
                     $message = 'Product deleted successfully!';
@@ -79,6 +79,7 @@ $categories = getCategoryList();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -101,6 +102,7 @@ $categories = getCategoryList();
         }
     </script>
 </head>
+
 <body class="bg-gray-50">
     <div class="min-h-screen">
         <!-- Header -->
@@ -207,13 +209,13 @@ $categories = getCategoryList();
                     <input type="hidden" name="action" value="update_product">
                     <input type="hidden" name="csrf_token" value="<?php echo generateCsrfToken(); ?>">
                     <input type="hidden" name="product_id" id="edit_product_id">
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
                             <input type="text" name="name" id="edit_name" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" required>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                             <select name="categoryId" id="edit_categoryId" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" required>
@@ -224,48 +226,48 @@ $categories = getCategoryList();
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Price</label>
                             <input type="text" name="price" id="edit_price" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" required>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Original Price</label>
                             <input type="text" name="originalPrice" id="edit_originalPrice" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500">
                         </div>
-                        
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                             <textarea name="description" id="edit_description" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"></textarea>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
                             <input type="url" name="image" id="edit_image" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500">
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Image Alt Text</label>
                             <input type="text" name="imageAlt" id="edit_imageAlt" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500">
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Features (one per line)</label>
                             <textarea name="features" id="edit_features" rows="4" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"></textarea>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Specifications (one per line)</label>
                             <textarea name="specifications" id="edit_specifications" rows="4" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"></textarea>
                         </div>
-                        
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Translations (JSON)</label>
                             <textarea name="translations" id="edit_translations" rows="6" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500 font-mono text-sm"></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="flex justify-end space-x-4 mt-6 pt-6 border-t border-gray-200">
                         <button type="button" onclick="closeEditModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
                         <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700">Save Changes</button>
@@ -286,7 +288,7 @@ $categories = getCategoryList();
                         <input type="hidden" name="action" value="delete_product">
                         <input type="hidden" name="csrf_token" value="<?php echo generateCsrfToken(); ?>">
                         <input type="hidden" name="product_id" id="delete_product_id">
-                        
+
                         <div class="flex justify-end space-x-4">
                             <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
                             <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
@@ -299,11 +301,11 @@ $categories = getCategoryList();
 
     <script>
         const products = <?php echo json_encode($products); ?>;
-        
+
         function editProduct(productId) {
             const product = products[productId];
             if (!product) return;
-            
+
             document.getElementById('edit_product_id').value = productId;
             document.getElementById('edit_name').value = product.name || '';
             document.getElementById('edit_categoryId').value = product.categoryId || '';
@@ -315,23 +317,23 @@ $categories = getCategoryList();
             document.getElementById('edit_features').value = (product.features || []).join('\n');
             document.getElementById('edit_specifications').value = (product.specifications || []).join('\n');
             document.getElementById('edit_translations').value = JSON.stringify(product.translations || {}, null, 2);
-            
+
             document.getElementById('editModal').classList.remove('hidden');
         }
-        
+
         function closeEditModal() {
             document.getElementById('editModal').classList.add('hidden');
         }
-        
+
         function deleteProduct(productId) {
             document.getElementById('delete_product_id').value = productId;
             document.getElementById('deleteModal').classList.remove('hidden');
         }
-        
+
         function closeDeleteModal() {
             document.getElementById('deleteModal').classList.add('hidden');
         }
-        
+
         // Close modals when clicking outside
         document.addEventListener('click', function(e) {
             if (e.target.id === 'editModal') {
@@ -343,4 +345,5 @@ $categories = getCategoryList();
         });
     </script>
 </body>
+
 </html>

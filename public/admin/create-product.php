@@ -8,7 +8,7 @@ $message = '';
 $messageType = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
+    if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
         $message = 'Invalid security token. Please try again.';
         $messageType = 'error';
     } else {
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'specifications' => array_filter(array_map('trim', explode("\n", $_POST['specifications'] ?? ''))),
             'translations' => json_decode($_POST['translations'] ?? '{}', true) ?: []
         ];
-        
+
         // Validate required fields
         if (empty($productId) || empty($productData['name']) || empty($productData['categoryId'])) {
             $message = 'Product ID, name, and category are required.';
@@ -37,12 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!in_array($productId, $manifest['products'])) {
                 $manifest['products'][] = $productId;
             }
-            
+
             if (saveProductData($productId, $productData) && saveProductManifest($manifest)) {
                 logActivity('Product Created', "Product ID: $productId");
                 $message = 'Product created successfully!';
                 $messageType = 'success';
-                
+
                 // Reset form
                 $_POST = [];
             } else {
@@ -58,6 +58,7 @@ $categories = getCategoryList();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,6 +81,7 @@ $categories = getCategoryList();
         }
     </script>
 </head>
+
 <body class="bg-gray-50">
     <div class="min-h-screen">
         <!-- Header -->
@@ -113,100 +115,100 @@ $categories = getCategoryList();
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-semibold text-gray-900">Product Details</h2>
                 </div>
-                
+
                 <form method="POST" class="p-6">
                     <input type="hidden" name="csrf_token" value="<?php echo generateCsrfToken(); ?>">
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Product ID *</label>
-                            <input type="text" name="product_id" value="<?php echo htmlspecialchars($_POST['product_id'] ?? ''); ?>" 
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                   placeholder="e.g., launch-x431-pro" required>
+                            <input type="text" name="product_id" value="<?php echo htmlspecialchars($_POST['product_id'] ?? ''); ?>"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="e.g., launch-x431-pro" required>
                             <p class="text-xs text-gray-500 mt-1">Unique identifier for the product (lowercase, use hyphens)</p>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
-                            <input type="text" name="name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>" 
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                   placeholder="e.g., Launch X431 Pro" required>
+                            <input type="text" name="name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="e.g., Launch X431 Pro" required>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
                             <select name="categoryId" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" required>
                                 <option value="">Select a category</option>
                                 <?php foreach ($categories as $category): ?>
-                                    <option value="<?php echo htmlspecialchars($category['id']); ?>" 
-                                            <?php echo ($_POST['categoryId'] ?? '') === $category['id'] ? 'selected' : ''; ?>>
+                                    <option value="<?php echo htmlspecialchars($category['id']); ?>"
+                                        <?php echo ($_POST['categoryId'] ?? '') === $category['id'] ? 'selected' : ''; ?>>
                                         <?php echo htmlspecialchars($category['name']); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Category Display Name</label>
-                            <input type="text" name="category" value="<?php echo htmlspecialchars($_POST['category'] ?? ''); ?>" 
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                   placeholder="e.g., Passenger Car Diagnostics">
+                            <input type="text" name="category" value="<?php echo htmlspecialchars($_POST['category'] ?? ''); ?>"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="e.g., Passenger Car Diagnostics">
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Price</label>
-                            <input type="text" name="price" value="<?php echo htmlspecialchars($_POST['price'] ?? ''); ?>" 
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                   placeholder="e.g., 2999">
+                            <input type="text" name="price" value="<?php echo htmlspecialchars($_POST['price'] ?? ''); ?>"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="e.g., 2999">
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Original Price</label>
-                            <input type="text" name="originalPrice" value="<?php echo htmlspecialchars($_POST['originalPrice'] ?? ''); ?>" 
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                   placeholder="e.g., 3499">
+                            <input type="text" name="originalPrice" value="<?php echo htmlspecialchars($_POST['originalPrice'] ?? ''); ?>"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="e.g., 3499">
                         </div>
-                        
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea name="description" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                      placeholder="Brief description of the product"><?php echo htmlspecialchars($_POST['description'] ?? ''); ?></textarea>
+                            <textarea name="description" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="Brief description of the product"><?php echo htmlspecialchars($_POST['description'] ?? ''); ?></textarea>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-                            <input type="url" name="image" value="<?php echo htmlspecialchars($_POST['image'] ?? ''); ?>" 
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                   placeholder="https://example.com/image.jpg">
+                            <input type="url" name="image" value="<?php echo htmlspecialchars($_POST['image'] ?? ''); ?>"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="https://example.com/image.jpg">
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Image Alt Text</label>
-                            <input type="text" name="imageAlt" value="<?php echo htmlspecialchars($_POST['imageAlt'] ?? ''); ?>" 
-                                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                   placeholder="Description of the image for accessibility">
+                            <input type="text" name="imageAlt" value="<?php echo htmlspecialchars($_POST['imageAlt'] ?? ''); ?>"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="Description of the image for accessibility">
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Features (one per line)</label>
-                            <textarea name="features" rows="4" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                      placeholder="Advanced diagnostics&#10;Live data stream&#10;Bi-directional control"><?php echo htmlspecialchars($_POST['features'] ?? ''); ?></textarea>
+                            <textarea name="features" rows="4" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="Advanced diagnostics&#10;Live data stream&#10;Bi-directional control"><?php echo htmlspecialchars($_POST['features'] ?? ''); ?></textarea>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Specifications (one per line)</label>
-                            <textarea name="specifications" rows="4" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500" 
-                                      placeholder="Operating System: Android&#10;Screen Size: 10.1 inch&#10;Battery Life: 8 hours"><?php echo htmlspecialchars($_POST['specifications'] ?? ''); ?></textarea>
+                            <textarea name="specifications" rows="4" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500"
+                                placeholder="Operating System: Android&#10;Screen Size: 10.1 inch&#10;Battery Life: 8 hours"><?php echo htmlspecialchars($_POST['specifications'] ?? ''); ?></textarea>
                         </div>
-                        
+
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Translations (JSON)</label>
-                            <textarea name="translations" rows="8" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500 font-mono text-sm" 
-                                      placeholder='{"ar": {"name": "اسم المنتج", "description": "وصف المنتج"}, "de": {"name": "Produktname", "description": "Produktbeschreibung"}}'><?php echo htmlspecialchars($_POST['translations'] ?? ''); ?></textarea>
+                            <textarea name="translations" rows="8" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-brand-500 focus:border-brand-500 font-mono text-sm"
+                                placeholder='{"ar": {"name": "اسم المنتج", "description": "وصف المنتج"}, "de": {"name": "Produktname", "description": "Produktbeschreibung"}}'><?php echo htmlspecialchars($_POST['translations'] ?? ''); ?></textarea>
                             <p class="text-xs text-gray-500 mt-1">JSON format for multilingual content (optional)</p>
                         </div>
                     </div>
-                    
+
                     <div class="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
                         <a href="dashboard.php" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Cancel</a>
                         <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700">Create Product</button>
@@ -216,4 +218,5 @@ $categories = getCategoryList();
         </div>
     </div>
 </body>
+
 </html>
